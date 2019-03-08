@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/activity_main_drawer_news"
+            android:icon="@drawable/more"
+            android:title="@string/my_news" />
+    </group>
+
+    <item android:title="@string/categories">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_main_drawer_business"
+                    android:icon="@drawable/business"
+                    android:title="@string/business_tab" />
+                <item
+                    android:id="@+id/activity_main_drawer_cars"
+                    android:icon="@drawable/car"
+                    android:title="@string/cars_tab" />
+                <item
+                    android:id="@+id/activity_main_drawer_food"
+                    android:icon="@drawable/food"
+                    android:title="@string/food_tab" />
+                <item
+                    android:id="@+id/activity_main_drawer_movies"
+                    android:icon="@drawable/movie"
+                    android:title="@string/movies_tab" />
+                <item
+                    android:id="@+id/activity_main_drawer_sports"
+                    android:icon="@drawable/sport"
+                    android:title="@string/sport_tab" />
+                <item
+                    android:id="@+id/activity_main_drawer_travel"
+                    android:icon="@drawable/travel"
+                    android:title="@string/travel_tab" />
+
+            </group>
+
+        </menu>
+    </item>
+
+</menu>

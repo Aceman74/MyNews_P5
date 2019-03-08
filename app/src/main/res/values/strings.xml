@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">MyNews</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="top_stories_tab">TOP STORIES</string>
+    <string name="most_polular_tab">MOST POPULAR</string>
+    <string name="business_tab">BUSINESS</string>
+    <string name="food_tab">FOOD</string>
+    <string name="movies_tab">MOVIES</string>
+    <string name="sport_tab">SPORTS</string>
+    <string name="cars_tab">CARS</string>
+    <string name="travel_tab">TRAVEL</string>
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="categories">Categories</string>
+    <string name="my_news">My News</string>
 </resources>
