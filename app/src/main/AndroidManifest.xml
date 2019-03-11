@@ -9,9 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controllers.activities.SearchAndNotifiyActivity"
-            android:label="Search"
+        <activity android:name=".controllers.activities.NotificationActivity"
+            android:label="Notifications"
+            android:icon="@drawable/notification"
             android:parentActivityName=".controllers.activities.MainActivity"></activity>
+        <activity
+            android:name=".controllers.activities.SearchActivity"
+            android:label="Search"
+            android:icon="@drawable/tune"
+            android:parentActivityName=".controllers.activities.MainActivity" />
         <activity android:name=".controllers.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

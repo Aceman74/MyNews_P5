@@ -1,12 +1,13 @@
 <LinearLayout
-    android:id="@+id/fragment_page_news_rootview"
+    android:id="@+id/fragment_business"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".controllers.activities.MainActivity"
     android:gravity="center"
-    android:background="#7BD1AF">
+    android:background="#7BD1AF"
+    >
 
     <TextView
         android:id="@+id/fragment_page_news_title"

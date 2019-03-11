@@ -12,22 +12,22 @@ import com.aceman.mynews.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ParamPageFragment extends Fragment {
+public class CarsFragment extends Fragment {
 
 
-    public ParamPageFragment() {
+    public CarsFragment() {
         // Required empty public constructor
     }
 
-    public static ParamPageFragment newInstance() {
-        return (new ParamPageFragment());
+    public static CarsFragment newInstance() {
+        return (new CarsFragment());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_param_page, container, false);
+        return inflater.inflate(R.layout.fragment_cars, container, false);
     }
 
 }

@@ -16,4 +16,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="categories">Categories</string>
     <string name="my_news">My News</string>
+    <string name="search">Search</string>
+    <string name="notfication_menu">Notifications</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="enable_notifications">Enable notifications (once per day)</string>
+    <string name="search_query_term">Search query term</string>
+    <string name="begin_date">Begin Date</string>
+    <string name="end_date">End Date</string>
 </resources>

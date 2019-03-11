@@ -4,12 +4,23 @@
         android:id="@+id/menu_activity_main_search"
         android:icon="@drawable/search"
         app:showAsAction="ifRoom"
-        android:title="Rechercher">
+        android:title="@string/search">
     </item>
     <item
-        android:id="@+id/menu_activity_main_params"
-        android:icon="@drawable/more"
-        app:showAsAction="ifRoom"
-        android:title="Paramètres">
+        android:id="@+id/menu_activity_main_notification"
+        android:icon="@drawable/notification"
+        app:showAsAction="collapseActionView"
+        android:title="@string/notfication_menu">
+    </item>
+    <item
+        android:id="@+id/menu_activity_main_help"
+        android:icon="@drawable/help"
+        app:showAsAction="collapseActionView"
+        android:title="@string/help">
+    </item>
+    <item
+        android:id="@+id/menu_activity_main_about"
+        app:showAsAction="collapseActionView"
+        android:title="@string/about">
     </item>
 </menu>
