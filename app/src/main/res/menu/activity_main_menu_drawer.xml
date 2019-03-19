@@ -7,12 +7,39 @@
         <item
             android:id="@+id/activity_main_drawer_news"
             android:icon="@drawable/more"
-            android:title="@string/my_news" />
+            android:title="@string/my_news"
+            />
     </group>
+    <item android:title="@string/menu">
+        <menu>
+
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_main_drawer_search"
+                    android:icon="@drawable/search_blk"
+                    android:title="@string/search" />
+                <item
+                    android:id="@+id/activity_main_drawer_notification"
+                    android:icon="@drawable/notification"
+                    android:title="@string/notfication_menu" />
+            </group>
+
+        </menu>
+    </item>
 
     <item android:title="@string/categories">
         <menu>
             <group android:checkableBehavior="single">
+                <item
+
+                android:id="@+id/activity_main_drawer_topstories"
+                android:icon="@drawable/star"
+                android:title="@string/top_stories_tab" />
+                <item
+                    android:id="@+id/activity_main_drawer_mostpopulate"
+                    android:icon="@drawable/arrow_up_right"
+                    android:title="@string/most_polular_tab" />
+
                 <item
                     android:id="@+id/activity_main_drawer_business"
                     android:icon="@drawable/business"

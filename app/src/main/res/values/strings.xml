@@ -11,6 +11,7 @@
     <string name="sport_tab">SPORTS</string>
     <string name="cars_tab">CARS</string>
     <string name="travel_tab">TRAVEL</string>
+    <string name="search_tab">SEARCH</string>
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -24,4 +25,5 @@
     <string name="search_query_term">Search query term</string>
     <string name="begin_date">Begin Date</string>
     <string name="end_date">End Date</string>
+    <string name="menu">Menu</string>
 </resources>

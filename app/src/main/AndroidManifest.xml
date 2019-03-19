@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aceman.mynews">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,16 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controllers.activities.NotificationActivity"
-            android:label="Notifications"
-            android:icon="@drawable/notification"
-            android:parentActivityName=".controllers.activities.MainActivity"></activity>
+        <activity android:name=".ui.navigations.activities.WebviewActivity"
+            android:parentActivityName=".ui.navigations.activities.MainActivity"></activity>
         <activity
-            android:name=".controllers.activities.SearchActivity"
-            android:label="Search"
+            android:name=".ui.notifications.activities.NotificationActivity"
+            android:icon="@drawable/notification"
+            android:label="Notifications"
+            android:parentActivityName=".ui.navigations.activities.MainActivity" />
+        <activity
+            android:name=".ui.search.activities.SearchActivity"
             android:icon="@drawable/tune"
-            android:parentActivityName=".controllers.activities.MainActivity" />
-        <activity android:name=".controllers.activities.MainActivity">
+            android:label="Search"
+            android:parentActivityName=".ui.navigations.activities.MainActivity" />
+        <activity android:name=".ui.navigations.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
