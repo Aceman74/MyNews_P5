@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.aceman.mynews.R;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.search.Doc;
+import com.aceman.mynews.data.models.search.Multimedium;
 import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.data.models.search.SearchResponse;
 import com.aceman.mynews.ui.news.adapters.SearchAdapter;
@@ -34,9 +35,10 @@ import io.reactivex.observers.DisposableObserver;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment {
-    private Disposable disposable;
-    private List<Doc> mSearch;
-    private SearchAdapter adapter;
+    public Disposable disposable;
+    public List<Doc> mSearch;
+    public List<Multimedium> mMultimedia;
+    public SearchAdapter adapter;
     @BindView(R.id.search_fragment_recyclerview)
     RecyclerView mRecyclerView;
     String mSearchQuery = null;
@@ -85,6 +87,7 @@ public class SearchFragment extends Fragment {
 
     private void configureRecyclerView(){
         this.mSearch = new ArrayList<>();
+        this.mMultimedia = new ArrayList<>();
         this.adapter = new SearchAdapter(this.mSearch, Glide.with(this),getContext()) {
         };
         this.mRecyclerView.setAdapter(this.adapter);

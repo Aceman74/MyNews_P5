@@ -34,6 +34,7 @@ import io.reactivex.observers.DisposableObserver;
 public class CarsFragment extends Fragment {
     private Disposable mDisposable;
     private List<SharedDoc> mResponse;
+    private List<Multimedium> mMultimedia;
     private SharedAdapter mAdapter;
 
     @BindView(R.id.cars_fragment_recyclerview)
@@ -105,6 +106,7 @@ public class CarsFragment extends Fragment {
     private void updateUI(SharedObservable details) {
         mResponse.clear();
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
+       // mMultimedia.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
     }
 }

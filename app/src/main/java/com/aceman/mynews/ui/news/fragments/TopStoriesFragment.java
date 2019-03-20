@@ -31,11 +31,11 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopStoriesFragment extends Fragment implements TopStoriesAdapter.Listener {
-    private Disposable disposable;
-    private List<TopStorieResult> mTopStories;
+public class TopStoriesFragment extends Fragment  {
+    public Disposable disposable;
+    public List<TopStorieResult> mTopStories;
 
-    private TopStoriesAdapter adapter;
+    public TopStoriesAdapter adapter;
     @BindView(R.id.topstories_recycler)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_topstories)
@@ -69,7 +69,7 @@ public class TopStoriesFragment extends Fragment implements TopStoriesAdapter.Li
 
     private void configureRecyclerView(){
         this.mTopStories = new ArrayList<>();
-        this.adapter = new TopStoriesAdapter(this.mTopStories, Glide.with(this), this,getContext()) {
+        this.adapter = new TopStoriesAdapter(this.mTopStories, Glide.with(this), getContext()) {
         };
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -77,7 +77,7 @@ public class TopStoriesFragment extends Fragment implements TopStoriesAdapter.Li
     }
 
     private void executeHttpRequestWithRetrofit(){
-        this.disposable = NewsStream.streamGetTopStories().subscribeWith(new DisposableObserver<TopStories>() {
+        this.disposable = NewsStream.streamGetTopStories("&page=1").subscribeWith(new DisposableObserver<TopStories>() {
             @Override
             public void onNext(TopStories details) {
                 Log.e("TOP_Next","On Next");

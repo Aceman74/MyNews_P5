@@ -19,7 +19,7 @@ import retrofit2.http.Query;
 public interface NewYorkTimesService {
 
     @GET("topstories/v2/home.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")    // TopStories call
-    Observable<TopStories> streamGetTopStories();
+    Observable<TopStories> streamGetTopStories(@Query("page") String page);
 
     @GET("mostpopular/v2/viewed/{period}.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")   //  MostPopular call
     Observable<MostPopular> streamGetMostPopular(@Path("period")int period);

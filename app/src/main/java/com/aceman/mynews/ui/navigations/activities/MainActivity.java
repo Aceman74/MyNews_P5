@@ -19,6 +19,9 @@ import com.aceman.mynews.R;
 import com.aceman.mynews.ui.notifications.activities.NotificationActivity;
 import com.aceman.mynews.ui.search.activities.SearchActivity;
 import com.aceman.mynews.ui.navigations.adapter.PageAdapter;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Icepick.restoreInstanceState(this, savedInstanceState);
+        sslUpdate();
         this.configureToolBar();
 
         this.configureDrawerLayout();
@@ -56,6 +60,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureNavigationView();
 
     }
+
+    private void sslUpdate() {
+        try {
+            ProviderInstaller.installIfNeeded(getApplicationContext());
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         // 5 - Handle back click to close menu

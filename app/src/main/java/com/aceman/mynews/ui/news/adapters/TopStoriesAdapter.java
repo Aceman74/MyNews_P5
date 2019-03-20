@@ -24,59 +24,68 @@ import butterknife.ButterKnife;
 /**
  * Created by Lionel JOFFRAY - on 14/03/2019.
  */
-public class TopStoriesAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.MyViewHolder> {
 
-    public interface Listener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.fragment_main_item_title)
+        TextView mTitle;
+        @BindView(R.id.fragment_main_item_categorie)
+        TextView mCategorie;
+        @BindView(R.id.fragment_main_item_date)
+        TextView mDate;
+        @BindView(R.id.fragment_main_item_image)
+        ImageView mImageView;
+        @BindView(R.id.item_id)
+        LinearLayout mItemListener;
+
+        public MyViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this,view);
+        }
     }
 
-    @BindView(R.id.fragment_main_item_title)
-    TextView mTitle;
-    @BindView(R.id.fragment_main_item_categorie)
-    TextView mCategorie;
-    @BindView(R.id.fragment_main_item_date)
-    TextView mDate;
-    @BindView(R.id.fragment_main_item_image)
-    ImageView mImageView;
-    @BindView(R.id.item_id)
-    LinearLayout mItemListener;
-    private List<TopStorieResult> mTopStories;
-    private RequestManager glide;
+    public List<TopStorieResult> mTopStories;
+    public RequestManager glide;
     Context mContext;
 
-    public TopStoriesAdapter(List<TopStorieResult> listTopStorieResult, RequestManager glide, TopStoriesAdapter.Listener callback, Context context) {
+    public TopStoriesAdapter(List<TopStorieResult> listTopStorieResult, RequestManager glide, Context context) {
         this.mTopStories = listTopStorieResult;
         this.glide = glide;
         this.mContext = context;
     }
 
+
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.fragment_item, parent, false);
-
-        ButterKnife.bind(this, view);
-        return new BaseViewHolder(view);
+        View topView = inflater.inflate(R.layout.fragment_item, parent, false);
+        MyViewHolder myViewHolder = new MyViewHolder(topView);
+        return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
-        updateWithFreshInfo(this.mTopStories.get(position), this.glide);
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        updateWithFreshInfo(this.mTopStories.get(position), this.glide, holder);
     }
 
-    public void updateWithFreshInfo(final TopStorieResult item, RequestManager glide) {
-        this.mTitle.setText(item.getTitle());
-        this.mCategorie.setText(item.getSection());
-        this.mDate.setText(item.getPublishedDate());
-        try{
-            glide   .asDrawable()
-                    .load(item.getMultimedia().get(0).getUrl())
-                    .into(mImageView);
-        }catch (Exception e){
-            Log.e("ImagesShared","Loading error");
-        }
+    public void updateWithFreshInfo(final TopStorieResult item, RequestManager glide, MyViewHolder holder) {
 
-        this.mItemListener.setOnClickListener(new View.OnClickListener() {
+        holder.mTitle.setText(item.getTitle());
+        holder.mCategorie.setText(item.getSection());
+        holder.mDate.setText(item.getPublishedDate().substring(0, 10));
+        if (item.getMultimedia().isEmpty()) {            //  Check empty media
+            holder.mImageView.setImageResource(R.drawable.newyorktimes_thumb);
+        } else {
+            try {
+                glide.asDrawable()
+                        .load(item.getMultimedia().get(0).getUrl())
+                        .into(holder.mImageView);
+            } catch (Exception e) {
+                Log.e("ImagesTopStories", "Loading error");
+            }
+        }
+        holder.mItemListener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("CLICK ITEM", "Ca marche?");
@@ -92,7 +101,4 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return this.mTopStories.size();
     }
 
-    public TopStorieResult mStories(int position) {
-        return this.mTopStories.get(position);
-    }
 }

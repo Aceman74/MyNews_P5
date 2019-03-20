@@ -101,7 +101,9 @@ public class Multimedium {
     }
 
     public String getUrl() {
-        return mUrl;
+        String baseUrl = "https://static01.nyt.com/";
+
+        return  baseUrl+mUrl;
     }
 
     public void setUrl(String url) {

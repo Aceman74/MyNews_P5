@@ -24,22 +24,27 @@ import butterknife.ButterKnife;
 /**
  * Created by Lionel JOFFRAY - on 14/03/2019.
  */
-public class MostPopularAdapter extends RecyclerView.Adapter<BaseViewHolder> {
-    @BindView(R.id.fragment_main_item_title)
-    TextView mTitle;
-    @BindView(R.id.fragment_main_item_categorie)
-    TextView mCategorie;
-    @BindView(R.id.fragment_main_item_date)
-    TextView mDate;
-    @BindView(R.id.fragment_main_item_image)
-    ImageView mImageView;
-    @BindView(R.id.item_id)
-    LinearLayout mItemListener;
+public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.MyViewHolder> {
     private List<PopularResult> mMostPopular;
     private RequestManager glide;
     private Context mContext;
 
-    public interface Listener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.fragment_main_item_title)
+        TextView mTitle;
+        @BindView(R.id.fragment_main_item_categorie)
+        TextView mCategorie;
+        @BindView(R.id.fragment_main_item_date)
+        TextView mDate;
+        @BindView(R.id.fragment_main_item_image)
+        ImageView mImageView;
+        @BindView(R.id.item_id)
+        LinearLayout mItemListener;
+
+        public MyViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this,view);
+        }
     }
 
     public MostPopularAdapter(List<PopularResult> listPopularResult, RequestManager glide, Context context) {
@@ -49,27 +54,36 @@ public class MostPopularAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.fragment_item, parent, false);
-        ButterKnife.bind(this, view);
-        return new BaseViewHolder(view);
+        View popularView = inflater.inflate(R.layout.fragment_item, parent, false);
+       MyViewHolder myViewHolder = new MyViewHolder(popularView);
+        return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
-        updateWithFreshInfo(this.mMostPopular.get(position), this.glide);
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        updateWithFreshInfo(this.mMostPopular.get(position), this.glide, holder);
     }
 
-    public void updateWithFreshInfo(final PopularResult item, RequestManager glide) {
-        this.mTitle.setText(item.getTitle());
-        this.mCategorie.setText(item.getSection());
-        this.mDate.setText(item.getPublishedDate());
-        glide.load(item.getMedia().get(0).getMediaMetadata().get(0).getUrl())
-                .into(mImageView);
+    public void updateWithFreshInfo(final PopularResult item, RequestManager glide, MyViewHolder holder) {
+        holder.mTitle.setText(item.getTitle());
+        holder.mCategorie.setText(item.getSection());
+        holder.mDate.setText(item.getPublishedDate());
+        if (item.getMedia().isEmpty()) {            //  Check empty media
+            holder.mImageView.setImageResource(R.drawable.mostpopular_thumb);
+        } else {
+            try {
+                glide.asDrawable()
+                        .load(item.getMedia().get(0).getMediaMetadata().get(0).getUrl())
+                        .into(holder.mImageView);
+            } catch (Exception e) {
+                Log.e("ImagesTopStories", "Loading error");
+            }
+        }
 
-        this.mItemListener.setOnClickListener(new View.OnClickListener() {
+        holder.mItemListener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("CLICK ITEM", "Ca marche?");

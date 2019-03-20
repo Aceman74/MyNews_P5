@@ -16,10 +16,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class NewsStream {
 
-    public static Observable<TopStories> streamGetTopStories(){
+    public static Observable<TopStories> streamGetTopStories(String page){
         NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetTopStories()
-
+        return newsStream.streamGetTopStories(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
