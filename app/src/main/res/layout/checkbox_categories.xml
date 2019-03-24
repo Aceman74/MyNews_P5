@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.navigations.fragments.CategoriesFragment"
+    tools:context=".ui.search.activities.SearchActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,12 +24,12 @@
             android:layout_weight="1"/>
 
         <CheckBox
-            android:id="@+id/checkbox_cars"
+            android:id="@+id/checkbox_tech"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/cars_tab"
+            android:text="@string/tech_tab"
             android:layout_weight="1"/>
     </LinearLayout>
 

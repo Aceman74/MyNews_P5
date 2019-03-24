@@ -40,14 +40,6 @@ public class NewsStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SharedObservable> streamGetCars(){
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetCars()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
     public static Observable<SharedObservable> streamGetFood(){
         NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
         return newsStream.streamGetFood()
@@ -67,6 +59,14 @@ public class NewsStream {
     public static Observable<SharedObservable> streamGetSports(){
         NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
         return newsStream.streamGetSports()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<SharedObservable> streamGetTech(){
+        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
+        return newsStream.streamGetTech()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

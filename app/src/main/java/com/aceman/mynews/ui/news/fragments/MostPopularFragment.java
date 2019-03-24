@@ -86,6 +86,7 @@ public class MostPopularFragment extends Fragment {
             @Override
             public void onError(Throwable e) {
                 Log.e("POPULAR_Error","On Error"+Log.getStackTraceString(e));
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override

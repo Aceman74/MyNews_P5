@@ -45,10 +45,6 @@
                     android:icon="@drawable/business"
                     android:title="@string/business_tab" />
                 <item
-                    android:id="@+id/activity_main_drawer_cars"
-                    android:icon="@drawable/car"
-                    android:title="@string/cars_tab" />
-                <item
                     android:id="@+id/activity_main_drawer_food"
                     android:icon="@drawable/food"
                     android:title="@string/food_tab" />
@@ -60,6 +56,10 @@
                     android:id="@+id/activity_main_drawer_sports"
                     android:icon="@drawable/sport"
                     android:title="@string/sport_tab" />
+                <item
+                    android:id="@+id/activity_main_drawer_tech"
+                    android:icon="@drawable/tech"
+                    android:title="@string/tech_tab" />
                 <item
                     android:id="@+id/activity_main_drawer_travel"
                     android:icon="@drawable/travel"

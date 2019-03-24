@@ -87,6 +87,7 @@ public class TopStoriesFragment extends Fragment  {
             @Override
             public void onError(Throwable e) {
                 Log.e("TOP_Error","On Error"+Log.getStackTraceString(e));
+                mProgressBar.setVisibility(View.GONE);
             }
             @Override
             public void onComplete() {

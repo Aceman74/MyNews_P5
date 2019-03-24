@@ -27,8 +27,8 @@ public interface NewYorkTimesService {
     @GET("search/v2/articlesearch.json?fq=section_name:(\"Business\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
     Observable<SharedObservable> streamGetBusiness();
 
-    @GET("search/v2/articlesearch.json?fq=section_name:(\"Autos\") AND source:(\"The New York Times\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
-    Observable<SharedObservable> streamGetCars();
+    @GET("search/v2/articlesearch.json?fq=section_name:(\"Technology\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
+    Observable<SharedObservable> streamGetTech();
 
     @GET("search/v2/articlesearch.json?fq=section_name:(\"Food\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
     Observable<SharedObservable> streamGetFood();

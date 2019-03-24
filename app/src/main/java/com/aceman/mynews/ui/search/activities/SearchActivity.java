@@ -7,14 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.ui.navigations.fragments.CategoriesFragment;
 import com.aceman.mynews.ui.search.fragments.SearchFragment;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
@@ -33,13 +37,30 @@ public class SearchActivity extends AppCompatActivity {
     TextView mDisplayFromDate;
     @BindView(R.id.textview_to_date)
     TextView mDisplayToDate;
+    @BindView(R.id.layout_search_categories)
+    LinearLayout searchCatgorie;
+    @BindView(R.id.time_layout)
+    LinearLayout timeLayout;
+    @BindView(R.id.btn_layout)
+    LinearLayout btnLayout;
+    @BindView(R.id.checkbox_business)
+    CheckBox mBusiness;
+    @BindView(R.id.checkbox_tech)
+    CheckBox mTech;
+    @BindView(R.id.checkbox_food)
+    CheckBox mFood;
+    @BindView(R.id.checkbox_movies)
+    CheckBox mMovies;
+    @BindView(R.id.checkbox_sports)
+    CheckBox mSports;
+    @BindView(R.id.checkbox_travel)
+    CheckBox mTravel;
     DatePickerDialog.OnDateSetListener mFromDateListener;
     DatePickerDialog mFromDate;
     String mFromDateString;
     DatePickerDialog mToDate;
     String mToDateString;
     DatePickerDialog.OnDateSetListener mToDateListener;
-    CategoriesFragment mCategoriesFragment;
     SearchFragment mSearchFragment;
     @BindView(R.id.activity_search_search_query)
     EditText mSearchQuery;
@@ -57,14 +78,109 @@ public class SearchActivity extends AppCompatActivity {
         getFromDate();
         getToDate();
         searchQueryListener();
+        setCheckListSize();
+        checkBoxListnener();
 
+        mSearchQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        mCategoriesFragment = new CategoriesFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.layout_search_categories, mCategoriesFragment)
-                .commit();
+                searchCatgorie.setVisibility(View.VISIBLE);
+                timeLayout.setVisibility(View.VISIBLE);
+                btnLayout.setVisibility(View.VISIBLE);
+            }
+        });
 
+        mSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchFragment();
 
+            }
+        });
+    }
+
+    void setCheckListSize() {
+        for (int i = 0; i < 6; i++) {
+            mCheckList.add(false);
+        }
+    }
+
+    public List<Boolean> checkBoxListnener() {
+
+        mBusiness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("Categories", "Business is Checked!");
+                    mCheckList.set(0, true);
+                } else {
+                    Log.i("Categories", "Business is Unchecked!");
+                    mCheckList.set(0, false);
+                }
+            }
+        });
+        mTech.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("Categories", "Cars is Checked!");
+                    mCheckList.set(1, true);
+                } else {
+                    Log.i("Categories", "Cars is Unchecked!");
+                    mCheckList.set(1, false);
+                }
+            }
+        });
+        mFood.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("Categories", "Food is Checked!");
+                    mCheckList.set(2, true);
+                } else {
+                    Log.i("Categories", "Food is Unchecked!");
+                    mCheckList.set(2, false);
+                }
+            }
+        });
+        mMovies.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("Categories", "Movies is Checked!");
+                    mCheckList.set(3, true);
+                } else {
+                    Log.i("Categories", "Movies is Unchecked!");
+                    mCheckList.set(3, false);
+                }
+            }
+        });
+        mSports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("Categories", "Sports is Checked!");
+                    mCheckList.set(4, true);
+                } else {
+                    Log.i("Categories", "Sports is Unchecked!");
+                    mCheckList.set(4, false);
+                }
+            }
+        });
+        mTravel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Log.i("Categories", "Travel is Checked!");
+                    mCheckList.set(5, true);
+                } else {
+                    Log.i("Categories", "Travel is Unchecked!");
+                    mCheckList.set(5, false);
+                }
+            }
+        });
+        return mCheckList;
     }
 
     public void searchQueryListener() {
@@ -76,6 +192,9 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                btnLayout.setVisibility(View.VISIBLE);
+                searchCatgorie.setVisibility(View.VISIBLE);
+                timeLayout.setVisibility(View.VISIBLE);
 
             }
 
@@ -84,29 +203,33 @@ public class SearchActivity extends AppCompatActivity {
                 mSearchResult = mSearchQuery.getText().toString();
                 mSearchBtn.setEnabled(true);
 
-
-                mSearchBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mCategorieResult = getQueryCategories();
-                        mSearchFragment = new SearchFragment();
-                        Bundle searchStrings = new Bundle();
-                        searchStrings.putString("fromDatePicker", mFromDateString);
-                        searchStrings.putString("toDatePicker", mToDateString);
-                        searchStrings.putString("query", mSearchResult);
-                        searchStrings.putString("categories", mCategorieResult);
-                        mSearchFragment.setArguments(searchStrings);
-                        getSupportFragmentManager().beginTransaction()
-                                .add(R.id.layout_search_categories, mSearchFragment)
-                                .commit();
-                    }
-                });
             }
         });
     }
 
+    public void searchFragment() {
+
+        btnLayout.setVisibility(View.GONE);
+        searchCatgorie.setVisibility(View.GONE);
+        timeLayout.setVisibility(View.GONE);
+
+        mCategorieResult = getQueryCategories();
+        Bundle searchStrings = new Bundle();
+        searchStrings.putString("fromDatePicker", mFromDateString);
+        searchStrings.putString("toDatePicker", mToDateString);
+        searchStrings.putString("query", mSearchResult);
+        searchStrings.putString("categories", mCategorieResult);
+        mSearchFragment = new SearchFragment();
+        mSearchFragment.setArguments(searchStrings);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.firstlayout, mSearchFragment)
+                .addToBackStack(SearchActivity.class.getSimpleName())
+                .commit();
+        Log.d("Search Tags","from: "+mFromDateString+" to: "+mToDateString+" query: "+mSearchResult+" categorie: "+mCategorieResult);
+
+    }
+
     String getQueryCategories() {
-        mCheckList = CategoriesFragment.checkList;
         String cat1 = "";
         String cat2 = "";
         String cat3 = "";
@@ -117,7 +240,7 @@ public class SearchActivity extends AppCompatActivity {
             cat1 = "Business";
         }
         if (mCheckList.get(1)) {
-            cat1 = "Cars";
+            cat1 = "Tech";
         }
         if (mCheckList.get(2)) {
             cat1 = "Food";

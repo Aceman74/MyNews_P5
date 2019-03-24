@@ -9,7 +9,7 @@
     <string name="food_tab">FOOD</string>
     <string name="movies_tab">MOVIES</string>
     <string name="sport_tab">SPORTS</string>
-    <string name="cars_tab">CARS</string>
+    <string name="tech_tab">TECHNOLOGY</string>
     <string name="travel_tab">TRAVEL</string>
     <string name="search_tab">SEARCH</string>
     <!-- Used in NavigationDrawer -->
@@ -26,4 +26,6 @@
     <string name="begin_date">Begin Date</string>
     <string name="end_date">End Date</string>
     <string name="menu">Menu</string>
+    <string name="channel_name">notification_channel</string>
+    <string name="channel_description">A notification chan</string>
 </resources>

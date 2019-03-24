@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/firstlayout"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_search_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:theme="@style/AppTheme_alt"
     tools:context=".ui.notifications.activities.NotificationActivity">
@@ -12,7 +12,14 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/fragment_place_search_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
 
+
+        >
     <EditText
         android:id="@+id/activity_search_search_query"
         android:layout_width="match_parent"
@@ -22,6 +29,7 @@
         android:hint="@string/search_query_term" />
 
     <LinearLayout
+        android:id="@+id/time_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -53,18 +61,16 @@
             android:text="@string/end_date" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_search_categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp"/>
+        <include
+            android:id="@+id/layout_search_categories"
+            layout="@layout/checkbox_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/search_test"
+        android:id="@+id/btn_layout"
         android:divider="@android:color/darker_gray"
         android:dividerPadding="30dp"
         android:orientation="vertical"
@@ -82,6 +88,8 @@
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
+
+</LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

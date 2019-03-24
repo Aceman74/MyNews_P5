@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.configureDrawerLayout();
 
-        //3 - Configure ViewPager
         this.configureViewPagerAndTabs();
 
         configureNavigationView();
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_business:
                 pager.setCurrentItem(2);
                 break;
-            case R.id.activity_main_drawer_cars:
+            case R.id.activity_main_drawer_tech:
                 pager.setCurrentItem(3);
                 break;
             case R.id.activity_main_drawer_food:
@@ -180,10 +179,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 pager.setCurrentItem(7);
                 break;
             case R.id.activity_main_drawer_search:
-                pager.setCurrentItem(8);
+               Intent search = new Intent(this,SearchActivity.class);
+               this.startActivity(search);
                 break;
             case R.id.activity_main_drawer_notification:
-                pager.setCurrentItem(9);
+                Intent notification = new Intent(this,NotificationActivity.class);
+                this.startActivity(notification);
                 break;
             default:
                 break;

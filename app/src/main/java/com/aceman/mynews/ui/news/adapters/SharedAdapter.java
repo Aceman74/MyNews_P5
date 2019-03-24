@@ -111,9 +111,6 @@ MyViewHolder myViewHolder = new MyViewHolder(sharedView);
             case "Business":
                 holder.mImageView.setImageResource(R.drawable.business_thumb);
                 break;
-            case "Autos":
-                holder.mImageView.setImageResource(R.drawable.cars_thumb);
-                break;
             case "Food":
                 holder.mImageView.setImageResource(R.drawable.food_thumb);
                 break;
@@ -122,6 +119,9 @@ MyViewHolder myViewHolder = new MyViewHolder(sharedView);
                 break;
             case "Sports":
                 holder.mImageView.setImageResource(R.drawable.sports_thumb);
+                break;
+            case "Technology":
+                holder.mImageView.setImageResource(R.drawable.tech_thumb);
                 break;
             case "Travel":
                 holder.mImageView.setImageResource(R.drawable.travel_thumb);

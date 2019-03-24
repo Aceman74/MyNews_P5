@@ -10,13 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.shared.SharedDoc;
 import com.aceman.mynews.data.models.shared.SharedObservable;
-import com.aceman.mynews.data.models.shared.Multimedium;
 import com.aceman.mynews.ui.news.adapters.SharedAdapter;
 import com.bumptech.glide.Glide;
 
@@ -31,31 +31,31 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarsFragment extends Fragment {
+public class TechnologyFragment extends Fragment {
     private Disposable mDisposable;
     private List<SharedDoc> mResponse;
-    private List<Multimedium> mMultimedia;
     private SharedAdapter mAdapter;
-
-    @BindView(R.id.cars_fragment_recyclerview)
+    @BindView(R.id.no_internet_tech)
+    ImageView mNoInternet;
+    @BindView(R.id.tech_fragment_recyclerview)
     RecyclerView mRecyclerView;
-    @BindView(R.id.spinner_cars)
+    @BindView(R.id.spinner_tech)
     ProgressBar mProgressBar;
 
 
-    public CarsFragment() {
+    public TechnologyFragment() {
         // Required empty public constructor
     }
 
-    public static CarsFragment newInstance() {
-        return (new CarsFragment());
+    public static TechnologyFragment newInstance() {
+        return (new TechnologyFragment());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cars, container, false);
+        View view = inflater.inflate(R.layout.fragment_tech, container, false);
         ButterKnife.bind(this,view);
         mProgressBar.setVisibility(View.VISIBLE);
         configureRecyclerView();
@@ -78,10 +78,10 @@ public class CarsFragment extends Fragment {
     }
 
     private void executeHttpRequestWithRetrofit(){
-        this.mDisposable = NewsStream.streamGetCars().subscribeWith(new DisposableObserver<SharedObservable>() {
+        this.mDisposable = NewsStream.streamGetTech().subscribeWith(new DisposableObserver<SharedObservable>() {
             @Override
             public void onNext(SharedObservable details) {
-                Log.e("CARS_Next","On Next");
+                Log.e("TECH_Next","On Next");
                 mProgressBar.setVisibility(View.GONE);
                 updateUI(details);
 
@@ -89,12 +89,16 @@ public class CarsFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("CARS_Error","On Error"+Log.getStackTraceString(e));
+
+                Log.e("TECH_Error","On Error "+Log.getStackTraceString(e));
+                mProgressBar.setVisibility(View.GONE);
+
+
             }
 
             @Override
             public void onComplete() {
-                Log.e("CARS_Complete","On Complete !!");
+                Log.e("TECH_Complete","On Complete !!");
 
             }
         });
@@ -106,7 +110,6 @@ public class CarsFragment extends Fragment {
     private void updateUI(SharedObservable details) {
         mResponse.clear();
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
-       // mMultimedia.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
     }
 }

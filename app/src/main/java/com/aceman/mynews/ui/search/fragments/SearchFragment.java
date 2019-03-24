@@ -1,7 +1,7 @@
 package com.aceman.mynews.ui.search.fragments;
 
 
-import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,20 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.search.Doc;
-import com.aceman.mynews.data.models.search.Multimedium;
 import com.aceman.mynews.data.models.search.Search;
-import com.aceman.mynews.data.models.search.SearchResponse;
 import com.aceman.mynews.ui.news.adapters.SearchAdapter;
-import com.aceman.mynews.ui.search.activities.SearchActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +35,9 @@ import io.reactivex.observers.DisposableObserver;
 public class SearchFragment extends Fragment {
     public Disposable disposable;
     public List<Doc> mSearch;
-    public List<Multimedium> mMultimedia;
     public SearchAdapter adapter;
+    @BindView(R.id.search_fragment_imagez_view)
+    ImageView mNoResult;
     @BindView(R.id.search_fragment_recyclerview)
     RecyclerView mRecyclerView;
     String mSearchQuery = null;
@@ -87,7 +86,6 @@ public class SearchFragment extends Fragment {
 
     private void configureRecyclerView(){
         this.mSearch = new ArrayList<>();
-        this.mMultimedia = new ArrayList<>();
         this.adapter = new SearchAdapter(this.mSearch, Glide.with(this),getContext()) {
         };
         this.mRecyclerView.setAdapter(this.adapter);
@@ -99,6 +97,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onNext(Search details) {
                 Log.e("SEARCH_Next","On Next");
+                Log.d("SEARCH OBSERVABLE","from: "+mBeginDate+" to: "+mEndDate+" query: "+mSearchQuery+" categorie: "+mCategorie);
                 updateUI(details);
             }
             @Override
@@ -122,5 +121,8 @@ public class SearchFragment extends Fragment {
         mSearch.clear();
         mSearch.addAll(details.getSearchResponse().getDocs());
         adapter.notifyDataSetChanged();
+        if(mSearch.isEmpty()){
+            mNoResult.setVisibility(View.VISIBLE);
+        }
     }
 }
