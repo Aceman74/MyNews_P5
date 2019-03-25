@@ -82,8 +82,9 @@ MyViewHolder myViewHolder = new MyViewHolder(sharedView);
 
 
             try {
+                holder.mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // resize large image
                 glide.asDrawable()
-                        .load(item.getMultimedia().get(2).getUrl()) //  Base URL added in Data
+                        .load(item.getMultimedia().get(1).getUrl()) //  Base URL added in Data
                         .apply(RequestOptions.fitCenterTransform()) //  Adapt to placeholder size
                         .into(holder.mImageView);
             } catch (Exception e) {

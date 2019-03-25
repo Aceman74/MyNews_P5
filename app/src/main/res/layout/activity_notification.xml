@@ -18,7 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:hint="@string/search_query_term" />
+        android:hint="@string/search_query_term"
+        android:inputType="text"
+        android:maxLines="1"/>
 
     <include
         android:id="@+id/layout_notification_categories"

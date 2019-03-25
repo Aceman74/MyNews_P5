@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.ui.search.fragments.SearchFragment;
@@ -78,8 +80,8 @@ public class SearchActivity extends AppCompatActivity {
         getFromDate();
         getToDate();
         searchQueryListener();
-        setCheckListSize();
-        checkBoxListnener();
+        CategoriesCheck.setCheckListSize(mCheckList);
+        CategoriesCheck.checkBoxListnener(mBusiness,mTech,mFood,mMovies,mSports,mTravel,mCheckList);
 
         mSearchQuery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,89 +100,6 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    void setCheckListSize() {
-        for (int i = 0; i < 6; i++) {
-            mCheckList.add(false);
-        }
-    }
-
-    public List<Boolean> checkBoxListnener() {
-
-        mBusiness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Business is Checked!");
-                    mCheckList.set(0, true);
-                } else {
-                    Log.i("Categories", "Business is Unchecked!");
-                    mCheckList.set(0, false);
-                }
-            }
-        });
-        mTech.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Cars is Checked!");
-                    mCheckList.set(1, true);
-                } else {
-                    Log.i("Categories", "Cars is Unchecked!");
-                    mCheckList.set(1, false);
-                }
-            }
-        });
-        mFood.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Food is Checked!");
-                    mCheckList.set(2, true);
-                } else {
-                    Log.i("Categories", "Food is Unchecked!");
-                    mCheckList.set(2, false);
-                }
-            }
-        });
-        mMovies.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Movies is Checked!");
-                    mCheckList.set(3, true);
-                } else {
-                    Log.i("Categories", "Movies is Unchecked!");
-                    mCheckList.set(3, false);
-                }
-            }
-        });
-        mSports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Sports is Checked!");
-                    mCheckList.set(4, true);
-                } else {
-                    Log.i("Categories", "Sports is Unchecked!");
-                    mCheckList.set(4, false);
-                }
-            }
-        });
-        mTravel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Travel is Checked!");
-                    mCheckList.set(5, true);
-                } else {
-                    Log.i("Categories", "Travel is Unchecked!");
-                    mCheckList.set(5, false);
-                }
-            }
-        });
-        return mCheckList;
     }
 
     public void searchQueryListener() {
@@ -202,7 +121,22 @@ public class SearchActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 mSearchResult = mSearchQuery.getText().toString();
                 mSearchBtn.setEnabled(true);
+                onHitEnter();
 
+            }
+        });
+    }
+
+    private void onHitEnter() { //  Handle the enter key
+
+        mSearchQuery.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    searchFragment();
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -237,26 +171,26 @@ public class SearchActivity extends AppCompatActivity {
         String cat5 = "";
         String cat6 = "";
         if (mCheckList.get(0)) {
-            cat1 = "Business";
+            cat1 = "\"Business\"";
         }
         if (mCheckList.get(1)) {
-            cat1 = "Tech";
+            cat2 = "\"Tech\"";
         }
         if (mCheckList.get(2)) {
-            cat1 = "Food";
+            cat3 = "\"Food\"";
         }
         if (mCheckList.get(3)) {
-            cat1 = "Movies";
+            cat4 = "\"Movies\"";
         }
         if (mCheckList.get(4)) {
-            cat1 = "Sports";
+            cat5 = "\"Sports\"";
         }
         if (mCheckList.get(5)) {
-            cat1 = "Travel";
+            cat6 = "\"Travel\"";
         }
-        String categorie = "news_desk:(" + cat1 + cat2 + cat3 + cat4 + cat5 + cat6 + " )";
+        String categorie = "news_desk:(" + cat1 +" "+ cat2 + cat3 + cat4 + cat5 + cat6 + " )";
 
-        if (categorie.equals("news_desk:( )")) {
+        if (cat1.equals("")&&cat2.equals("")&&cat3.equals("")&&cat4.equals("")&&cat5.equals("")&& cat6.equals("")) {
             categorie = null;
         }
         return categorie;

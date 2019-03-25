@@ -75,8 +75,9 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
             holder.mImageView.setImageResource(R.drawable.mostpopular_thumb);
         } else {
             try {
+                holder.mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // resize large image
                 glide.asDrawable()
-                        .load(item.getMedia().get(0).getMediaMetadata().get(0).getUrl())
+                        .load(item.getMedia().get(0).getMediaMetadata().get(1).getUrl())
                         .into(holder.mImageView);
             } catch (Exception e) {
                 Log.e("ImagesTopStories", "Loading error");

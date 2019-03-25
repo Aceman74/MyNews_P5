@@ -77,8 +77,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             holder.mImageView.setImageResource(R.drawable.newyorktimes_thumb);
         } else {
             try {
+                holder.mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP); // resize large image
                 glide.asDrawable()
-                        .load(item.getMultimedia().get(0).getUrl())
+                        .load(item.getMultimedia().get(1).getUrl())
                         .into(holder.mImageView);
             } catch (Exception e) {
                 Log.e("ImagesTopStories", "Loading error");

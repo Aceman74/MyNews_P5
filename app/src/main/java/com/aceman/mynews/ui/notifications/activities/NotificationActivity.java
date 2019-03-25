@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -190,10 +192,24 @@ public class NotificationActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 mSearchResult  = mNotificationSearchQuery.getText().toString();
+                onHitEnter();
             }
         });
     }
+    private void onHitEnter() { //  Handle the enter key
 
+        mNotificationSearchQuery.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    setNotificationSwitch();
+
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 
     private void setNotificationOn() {
 

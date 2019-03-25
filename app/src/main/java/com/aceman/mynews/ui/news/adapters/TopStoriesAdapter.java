@@ -79,7 +79,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
         } else {
             try {
                 glide.asDrawable()
-                        .load(item.getMultimedia().get(0).getUrl())
+                        .load(item.getMultimedia().get(1).getUrl())
                         .into(holder.mImageView);
             } catch (Exception e) {
                 Log.e("ImagesTopStories", "Loading error");
