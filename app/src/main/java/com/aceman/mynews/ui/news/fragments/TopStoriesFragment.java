@@ -1,9 +1,6 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -36,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopStoriesFragment extends Fragment {
+public class TopStoriesFragment extends FragmentsBase {
     Disposable disposable;
     List<TopStorieResult> mTopStories;
     TopStoriesAdapter adapter;
@@ -53,12 +50,25 @@ public class TopStoriesFragment extends Fragment {
 
 
     public TopStoriesFragment() {
-        // Required empty public constructor
-
     }
 
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
+    }
+
+    @Override
+    public LinearLayout getNoResultLayout() {
+        return mNoResult;
+    }
+
+    @Override
+    public Button getRetryBtn() {
+        return mRetryBtn;
+    }
+
+    @Override
+    public void getHttpRequest() {
+        executeHttpRequestWithRetrofit();
     }
 
     @Override
@@ -80,12 +90,12 @@ public class TopStoriesFragment extends Fragment {
     }
 
     public void configureRecyclerView() {
-        this.mTopStories = new ArrayList<>();
-        this.adapter = new TopStoriesAdapter(this.mTopStories, Glide.with(this), getContext()) {
+        mTopStories = new ArrayList<>();
+        adapter = new TopStoriesAdapter(mTopStories, Glide.with(this), getContext()) {
         };
-        this.mRecyclerView.setAdapter(this.adapter);
-        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
 
@@ -119,25 +129,12 @@ public class TopStoriesFragment extends Fragment {
         } else {
             mProgressBar.setVisibility(View.GONE);
             mCheckConnexion.setVisibility(View.VISIBLE);
-            mRetryBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    executeHttpRequestWithRetrofit();
-                }
-            });
-
+            retryBtnClick();
         }
     }
 
     public void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public void updateUI(TopStories details) {
@@ -146,20 +143,5 @@ public class TopStoriesFragment extends Fragment {
         adapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
         ifNoResult(details);
-    }
-
-    private void ifNoResult(TopStories details) {
-        if (details.getTopStorieResults().size() <= 0) {
-            mNoResult.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void retryBtnClick() {
-        mRetryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeHttpRequestWithRetrofit();
-            }
-        });
     }
 }

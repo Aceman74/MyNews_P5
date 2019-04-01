@@ -1,9 +1,6 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -36,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FoodFragment extends Fragment {
+public class FoodFragment extends FragmentsBase {
     @BindView(R.id.food_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_food)
@@ -46,6 +43,8 @@ public class FoodFragment extends Fragment {
     SharedAdapter mAdapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
+    @BindView(R.id.layout_no_result)
+    LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
 
@@ -54,6 +53,21 @@ public class FoodFragment extends Fragment {
 
     public static FoodFragment newInstance() {
         return (new FoodFragment());
+    }
+
+    @Override
+    public LinearLayout getNoResultLayout() {
+        return mNoResult;
+    }
+
+    @Override
+    public Button getRetryBtn() {
+        return mRetryBtn;
+    }
+
+    @Override
+    public void getHttpRequest() {
+        executeHttpRequestWithRetrofit();
     }
 
     @Override
@@ -83,54 +97,39 @@ public class FoodFragment extends Fragment {
         this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
-    public  void executeHttpRequestWithRetrofit() {
-        if(isOnline()){
+    public void executeHttpRequestWithRetrofit() {
+        if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
             this.mDisposable = NewsStream.streamGetFood().subscribeWith(new DisposableObserver<SharedObservable>() {
-            @Override
-            public void onNext(SharedObservable details) {
-                Log.e("CARS_Next", "On Next");
-                mProgressBar.setVisibility(View.GONE);
-                updateUI(details);
+                @Override
+                public void onNext(SharedObservable details) {
+                    Log.e("CARS_Next", "On Next");
+                    mProgressBar.setVisibility(View.GONE);
+                    updateUI(details);
+                }
 
-            }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
+                    mProgressBar.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
-                mProgressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("CARS_Complete", "On Complete !!");
-
-            }
-        });
-    }else {
-        mProgressBar.setVisibility(View.GONE);
-        mCheckConnexion.setVisibility(View.VISIBLE);
-        mRetryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeHttpRequestWithRetrofit();
-            }
-        });
-
+                @Override
+                public void onComplete() {
+                    Log.e("CARS_Complete", "On Complete !!");
+                }
+            });
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+            mCheckConnexion.setVisibility(View.VISIBLE);
+            retryBtnClick();
+        }
     }
-}
 
     public void disposeWhenDestroy() {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public void updateUI(SharedObservable details) {
@@ -138,6 +137,7 @@ public class FoodFragment extends Fragment {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
+        ifNoResult(details);
     }
 }
 

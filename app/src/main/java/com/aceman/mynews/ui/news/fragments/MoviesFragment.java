@@ -1,9 +1,6 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -36,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MoviesFragment extends Fragment {
+public class MoviesFragment extends FragmentsBase {
     @BindView(R.id.movies_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_movies)
@@ -46,6 +43,8 @@ public class MoviesFragment extends Fragment {
     SharedAdapter mAdapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
+    @BindView(R.id.layout_no_result)
+    LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
 
@@ -54,6 +53,21 @@ public class MoviesFragment extends Fragment {
 
     public static MoviesFragment newInstance() {
         return (new MoviesFragment());
+    }
+
+    @Override
+    public LinearLayout getNoResultLayout() {
+        return mNoResult;
+    }
+
+    @Override
+    public Button getRetryBtn() {
+        return mRetryBtn;
+    }
+
+    @Override
+    public void getHttpRequest() {
+        executeHttpRequestWithRetrofit();
     }
 
     @Override
@@ -66,7 +80,6 @@ public class MoviesFragment extends Fragment {
         executeHttpRequestWithRetrofit();
         isOnline();
         return view;
-
     }
 
     @Override
@@ -76,62 +89,47 @@ public class MoviesFragment extends Fragment {
     }
 
     public void configureRecyclerView() {
-        this.mResponse = new ArrayList<>();
-        this.mAdapter = new SharedAdapter(this.mResponse, Glide.with(this), getContext()) {
+        mResponse = new ArrayList<>();
+        mAdapter = new SharedAdapter(mResponse, Glide.with(this), getContext()) {
         };
-        this.mRecyclerView.setAdapter(this.mAdapter);
-        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
     public void executeHttpRequestWithRetrofit() {
-        if(isOnline()){
+        if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
             this.mDisposable = NewsStream.streamGetMovies().subscribeWith(new DisposableObserver<SharedObservable>() {
-            @Override
-            public void onNext(SharedObservable details) {
-                Log.e("CARS_Next", "On Next");
-                mProgressBar.setVisibility(View.GONE);
-                updateUI(details);
+                @Override
+                public void onNext(SharedObservable details) {
+                    Log.e("CARS_Next", "On Next");
+                    mProgressBar.setVisibility(View.GONE);
+                    updateUI(details);
+                }
 
-            }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
+                    mProgressBar.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
-                mProgressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("CARS_Complete", "On Complete !!");
-
-            }
-        });
-    }else {
-        mProgressBar.setVisibility(View.GONE);
-        mCheckConnexion.setVisibility(View.VISIBLE);
-        mRetryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeHttpRequestWithRetrofit();
-            }
-        });
-
+                @Override
+                public void onComplete() {
+                    Log.e("CARS_Complete", "On Complete !!");
+                }
+            });
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+            mCheckConnexion.setVisibility(View.VISIBLE);
+            retryBtnClick();
+        }
     }
-}
 
     public void disposeWhenDestroy() {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public void updateUI(SharedObservable details) {
@@ -139,5 +137,6 @@ public class MoviesFragment extends Fragment {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
+        ifNoResult(details);
     }
 }

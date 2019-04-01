@@ -1,9 +1,6 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -36,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MostPopularFragment extends Fragment {
+public class MostPopularFragment extends FragmentsBase {
     @BindView(R.id.mostpopular_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_mostpopular)
@@ -46,16 +43,32 @@ public class MostPopularFragment extends Fragment {
     MostPopularAdapter adapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
+    @BindView(R.id.layout_no_result)
+    LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
 
 
     public MostPopularFragment() {
-        // Required empty public constructor
     }
 
     public static MostPopularFragment newInstance() {
         return (new MostPopularFragment());
+    }
+
+    @Override
+    public LinearLayout getNoResultLayout() {
+        return mNoResult;
+    }
+
+    @Override
+    public Button getRetryBtn() {
+        return mRetryBtn;
+    }
+
+    @Override
+    public void getHttpRequest() {
+        executeHttpRequestWithRetrofit();
     }
 
     @Override
@@ -77,62 +90,47 @@ public class MostPopularFragment extends Fragment {
     }
 
     public void configureRecyclerView() {
-        this.mPopular = new ArrayList<>();
-        this.adapter = new MostPopularAdapter(this.mPopular, Glide.with(this), getContext()) {
+        mPopular = new ArrayList<>();
+        adapter = new MostPopularAdapter(mPopular, Glide.with(this), getContext()) {
         };
-        this.mRecyclerView.setAdapter(this.adapter);
-        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
     public void executeHttpRequestWithRetrofit() {
-        if(isOnline()){
+        if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
             this.disposable = NewsStream.streamGetMostPopular(7).subscribeWith(new DisposableObserver<MostPopular>() {
-            @Override
-            public void onNext(MostPopular details) {
-                Log.e("POPULAR_Next", "On Next");
-                mProgressBar.setVisibility(View.GONE);
-                updateUI(details);
+                @Override
+                public void onNext(MostPopular details) {
+                    Log.e("POPULAR_Next", "On Next");
+                    mProgressBar.setVisibility(View.GONE);
+                    updateUI(details);
+                }
 
-            }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("POPULAR_Error", "On Error" + Log.getStackTraceString(e));
+                    mProgressBar.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e("POPULAR_Error", "On Error" + Log.getStackTraceString(e));
-                mProgressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("POPULAR_Complete", "On Complete !!");
-
-            }
-        });
-    }else {
-        mProgressBar.setVisibility(View.GONE);
-        mCheckConnexion.setVisibility(View.VISIBLE);
-        mRetryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeHttpRequestWithRetrofit();
-            }
-        });
-
+                @Override
+                public void onComplete() {
+                    Log.e("POPULAR_Complete", "On Complete !!");
+                }
+            });
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+            mCheckConnexion.setVisibility(View.VISIBLE);
+            retryBtnClick();
+        }
     }
-}
 
     public void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public void updateUI(MostPopular details) {
@@ -140,5 +138,6 @@ public class MostPopularFragment extends Fragment {
         mPopular.addAll(details.getPopularResults());
         adapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
+        ifNoResult(details);
     }
 }

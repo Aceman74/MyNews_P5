@@ -1,9 +1,6 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -19,7 +16,6 @@ import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.data.api.NewsStream;
-import com.aceman.mynews.data.models.shared.Multimedium;
 import com.aceman.mynews.data.models.shared.SharedDoc;
 import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.ui.news.adapters.SharedAdapter;
@@ -37,14 +33,13 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusinessFragment extends Fragment {
+public class BusinessFragment extends FragmentsBase {
     @BindView(R.id.business_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_business)
     ProgressBar mProgressBar;
     Disposable mDisposable;
     List<SharedDoc> mResponse;
-    List<Multimedium> mMultimedia;
     SharedAdapter mAdapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
@@ -58,6 +53,21 @@ public class BusinessFragment extends Fragment {
 
     public static BusinessFragment newInstance() {
         return (new BusinessFragment());
+    }
+
+    @Override
+    public LinearLayout getNoResultLayout() {
+        return mNoResult;
+    }
+
+    @Override
+    public Button getRetryBtn() {
+        return mRetryBtn;
+    }
+
+    @Override
+    public void getHttpRequest() {
+        executeHttpRequestWithRetrofit();
     }
 
     @Override
@@ -80,7 +90,6 @@ public class BusinessFragment extends Fragment {
 
     public void configureRecyclerView() {
         this.mResponse = new ArrayList<>();
-        this.mMultimedia = new ArrayList<>();
         this.mAdapter = new SharedAdapter(this.mResponse, Glide.with(this), getContext()) {
         };
         this.mRecyclerView.setAdapter(this.mAdapter);
@@ -89,47 +98,40 @@ public class BusinessFragment extends Fragment {
     }
 
     public void executeHttpRequestWithRetrofit() {
-        if(isOnline()){
+        if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
             this.mDisposable = NewsStream.streamGetBusiness().subscribeWith(new DisposableObserver<SharedObservable>() {
-            @Override
-            public void onNext(SharedObservable details) {
-                Log.e("CARS_Next", "On Next");
-                mProgressBar.setVisibility(View.GONE);
-                updateUI(details);
+                @Override
+                public void onNext(SharedObservable details) {
+                    Log.e("CARS_Next", "On Next");
+                    mProgressBar.setVisibility(View.GONE);
+                    updateUI(details);
 
-            }
+                }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
-                mProgressBar.setVisibility(View.GONE);
-            }
+                @Override
+                public void onError(Throwable e) {
+                    Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
+                    mProgressBar.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onComplete() {
-                Log.e("CARS_Complete", "On Complete !!");
+                @Override
+                public void onComplete() {
+                    Log.e("CARS_Complete", "On Complete !!");
 
-            }
-        });
-    }else {
-        mProgressBar.setVisibility(View.GONE);
-        mCheckConnexion.setVisibility(View.VISIBLE);
-        retryBtnClick();
+                }
+            });
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+            mCheckConnexion.setVisibility(View.VISIBLE);
+            retryBtnClick();
+        }
     }
-}
 
     public void disposeWhenDestroy() {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public void updateUI(SharedObservable details) {
@@ -138,19 +140,5 @@ public class BusinessFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
         ifNoResult(details);
-    }
-    private void ifNoResult(SharedObservable details) {
-        if(details.getSharedResponse().getSharedDocs().size()<= 0)
-        mNoResult.setVisibility(View.VISIBLE);
-        retryBtnClick();
-    }
-
-    private void retryBtnClick() {
-        mRetryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                executeHttpRequestWithRetrofit();
-            }
-        });
     }
 }
