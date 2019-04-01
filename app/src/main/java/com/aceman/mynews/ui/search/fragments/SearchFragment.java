@@ -66,7 +66,6 @@ public class SearchFragment extends Fragment {
     public void bundleStrings() {
         try {
             Bundle searchStrings = getArguments();
-
             mBeginDate = searchStrings.getString("fromDatePicker");
             mEndDate = searchStrings.getString("toDatePicker");
             mSearchQuery = searchStrings.getString("query");

@@ -14,7 +14,7 @@
         android:scaleY="1.5"
         android:layout_gravity="center"
         android:src="@drawable/nyt_copyright"
-        />
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/text_copyright_textview"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
      android:padding="10dp"
-        android:text="close"
+        android:text="@string/close"
         android:layout_margin="5dp"
         />
 

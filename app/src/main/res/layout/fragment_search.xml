@@ -15,7 +15,8 @@
         android:scaleX="1.5"
         android:scaleY="1.5"
         android:src="@drawable/no_result"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="TODO" />
 
     <include
         layout="@layout/check_connexion"

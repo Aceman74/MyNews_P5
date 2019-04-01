@@ -7,7 +7,10 @@ before_install:
 
 notifications:
   email:
-  - thedmx74@hotmail.fr
+    recipients:
+    - thedmx74@hotmail.fr
+    on_success: never # default: change
+    on_failure: always # default: always
 
 android:
   components:
@@ -19,7 +22,7 @@ android:
     - sys-img-armeabi-v7a-android-19
 
 before_script:
-  # Create and start emulator
+  # Create and start emulator, android 19 minimum supported
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator

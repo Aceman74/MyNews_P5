@@ -36,4 +36,8 @@
     <string name="copyright">  Copyright © 2019. Aceman. All rights reserved.\nDeveloped by Aceman.\nData provided by The New York Times API.\nhttps://developer.nytimes.com/</string>
     <string name="copyright_text">Copyright</string>
     <string name="retry">Retry</string>
+    <string name="Mynews_logo_desc">Mynews logo</string>
+    <string name="check_connexion_image_desc">check connexion image</string>
+    <string name="nyt_logo_for_copyright_desc">NYT logo for copyright</string>
+    <string name="close">close</string>
 </resources>

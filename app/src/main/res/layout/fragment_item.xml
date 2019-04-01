@@ -22,7 +22,8 @@
         <ImageView
             android:id="@+id/fragment_main_item_image"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:contentDescription="TODO" />
 
     </LinearLayout>
 

@@ -4,19 +4,19 @@
         android:id="@+id/menu_activity_main_search"
         android:icon="@drawable/search"
         android:title="@string/search"
-        app:showAsAction="ifRoom"></item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_activity_main_notification"
         android:icon="@drawable/notification"
         android:title="@string/notfication_menu"
-        app:showAsAction="collapseActionView"></item>
+        app:showAsAction="collapseActionView" />
     <item
         android:id="@+id/menu_activity_main_help"
         android:icon="@drawable/help"
         android:title="@string/help"
-        app:showAsAction="collapseActionView"></item>
+        app:showAsAction="collapseActionView" />
     <item
         android:id="@+id/menu_activity_main_about"
         android:title="@string/about"
-        app:showAsAction="collapseActionView"></item>
+        app:showAsAction="collapseActionView" />
 </menu>

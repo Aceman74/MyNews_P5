@@ -83,5 +83,6 @@ public class PageAdapter extends FragmentPagerAdapter {
                 return null;
         }
     }
+
 }
 

@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         testOnClickTOOLBAR();
     }
 
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        pager.setAdapter(null);
+    }
+
     @Override
     public void onBackPressed() {
         //  Handle back click to close menu of navdrawer
@@ -206,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             notificationManager.createNotificationChannel(channel);
         }
     }
+
     public void finish(){
         super.finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
