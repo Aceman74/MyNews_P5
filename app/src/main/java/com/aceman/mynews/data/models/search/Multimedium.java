@@ -1,4 +1,3 @@
-
 package com.aceman.mynews.data.models.search;
 
 import com.google.gson.annotations.SerializedName;
@@ -103,7 +102,7 @@ public class Multimedium {
     public String getUrl() {
         String baseUrl = "https://static01.nyt.com/";
 
-        return  baseUrl+mUrl;
+        return baseUrl + mUrl;
     }
 
     public void setUrl(String url) {

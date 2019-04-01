@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/copyright_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:layout_gravity="center"
+        android:src="@drawable/nyt_copyright"
+        />
+
+    <TextView
+        android:id="@+id/text_copyright_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copyright"
+        android:textColor="@android:color/black"
+        android:padding="15dp"/>
+
+    <Button
+        android:id="@+id/dialogButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+     android:padding="10dp"
+        android:text="close"
+        android:layout_margin="5dp"
+        />
+
+</LinearLayout>

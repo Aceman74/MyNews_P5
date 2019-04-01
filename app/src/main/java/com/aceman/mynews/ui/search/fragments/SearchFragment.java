@@ -1,7 +1,6 @@
 package com.aceman.mynews.ui.search.fragments;
 
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.aceman.mynews.R;
@@ -58,22 +56,22 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         bundleStrings();
         configureRecyclerView();
         executeHttpRequestWithRetrofit();
         return view;
     }
 
-    private void bundleStrings() {
-        try{
+    public void bundleStrings() {
+        try {
             Bundle searchStrings = getArguments();
 
             mBeginDate = searchStrings.getString("fromDatePicker");
             mEndDate = searchStrings.getString("toDatePicker");
             mSearchQuery = searchStrings.getString("query");
             mCategorie = searchStrings.getString("categories");
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("SEARCH BUNDLE ERROR", "Mauvaise redirection, STRINGS NULL");
         }
     }
@@ -84,44 +82,46 @@ public class SearchFragment extends Fragment {
         this.disposeWhenDestroy();
     }
 
-    private void configureRecyclerView(){
+    public void configureRecyclerView() {
         this.mSearch = new ArrayList<>();
-        this.adapter = new SearchAdapter(this.mSearch, Glide.with(this),getContext()) {
+        this.adapter = new SearchAdapter(this.mSearch, Glide.with(this), getContext()) {
         };
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
-    private void executeHttpRequestWithRetrofit(){
-        this.disposable = NewsStream.streamGetSearch(mBeginDate,mEndDate,mSearchQuery,mCategorie).subscribeWith(new DisposableObserver<Search>() {
+
+    public void executeHttpRequestWithRetrofit() {
+        this.disposable = NewsStream.streamGetSearch(mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search details) {
-                Log.e("SEARCH_Next","On Next");
-                Log.d("SEARCH OBSERVABLE","from: "+mBeginDate+" to: "+mEndDate+" query: "+mSearchQuery+" categorie: "+mCategorie);
+                Log.e("SEARCH_Next", "On Next");
+                Log.d("SEARCH OBSERVABLE", "from: " + mBeginDate + " to: " + mEndDate + " query: " + mSearchQuery + " categorie: " + mCategorie);
                 updateUI(details);
             }
+
             @Override
             public void onError(Throwable e) {
-                Log.e("SEARCH_Error","On Error"+Log.getStackTraceString(e));
+                Log.e("SEARCH_Error", "On Error" + Log.getStackTraceString(e));
             }
+
             @Override
             public void onComplete() {
-                Log.e("SEARCH_Complete","On Complete !!");
+                Log.e("SEARCH_Complete", "On Complete !!");
             }
         });
     }
 
-    private void disposeWhenDestroy(){
+    public void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
 
-
-    private void updateUI(Search details) {
+    public void updateUI(Search details) {
         mSearch.clear();
         mSearch.addAll(details.getSearchResponse().getDocs());
         adapter.notifyDataSetChanged();
-        if(mSearch.isEmpty()){
+        if (mSearch.isEmpty()) {
             mNoResult.setVisibility(View.VISIBLE);
         }
     }

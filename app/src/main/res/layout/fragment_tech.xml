@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/fragment_tech"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_tech"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.navigations.activities.MainActivity"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.navigations.activities.MainActivity">
 
     <ProgressBar
         android:id="@+id/spinner_tech"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
-    <ImageView
-        android:id="@+id/no_internet_tech"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/check_connexion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/no_internet"
-        android:layout_gravity="center"
         android:visibility="gone"/>
+
+    <include
+        layout="@layout/no_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tech_fragment_recyclerview"
         android:layout_width="match_parent"

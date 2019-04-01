@@ -1,6 +1,7 @@
 package com.aceman.mynews.ui.search.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +13,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.ui.search.fragments.SearchFragment;
@@ -71,38 +70,51 @@ public class SearchActivity extends AppCompatActivity {
     List<Boolean> mCheckList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        setVisibilitySearchLayout();
         mCheckList = new ArrayList<>();
         this.configureToolbar();
         getFromDate();
         getToDate();
-        searchQueryListener();
-        CategoriesCheck.setCheckListSize(mCheckList);
-        CategoriesCheck.checkBoxListnener(mBusiness,mTech,mFood,mMovies,mSports,mTravel,mCheckList);
 
+        Intent intent = getIntent();
+        mSearchResult = intent.getStringExtra("Search");
+        CategoriesCheck.setCheckListSize(mCheckList);
+        CategoriesCheck.checkBoxListnener(mBusiness, mTech, mFood, mMovies, mSports, mTravel, mCheckList);
+        searchQueryListener();
+        clickListener();
+    }
+    public void setVisibilitySearchLayout(){
         mSearchQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 searchCatgorie.setVisibility(View.VISIBLE);
                 timeLayout.setVisibility(View.VISIBLE);
                 btnLayout.setVisibility(View.VISIBLE);
             }
         });
+    }
 
+
+
+    public void searchFragmentLaunch(){
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchFragment();
-
             }
         });
     }
 
     public void searchQueryListener() {
+
+        mSearchBtn.setAlpha(0.5f);
+
         mSearchQuery.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -120,14 +132,25 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 mSearchResult = mSearchQuery.getText().toString();
-                mSearchBtn.setEnabled(true);
+                checkState();
                 onHitEnter();
 
             }
         });
     }
 
-    private void onHitEnter() { //  Handle the enter key
+    private void checkState() {
+        if(mSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)){
+            mSearchBtn.setEnabled(true);
+            mSearchBtn.setAlpha(1);
+            searchFragmentLaunch();
+
+        }else{
+            mSearchBtn.setEnabled(false);
+            mSearchBtn.setAlpha(0.5f);
+        }
+    }
+    public void onHitEnter() { //  Handle the enter key
 
         mSearchQuery.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -147,7 +170,7 @@ public class SearchActivity extends AppCompatActivity {
         searchCatgorie.setVisibility(View.GONE);
         timeLayout.setVisibility(View.GONE);
 
-        mCategorieResult = getQueryCategories();
+        mCategorieResult = CategoriesCheck.getQueryCategories(mCheckList);
         Bundle searchStrings = new Bundle();
         searchStrings.putString("fromDatePicker", mFromDateString);
         searchStrings.putString("toDatePicker", mToDateString);
@@ -159,42 +182,10 @@ public class SearchActivity extends AppCompatActivity {
                 .replace(R.id.firstlayout, mSearchFragment)
                 .addToBackStack(SearchActivity.class.getSimpleName())
                 .commit();
-        Log.d("Search Tags","from: "+mFromDateString+" to: "+mToDateString+" query: "+mSearchResult+" categorie: "+mCategorieResult);
+        Log.d("Search Tags", "from: " + mFromDateString + " to: " + mToDateString + " query: " + mSearchResult + " categorie: " + mCategorieResult);
 
     }
 
-    String getQueryCategories() {
-        String cat1 = "";
-        String cat2 = "";
-        String cat3 = "";
-        String cat4 = "";
-        String cat5 = "";
-        String cat6 = "";
-        if (mCheckList.get(0)) {
-            cat1 = "\"Business\"";
-        }
-        if (mCheckList.get(1)) {
-            cat2 = "\"Tech\"";
-        }
-        if (mCheckList.get(2)) {
-            cat3 = "\"Food\"";
-        }
-        if (mCheckList.get(3)) {
-            cat4 = "\"Movies\"";
-        }
-        if (mCheckList.get(4)) {
-            cat5 = "\"Sports\"";
-        }
-        if (mCheckList.get(5)) {
-            cat6 = "\"Travel\"";
-        }
-        String categorie = "news_desk:(" + cat1 +" "+ cat2 + cat3 + cat4 + cat5 + cat6 + " )";
-
-        if (cat1.equals("")&&cat2.equals("")&&cat3.equals("")&&cat4.equals("")&&cat5.equals("")&& cat6.equals("")) {
-            categorie = null;
-        }
-        return categorie;
-    }
 
     public void getFromDate() {
         mDisplayFromDate.setOnClickListener(new View.OnClickListener() {
@@ -290,12 +281,59 @@ public class SearchActivity extends AppCompatActivity {
         };
     }
 
-    private void configureToolbar() {
+    public void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
+    }
+    public void finish(){
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+    public void onPause(){
+        super.onPause();
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+
+    void clickListener(){
+        mBusiness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mMovies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mSports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mTech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mTravel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
     }
 }

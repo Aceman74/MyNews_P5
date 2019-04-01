@@ -1,4 +1,3 @@
-
 package com.aceman.mynews.data.models.shared;
 
 import com.google.gson.annotations.SerializedName;

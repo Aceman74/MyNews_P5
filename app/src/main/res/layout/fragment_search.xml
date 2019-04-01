@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/fragment_search"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.activities.SearchActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.search.activities.SearchActivity">
 
     <ImageView
         android:id="@+id/search_fragment_imagez_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:src="@drawable/no_result"
-        android:visibility="gone"
         android:scaleX="1.5"
-        android:scaleY="1.5"/>
+        android:scaleY="1.5"
+        android:src="@drawable/no_result"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/check_connexion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <ProgressBar
         android:id="@+id/spinner_search"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_fragment_recyclerview"

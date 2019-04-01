@@ -4,25 +4,23 @@ import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-
 import java.util.List;
 
 
 /**
  * Created by Lionel JOFFRAY - on 25/03/2019.
  */
-public class CategoriesCheck  {
+public class CategoriesCheck {
 
 
-
-
-    static void setCheckListSize(List<Boolean> mCheckList) {
+    public static void setCheckListSize(List<Boolean> mCheckList) {
         for (int i = 0; i < 6; i++) {
             mCheckList.add(false);
         }
     }
 
-    public static List<Boolean> checkBoxListnener(CheckBox mBusiness, CheckBox mTech, CheckBox mFood, CheckBox mMovies, CheckBox mSports, CheckBox mTravel, final List<Boolean> mCheckList) {
+
+    public static void checkBoxListnener( CheckBox mBusiness, CheckBox mTech, CheckBox mFood, CheckBox mMovies, CheckBox mSports, CheckBox mTravel, final List<Boolean> mCheckList) {
 
         mBusiness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -96,6 +94,38 @@ public class CategoriesCheck  {
                 }
             }
         });
-        return mCheckList;
+    }
+
+    public static String getQueryCategories(List<Boolean> mCheckList) {
+        String cat1 = "";
+        String cat2 = "";
+        String cat3 = "";
+        String cat4 = "";
+        String cat5 = "";
+        String cat6 = "";
+        if (mCheckList.get(0)) {
+            cat1 = "\"Business\"";
+        }
+        if (mCheckList.get(1)) {
+            cat2 = "\"Tech\"";
+        }
+        if (mCheckList.get(2)) {
+            cat3 = "\"Food\"";
+        }
+        if (mCheckList.get(3)) {
+            cat4 = "\"Movies\"";
+        }
+        if (mCheckList.get(4)) {
+            cat5 = "\"Sports\"";
+        }
+        if (mCheckList.get(5)) {
+            cat6 = "\"Travel\"";
+        }
+        String categorie = "news_desk:(" + cat1 + " " + cat2 + cat3 + cat4 + cat5 + cat6 + " )";
+
+        if (cat1.equals("") && cat2.equals("") && cat3.equals("") && cat4.equals("") && cat5.equals("") && cat6.equals("")) {
+            categorie = null;
+        }
+        return categorie;
     }
 }

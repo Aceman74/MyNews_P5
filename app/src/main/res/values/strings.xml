@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyNews</string>
+    <string name="app_name">My News</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -28,4 +28,12 @@
     <string name="menu">Menu</string>
     <string name="channel_name">notification_channel</string>
     <string name="channel_description">A notification chan</string>
+    <string name="notif_pos_text_1">Good news! There is &#160;</string>
+    <string name="notif_pos_text_2">&#160; articles for your &#160;</string>
+    <string name="notif_pos_text_3">&#160; Daily Search.</string>
+    <string name="notif_neg_text_1">Hello! Sadly there is no new article for your &#160;</string>
+    <string name="notif_neg_text_2">&#160; Daily Search. Click here if you want to change your search.</string>
+    <string name="copyright">  Copyright © 2019. Aceman. All rights reserved.\nDeveloped by Aceman.\nData provided by The New York Times API.\nhttps://developer.nytimes.com/</string>
+    <string name="copyright_text">Copyright</string>
+    <string name="retry">Retry</string>
 </resources>

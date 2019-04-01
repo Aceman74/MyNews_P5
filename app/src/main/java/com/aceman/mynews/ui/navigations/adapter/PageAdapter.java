@@ -6,13 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.ui.news.fragments.TechnologyFragment;
+import com.aceman.mynews.ui.news.fragments.BusinessFragment;
 import com.aceman.mynews.ui.news.fragments.FoodFragment;
+import com.aceman.mynews.ui.news.fragments.MostPopularFragment;
 import com.aceman.mynews.ui.news.fragments.MoviesFragment;
 import com.aceman.mynews.ui.news.fragments.SportsFragment;
+import com.aceman.mynews.ui.news.fragments.TechnologyFragment;
 import com.aceman.mynews.ui.news.fragments.TopStoriesFragment;
-import com.aceman.mynews.ui.news.fragments.BusinessFragment;
-import com.aceman.mynews.ui.news.fragments.MostPopularFragment;
 import com.aceman.mynews.ui.news.fragments.TravelFragment;
 
 
@@ -32,12 +32,12 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return(8);
+        return (8);
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0: //Page number 1
                 return TopStoriesFragment.newInstance();
             case 1: //Page number 2
@@ -61,7 +61,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
+        switch (position) {
 
             case 0: //Page number 1
                 return mContext.getString(R.string.top_stories_tab);

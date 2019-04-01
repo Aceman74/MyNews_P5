@@ -1,56 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<!--
+  ~ Copyright (c) 2019. Aceman. All rights reserved.
+  ~ Developed by Aceman.
+  ~ Data provided by The New York Times API.
+  ~ https://developer.nytimes.com/
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_id"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dip"
-    >
+    android:orientation="horizontal"
+    android:padding="2dp">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/fragment_main_item_image"
-            android:layout_width="110dip"
-            android:layout_height="110dip"/>
-
-        <TextView
-            android:id="@+id/fragment_main_item_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_margin="5dp"/>
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
 
     </LinearLayout>
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/fragment_main_item_categorie"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="italic"/>
-        <TextView
-            android:id="@+id/fragment_main_item_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textStyle="italic"
-            android:textAlignment="viewEnd"
-            />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/fragment_main_item_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            android:layout_weight="1"
+            android:layout_margin="2dp">
+
+            <TextView
+                android:id="@+id/fragment_main_item_categorie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="italic"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/fragment_main_item_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textStyle="italic"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

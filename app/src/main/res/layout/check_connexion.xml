@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. Aceman. All rights reserved.
+  ~ Developed by Aceman.
+  ~ Data provided by The New York Times API.
+  ~ https://developer.nytimes.com/
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout_check_connexion"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/check_connexion"
+        android:padding="10dp"
+        />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="5"
+        android:gravity="center">
+    <Button
+        android:id="@+id/retry_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/retry"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:padding="5dp"
+        android:layout_margin="5dp"/>
+
+    </LinearLayout>
+</LinearLayout>

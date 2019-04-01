@@ -1,13 +1,8 @@
 package com.aceman.mynews.ui.notifications.activities;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,22 +18,27 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.jobs.SampleBootReceiver;
+import com.aceman.mynews.jobs.DailyWorker;
+import com.aceman.mynews.ui.search.activities.CategoriesCheck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import androidx.work.Data;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NotificationActivity extends AppCompatActivity {
+    public static int mFirstNot;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.notification_switch)
     Switch mNotificationSwitch;
     @BindView(R.id.activity_notifications_search_query)
     EditText mNotificationSearchQuery;
-    private PendingIntent pendingIntentNotification;
     String mSearchResult;
     @BindView(R.id.checkbox_business)
     CheckBox mBusiness;
@@ -53,131 +53,67 @@ public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.checkbox_travel)
     CheckBox mTravel;
     List<Boolean> mCheckList;
-
+    SharedPreferences mSharedPreferences;
+    int mJob;
+    String mCategorieResult;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
         ButterKnife.bind(this);
         this.configureToolbar();
         mCheckList = new ArrayList<>();
+        loadPref();
+        Intent intent = getIntent();
+        mSearchResult = intent.getStringExtra("Search");
         setNotificationSwitch();
         searchQueryListener();
-        setCheckListSize();
-        checkBoxListnener();
+        CategoriesCheck.setCheckListSize(mCheckList);
+        CategoriesCheck.checkBoxListnener(mBusiness, mTech, mFood, mMovies, mSports, mTravel, mCheckList);
+        clickListener();
     }
 
-    void setCheckListSize() {
-        for (int i = 0; i < 6; i++) {
-            mCheckList.add(false);
-        }
-    }
-
-    public List<Boolean> checkBoxListnener() {
-
-        mBusiness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Business is Checked!");
-                    mCheckList.set(0, true);
-                } else {
-                    Log.i("Categories", "Business is Unchecked!");
-                    mCheckList.set(0, false);
-                }
-            }
-        });
-        mTech.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Cars is Checked!");
-                    mCheckList.set(1, true);
-                } else {
-                    Log.i("Categories", "Cars is Unchecked!");
-                    mCheckList.set(1, false);
-                }
-            }
-        });
-        mFood.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Food is Checked!");
-                    mCheckList.set(2, true);
-                } else {
-                    Log.i("Categories", "Food is Unchecked!");
-                    mCheckList.set(2, false);
-                }
-            }
-        });
-        mMovies.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Movies is Checked!");
-                    mCheckList.set(3, true);
-                } else {
-                    Log.i("Categories", "Movies is Unchecked!");
-                    mCheckList.set(3, false);
-                }
-            }
-        });
-        mSports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Sports is Checked!");
-                    mCheckList.set(4, true);
-                } else {
-                    Log.i("Categories", "Sports is Unchecked!");
-                    mCheckList.set(4, false);
-                }
-            }
-        });
-        mTravel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Log.i("Categories", "Travel is Checked!");
-                    mCheckList.set(5, true);
-                } else {
-                    Log.i("Categories", "Travel is Unchecked!");
-                    mCheckList.set(5, false);
-                }
-            }
-        });
-        return mCheckList;
-    }
-
-
-    private void configureToolbar(){
+    public void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
     }
-    public void setNotificationSwitch(){
 
+    public void setNotificationSwitch() {
+
+        if (mJob == 1) {
+            mNotificationSwitch.setChecked(true);
+            mNotificationSearchQuery.setText(mSearchResult);
+            mNotificationSwitch.setEnabled(true);
+        }
 
         mNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
+                    mCategorieResult = CategoriesCheck.getQueryCategories(mCheckList);
                     setNotificationOn();
-                    Log.i("NotificationActivity","Notification Checked!");
-                }else{
+                    mJob = 1;
+
+                    Log.i("NotificationActivity", "Notification Checked!");
+                } else {
                     setNotificationOff();
-                    Log.i("NotificationActivity","Notification Unchecked!");
+                    mJob = 0;
+                    Log.i("NotificationActivity", "Notification Unchecked!");
                 }
+
+                savePref();
             }
         });
     }
 
-    public void searchQueryListener(){
+    public void searchQueryListener() {
+
         mNotificationSearchQuery.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -191,12 +127,14 @@ public class NotificationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mSearchResult  = mNotificationSearchQuery.getText().toString();
+                mSearchResult = mNotificationSearchQuery.getText().toString();
+                checkState();
                 onHitEnter();
             }
         });
     }
-    private void onHitEnter() { //  Handle the enter key
+
+    public void onHitEnter() { //  Handle the enter key
 
         mNotificationSearchQuery.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -211,36 +149,94 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
-    private void setNotificationOn() {
+    private void checkState() {
+        if(mNotificationSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
+            mNotificationSwitch.setEnabled(true);
+        }else{
+            mNotificationSwitch.setEnabled(false);
+        }
+    }
 
-        enableReceiver();
-        AlarmManager notification = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        notification.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+10*1000, AlarmManager.INTERVAL_HALF_DAY, pendingIntentNotification);
+    public void setNotificationOn() {
+        Data notificationData = new Data.Builder()
+                .putString("Query", mSearchResult)
+                .putString("Categorie", mCategorieResult)
+                .putInt("FirstNotification", mFirstNot)
+                .build();
+
+        PeriodicWorkRequest notifRequestDay = new PeriodicWorkRequest.Builder(DailyWorker.class, 1, TimeUnit.DAYS)
+                .addTag("RequestDaliy")
+                .setInputData(notificationData)
+                .build();
+
+        WorkManager.getInstance().enqueue(notifRequestDay);
         Toast.makeText(this, "Notifications set !", Toast.LENGTH_SHORT).show();
     }
 
-    private void setNotificationOff() {
-        disableReceiver();
-        AlarmManager notification = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        notification.cancel(pendingIntentNotification);
+    public void setNotificationOff() {
+        mFirstNot = 0;
+        WorkManager.getInstance().cancelAllWorkByTag("RequestDaliy");
+        WorkManager.getInstance().cancelAllWork();
         Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
     }
 
-    private void enableReceiver() {
-        ComponentName receiver = new ComponentName(getApplicationContext(), SampleBootReceiver.class);
-        PackageManager pm = getApplicationContext().getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
+    public void savePref() {
+        mSharedPreferences = getSharedPreferences("Notification", MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt("Job", mJob)
+                .putString("Query", mSearchResult)
+                .apply();
     }
 
-    private void disableReceiver() {
-        ComponentName receiver = new ComponentName(getApplicationContext(), SampleBootReceiver.class);
-        PackageManager pm = getApplicationContext().getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
+    public void loadPref() {
+        mSharedPreferences = getSharedPreferences("Notification", MODE_PRIVATE);
+        mJob = mSharedPreferences.getInt("Job", mJob);
+        mSearchResult = mSharedPreferences.getString("Query", mSearchResult);
+    }
+    public void finish(){
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+    public void onPause(){
+        super.onPause();
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+    }
+    void clickListener(){
+        mBusiness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mMovies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mSports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mTech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
+        mTravel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkState();
+            }
+        });
     }
 }

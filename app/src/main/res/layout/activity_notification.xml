@@ -20,7 +20,7 @@
         android:layout_margin="20dp"
         android:hint="@string/search_query_term"
         android:inputType="text"
-        android:maxLines="1"/>
+        android:maxLines="1" />
 
     <include
         android:id="@+id/layout_notification_categories"
@@ -41,6 +41,7 @@
             android:id="@+id/notification_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:padding="20dp"
             android:text="@string/enable_notifications" />
 

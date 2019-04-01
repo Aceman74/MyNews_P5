@@ -5,6 +5,10 @@ sudo: false
 before_install:
  - chmod +x gradlew
 
+notifications:
+  email:
+  - thedmx74@hotmail.fr
+
 android:
   components:
     - platform-tools

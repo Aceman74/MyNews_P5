@@ -7,12 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.data.models.shared.Multimedium;
 import com.aceman.mynews.data.models.shared.SharedDoc;
 import com.aceman.mynews.ui.navigations.activities.WebviewActivity;
 import com.bumptech.glide.RequestManager;
@@ -33,24 +33,6 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
     private Context mContext;
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.fragment_main_item_title)
-        TextView mTitle;
-        @BindView(R.id.fragment_main_item_categorie)
-        TextView mCategorie;
-        @BindView(R.id.fragment_main_item_date)
-        TextView mDate;
-        @BindView(R.id.fragment_main_item_image)
-        ImageView mImageView;
-        @BindView(R.id.item_id)
-        LinearLayout mItemListener;
-
-        public MyViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this,view);
-        }
-    }
-
     public SharedAdapter(List<SharedDoc> listResult, RequestManager glide, Context context) {
         this.mSharedDocs = listResult;
         this.glide = glide;
@@ -62,22 +44,24 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View sharedView = inflater.inflate(R.layout.fragment_item, parent, false);
-MyViewHolder myViewHolder = new MyViewHolder(sharedView);
+        MyViewHolder myViewHolder = new MyViewHolder(sharedView);
         return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         updateWithFreshInfo(this.mSharedDocs.get(position), this.glide, holder);
+        setFadeAnimation(holder.itemView);
 
     }
 
     public void updateWithFreshInfo(final SharedDoc item, RequestManager glide, MyViewHolder holder) {
+
         holder.mTitle.setText(item.getHeadline().getMain());
         holder.mCategorie.setText(item.getSectionName());
         holder.mDate.setText(item.getPubDate().substring(0, 10)); // Get the date without hour
         if (item.getMultimedia().isEmpty()) { //  Check empty media
-            setThumbnail(item,holder); //  Set categorie thumb if not in media
+            setThumbnail(item, holder); //  Set categorie thumb if not in media
         } else {
 
 
@@ -99,14 +83,14 @@ MyViewHolder myViewHolder = new MyViewHolder(sharedView);
             public void onClick(View v) {   //  Webview intent
                 Log.i("CLICK ITEM", "Ca marche?");
                 Intent webView = new Intent(mContext, WebviewActivity.class);
-                webView.putExtra("articleUrl", item.getWebUrl());
+                webView.putExtra("UrlWebview", item.getWebUrl());
                 mContext.startActivity(webView);
             }
         });
 
     }
 
-    private void setThumbnail(SharedDoc item, MyViewHolder holder) {
+    public void setThumbnail(SharedDoc item, MyViewHolder holder) {
         String categorie = item.getSectionName();
         switch (categorie) {
             case "Business":
@@ -135,4 +119,26 @@ MyViewHolder myViewHolder = new MyViewHolder(sharedView);
         return this.mSharedDocs.size();
     }
 
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.fragment_main_item_title)
+        TextView mTitle;
+        @BindView(R.id.fragment_main_item_categorie)
+        TextView mCategorie;
+        @BindView(R.id.fragment_main_item_date)
+        TextView mDate;
+        @BindView(R.id.fragment_main_item_image)
+        ImageView mImageView;
+        @BindView(R.id.item_id)
+        LinearLayout mItemListener;
+
+        public MyViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+    public void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(200);
+        view.startAnimation(anim);
+    }
 }

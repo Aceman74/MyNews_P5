@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/firstlayout"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/firstlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:theme="@style/AppTheme_alt"
-    tools:context=".ui.notifications.activities.NotificationActivity">
+    tools:context=".ui.notifications.activities.NotificationActivity"
+    android:animateLayoutChanges="true">
 
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <LinearLayout
         android:id="@+id/fragment_place_search_activity"
         android:layout_width="match_parent"
@@ -20,48 +22,49 @@
 
 
         >
-    <EditText
-        android:id="@+id/activity_search_search_query"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:hint="@string/search_query_term"
-        android:maxLines="1"
-        android:inputType="text"/>
 
-    <LinearLayout
-        android:id="@+id/time_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/textview_from_date"
-            style="@style/Widget.AppCompat.Spinner"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/activity_search_search_query"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_weight="1"
-            android:background="?attr/editTextBackground"
-            android:drawableEnd="@drawable/arrow_down"
-            android:text="@string/begin_date" />
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:hint="@string/search_query_term"
+            android:inputType="text"
+            android:maxLines="1" />
 
-        <TextView
-            android:id="@+id/textview_to_date"
-            style="@style/Widget.AppCompat.Spinner"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/time_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_weight="1"
-            android:background="?attr/editTextBackground"
-            android:drawableEnd="@drawable/arrow_down"
-            android:text="@string/end_date" />
-    </LinearLayout>
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textview_from_date"
+                style="@style/Widget.AppCompat.Spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_weight="1"
+                android:background="?attr/editTextBackground"
+                android:drawableEnd="@drawable/arrow_down"
+                android:text="@string/begin_date" />
+
+            <TextView
+                android:id="@+id/textview_to_date"
+                style="@style/Widget.AppCompat.Spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_weight="1"
+                android:background="?attr/editTextBackground"
+                android:drawableEnd="@drawable/arrow_down"
+                android:text="@string/end_date" />
+        </LinearLayout>
 
         <include
             android:id="@+id/layout_search_categories"
@@ -69,29 +72,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/btn_layout"
-        android:divider="@android:color/darker_gray"
-        android:dividerPadding="30dp"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:showDividers="beginning">
-
-        <Button
-            android:id="@+id/activity_search_btn"
+        <LinearLayout
+            android:id="@+id/btn_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@color/colorPrimary"
-            android:enabled="false"
-            android:text="@string/search"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:divider="@android:color/darker_gray"
+            android:dividerPadding="30dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:showDividers="beginning">
+
+            <Button
+                android:id="@+id/activity_search_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@color/colorPrimary"
+                android:enabled="false"
+                android:text="@string/search"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
 
 
-</LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

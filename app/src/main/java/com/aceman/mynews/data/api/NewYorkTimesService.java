@@ -1,8 +1,8 @@
 package com.aceman.mynews.data.api;
 
-import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.search.Search;
+import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.data.models.topstories.TopStories;
 
 import io.reactivex.Observable;
@@ -18,11 +18,19 @@ import retrofit2.http.Query;
  */
 public interface NewYorkTimesService {
 
-    @GET("topstories/v2/home.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")    // TopStories call
-    Observable<TopStories> streamGetTopStories(@Query("page") String page);
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://api.nytimes.com/svc/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
 
-    @GET("mostpopular/v2/viewed/{period}.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")   //  MostPopular call
-    Observable<MostPopular> streamGetMostPopular(@Path("period")int period);
+    @GET("topstories/v2/home.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
+        // TopStories call
+    Observable<TopStories> streamGetTopStories();
+
+    @GET("mostpopular/v2/viewed/{period}.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
+        //  MostPopular call
+    Observable<MostPopular> streamGetMostPopular(@Path("period") int period);
 
     @GET("search/v2/articlesearch.json?fq=section_name:(\"Business\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
     Observable<SharedObservable> streamGetBusiness();
@@ -41,15 +49,9 @@ public interface NewYorkTimesService {
 
     @GET("search/v2/articlesearch.json?fq=section_name:(\"Travel\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
     Observable<SharedObservable> streamGetTravel();
+    // begin_date= (YYYY/MM/DD), end_date= (YYYY/MM/DD), q= (query), fq= (news_desk:("categorie" " categorie"))
 
     @GET("search/v2/articlesearch.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
     Observable<Search> streamGetSearch(@Query("begin_date") String begin, @Query("end_date") String end, @Query("q") String query, @Query("fq") String categorie);
-    // begin_date= (YYYY/MM/DD), end_date= (YYYY/MM/DD), q= (query), fq= (news_desk:("categorie" " categorie"))
-
-      Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.nytimes.com/svc/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build();
 }
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,24 +30,6 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
     private RequestManager glide;
     private Context mContext;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.fragment_main_item_title)
-        TextView mTitle;
-        @BindView(R.id.fragment_main_item_categorie)
-        TextView mCategorie;
-        @BindView(R.id.fragment_main_item_date)
-        TextView mDate;
-        @BindView(R.id.fragment_main_item_image)
-        ImageView mImageView;
-        @BindView(R.id.item_id)
-        LinearLayout mItemListener;
-
-        public MyViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this,view);
-        }
-    }
-
     public MostPopularAdapter(List<PopularResult> listPopularResult, RequestManager glide, Context context) {
         this.mMostPopular = listPopularResult;
         this.glide = glide;
@@ -58,13 +41,14 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View popularView = inflater.inflate(R.layout.fragment_item, parent, false);
-       MyViewHolder myViewHolder = new MyViewHolder(popularView);
+        MyViewHolder myViewHolder = new MyViewHolder(popularView);
         return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         updateWithFreshInfo(this.mMostPopular.get(position), this.glide, holder);
+        setFadeAnimation(holder.itemView);
     }
 
     public void updateWithFreshInfo(final PopularResult item, RequestManager glide, MyViewHolder holder) {
@@ -89,7 +73,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
             public void onClick(View v) {
                 Log.i("CLICK ITEM", "Ca marche?");
                 Intent webView = new Intent(mContext, WebviewActivity.class);
-                webView.putExtra("articleUrl", item.getUrl());
+                webView.putExtra("UrlWebview", item.getUrl());
                 mContext.startActivity(webView);
             }
         });
@@ -102,5 +86,28 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
 
     public PopularResult mStories(int position) {
         return this.mMostPopular.get(position);
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.fragment_main_item_title)
+        TextView mTitle;
+        @BindView(R.id.fragment_main_item_categorie)
+        TextView mCategorie;
+        @BindView(R.id.fragment_main_item_date)
+        TextView mDate;
+        @BindView(R.id.fragment_main_item_image)
+        ImageView mImageView;
+        @BindView(R.id.item_id)
+        LinearLayout mItemListener;
+
+        public MyViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+    public void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(200);
+        view.startAnimation(anim);
     }
 }

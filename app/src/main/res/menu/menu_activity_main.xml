@@ -3,24 +3,20 @@
     <item
         android:id="@+id/menu_activity_main_search"
         android:icon="@drawable/search"
-        app:showAsAction="ifRoom"
-        android:title="@string/search">
-    </item>
+        android:title="@string/search"
+        app:showAsAction="ifRoom"></item>
     <item
         android:id="@+id/menu_activity_main_notification"
         android:icon="@drawable/notification"
-        app:showAsAction="collapseActionView"
-        android:title="@string/notfication_menu">
-    </item>
+        android:title="@string/notfication_menu"
+        app:showAsAction="collapseActionView"></item>
     <item
         android:id="@+id/menu_activity_main_help"
         android:icon="@drawable/help"
-        app:showAsAction="collapseActionView"
-        android:title="@string/help">
-    </item>
+        android:title="@string/help"
+        app:showAsAction="collapseActionView"></item>
     <item
         android:id="@+id/menu_activity_main_about"
-        app:showAsAction="collapseActionView"
-        android:title="@string/about">
-    </item>
+        android:title="@string/about"
+        app:showAsAction="collapseActionView"></item>
 </menu>

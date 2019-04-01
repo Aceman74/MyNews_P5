@@ -7,8 +7,7 @@
         <item
             android:id="@+id/activity_main_drawer_news"
             android:icon="@drawable/more"
-            android:title="@string/my_news"
-            />
+            android:title="@string/my_news" />
     </group>
     <item android:title="@string/menu">
         <menu>
@@ -32,9 +31,9 @@
             <group android:checkableBehavior="single">
                 <item
 
-                android:id="@+id/activity_main_drawer_topstories"
-                android:icon="@drawable/star"
-                android:title="@string/top_stories_tab" />
+                    android:id="@+id/activity_main_drawer_topstories"
+                    android:icon="@drawable/star"
+                    android:title="@string/top_stories_tab" />
                 <item
                     android:id="@+id/activity_main_drawer_mostpopulate"
                     android:icon="@drawable/arrow_up_right"

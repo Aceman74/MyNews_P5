@@ -1,8 +1,8 @@
-
 package com.aceman.mynews.data.models.mostpopular;
 
-import java.util.List;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class PopularResult {
 
@@ -18,6 +18,8 @@ public class PopularResult {
     private Object mColumn;
     @SerializedName("id")
     private Long mId;
+    @SerializedName("des_facet")
+    private List<String> mDesFacet;
     @SerializedName("media")
     private List<Medium> mMedia;
     @SerializedName("published_date")
@@ -47,6 +49,13 @@ public class PopularResult {
 
     public String getAdxKeywords() {
         return mAdxKeywords;
+    }
+    public List<String> getDesFacet() {
+        return mDesFacet;
+    }
+
+    public void setDesFacet(List<String> desFacet) {
+        mDesFacet = desFacet;
     }
 
     public void setAdxKeywords(String adxKeywords) {

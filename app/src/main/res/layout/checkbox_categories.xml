@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/categories_fragment"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categories_fragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.search.activities.SearchActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.search.activities.SearchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:gravity="center">
+        android:padding="10dp">
 
         <CheckBox
             android:id="@+id/checkbox_business"
@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/business_tab"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="@string/business_tab" />
 
         <CheckBox
             android:id="@+id/checkbox_tech"
@@ -29,16 +29,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/tech_tab"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="@string/tech_tab" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:gravity="center">
+        android:padding="10dp">
 
 
         <CheckBox
@@ -47,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/food_tab"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="@string/food_tab" />
 
         <CheckBox
             android:id="@+id/checkbox_movies"
@@ -56,18 +56,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/movies_tab"
             android:layout_weight="1"
-            />
+            android:text="@string/movies_tab" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:gravity="center">
+        android:padding="10dp">
 
 
         <CheckBox
@@ -76,18 +75,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/sport_tab"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="@string/sport_tab" />
 
         <CheckBox
             android:id="@+id/checkbox_travel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:text="@string/travel_tab"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
+            android:text="@string/travel_tab" />
     </LinearLayout>
 
 </LinearLayout>
