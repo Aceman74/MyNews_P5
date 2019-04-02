@@ -19,8 +19,8 @@ public class NewsStream {
     public static Observable<TopStories> streamGetTopStories() {
         NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
         return newsStream.streamGetTopStories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())   //  Run call on another thread
+                .observeOn(AndroidSchedulers.mainThread())  //  Observe on the Main thread
                 .timeout(10, TimeUnit.SECONDS);
     }
 

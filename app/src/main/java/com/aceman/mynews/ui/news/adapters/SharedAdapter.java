@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,9 +57,12 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
 
     }
 
-    public void updateWithFreshInfo(final SharedDoc item, RequestManager glide, MyViewHolder holder) {
+    public void updateWithFreshInfo(final SharedDoc item, RequestManager glide, final MyViewHolder holder) {
 
         holder.mTitle.setText(item.getHeadline().getMain());
+        if(item.getHeadline().getMain().isEmpty()){
+           holder.mTitle.setText(R.string.embedded_video);
+        }
         holder.mCategorie.setText(item.getSectionName());
         holder.mDate.setText(item.getPubDate().substring(0, 10)); // Get the date without hour
         if (item.getMultimedia().isEmpty()) { //  Check empty media
@@ -85,6 +90,8 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getWebUrl());
                 mContext.startActivity(webView);
+                Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
+                holder.mItemListener.startAnimation(onClick);
             }
         });
 
@@ -93,7 +100,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
     public void setThumbnail(SharedDoc item, MyViewHolder holder) {
         String categorie = item.getSectionName();
         switch (categorie) {
-            case "Business":
+            case "Business Day":
                 holder.mImageView.setImageResource(R.drawable.business_thumb);
                 break;
             case "Food":

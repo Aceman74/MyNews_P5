@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,7 +54,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         setFadeAnimation(holder.itemView);
     }
 
-    public void updateWithFreshInfo(final Doc item, RequestManager glide, MyViewHolder holder) {
+    public void updateWithFreshInfo(final Doc item, RequestManager glide, final MyViewHolder holder) {
         holder.mTitle.setText(item.getHeadline().getMain());
         holder.mCategorie.setText(item.getSectionName());
         holder.mDate.setText(item.getPubDate().substring(0, 10));
@@ -75,6 +77,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getWebUrl());
                 mContext.startActivity(webView);
+                Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
+                holder.mItemListener.startAnimation(onClick);
             }
         });
     }

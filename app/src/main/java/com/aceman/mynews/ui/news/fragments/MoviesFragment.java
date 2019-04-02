@@ -33,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MoviesFragment extends FragmentsBase {
+public class MoviesFragment extends BaseFragment {
     @BindView(R.id.movies_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_movies)
@@ -71,14 +71,18 @@ public class MoviesFragment extends FragmentsBase {
     }
 
     @Override
+    public List getMResponse() {
+        return mResponse;
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        configureRecyclerView();
-        executeHttpRequestWithRetrofit();
         isOnline();
+        new AsyncRetrofitRequest().execute("request");
+        configureRecyclerView();
         return view;
     }
 
@@ -105,20 +109,20 @@ public class MoviesFragment extends FragmentsBase {
             this.mDisposable = NewsStream.streamGetMovies().subscribeWith(new DisposableObserver<SharedObservable>() {
                 @Override
                 public void onNext(SharedObservable details) {
-                    Log.e("CARS_Next", "On Next");
+                    Log.e("MOVIES_Next", "On Next");
                     mProgressBar.setVisibility(View.GONE);
                     updateUI(details);
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
+                    Log.e("MOVIES_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onComplete() {
-                    Log.e("CARS_Complete", "On Complete !!");
+                    Log.e("MOVIES_Complete", "On Complete !!");
                 }
             });
         } else {
@@ -137,6 +141,6 @@ public class MoviesFragment extends FragmentsBase {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult(details);
+        ifNoResult();
     }
 }

@@ -33,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopStoriesFragment extends FragmentsBase {
+public class TopStoriesFragment extends BaseFragment {
     Disposable disposable;
     List<TopStorieResult> mTopStories;
     TopStoriesAdapter adapter;
@@ -72,21 +72,25 @@ public class TopStoriesFragment extends FragmentsBase {
     }
 
     @Override
+    public List getMResponse() {
+        return mTopStories;
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        configureRecyclerView();
-        executeHttpRequestWithRetrofit();
         isOnline();
+        configureRecyclerView();
+        new AsyncRetrofitRequest().execute("request");
         return view;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        this.disposeWhenDestroy();
+        disposeWhenDestroy();
     }
 
     public void configureRecyclerView() {
@@ -122,6 +126,7 @@ public class TopStoriesFragment extends FragmentsBase {
 
                 @Override
                 public void onComplete() {
+
                     Log.e("TOP_Complete", "On Complete !!");
                 }
             });
@@ -142,6 +147,6 @@ public class TopStoriesFragment extends FragmentsBase {
         mTopStories.addAll(details.getTopStorieResults());
         adapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult(details);
+        ifNoResult();
     }
 }

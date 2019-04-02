@@ -92,7 +92,6 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
                 mContext.startActivity(webView);
                 Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
                 holder.mItemListener.startAnimation(onClick);
-             //   holder.mItemListener.setAlpha(0.5f);
 
 
 

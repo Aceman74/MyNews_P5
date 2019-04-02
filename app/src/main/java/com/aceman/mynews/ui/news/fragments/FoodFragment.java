@@ -33,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FoodFragment extends FragmentsBase {
+public class FoodFragment extends BaseFragment {
     @BindView(R.id.food_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_food)
@@ -71,14 +71,19 @@ public class FoodFragment extends FragmentsBase {
     }
 
     @Override
+    public List getMResponse() {
+        return mResponse;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        configureRecyclerView();
-        executeHttpRequestWithRetrofit();
         isOnline();
+        new AsyncRetrofitRequest().execute("request");
+        configureRecyclerView();
         return view;
     }
 
@@ -105,20 +110,20 @@ public class FoodFragment extends FragmentsBase {
             this.mDisposable = NewsStream.streamGetFood().subscribeWith(new DisposableObserver<SharedObservable>() {
                 @Override
                 public void onNext(SharedObservable details) {
-                    Log.e("CARS_Next", "On Next");
+                    Log.e("FOOD_Next", "On Next");
                     mProgressBar.setVisibility(View.GONE);
                     updateUI(details);
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
+                    Log.e("FOOD_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onComplete() {
-                    Log.e("CARS_Complete", "On Complete !!");
+                    Log.e("FOOD_Complete", "On Complete !!");
                 }
             });
         } else {
@@ -137,7 +142,7 @@ public class FoodFragment extends FragmentsBase {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult(details);
+        ifNoResult();
     }
 }
 

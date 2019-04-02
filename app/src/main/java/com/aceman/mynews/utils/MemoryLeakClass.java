@@ -11,6 +11,7 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
+
 /**
  * Created by Lionel JOFFRAY - on 30/03/2019.
  */

@@ -33,11 +33,17 @@
     <string name="notif_pos_text_3">&#160; Daily Search.</string>
     <string name="notif_neg_text_1">Hello! Sadly there is no new article for your &#160;</string>
     <string name="notif_neg_text_2">&#160; Daily Search. Click here if you want to change your search.</string>
-    <string name="copyright">  Copyright © 2019. Aceman. All rights reserved.\nDeveloped by Aceman.\nData provided by The New York Times API.\nhttps://developer.nytimes.com/</string>
+    <string name="copyright">  Copyright © 2019. Aceman. All rights reserved.\nDeveloped by Lionel JOFFRAY.\nData provided by The New York Times API.\nhttps://developer.nytimes.com/</string>
     <string name="copyright_text">Copyright</string>
+    <string name="help_title">Help</string>
     <string name="retry">Retry</string>
     <string name="Mynews_logo_desc">Mynews logo</string>
     <string name="check_connexion_image_desc">check connexion image</string>
     <string name="nyt_logo_for_copyright_desc">NYT logo for copyright</string>
     <string name="close">close</string>
+    <string name="help_drawer">You can navigate horizontally to the category you want.</string>
+    <string name="help_menu_hamburger">Click the hamburger menu for a alternative view of all categories and options.</string>
+    <string name="help_search_txt">By clicking this icon, you can search articles by Categories. At least one category must be check to start the search.</string>
+    <string name="help_menu_right">This menu open 3 choices to you, notification, help and copyright.</string>
+    <string name="embedded_video">Embedded Video on New York Times website</string>
 </resources>

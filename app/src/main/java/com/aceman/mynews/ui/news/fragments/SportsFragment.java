@@ -33,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SportsFragment extends FragmentsBase {
+public class SportsFragment extends BaseFragment {
     @BindView(R.id.sports_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_sports)
@@ -71,14 +71,18 @@ public class SportsFragment extends FragmentsBase {
     }
 
     @Override
+    public List getMResponse() {
+        return mResponse;
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sports, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        configureRecyclerView();
-        executeHttpRequestWithRetrofit();
         isOnline();
+        new AsyncRetrofitRequest().execute("request");
+        configureRecyclerView();
         return view;
     }
 
@@ -105,7 +109,7 @@ public class SportsFragment extends FragmentsBase {
             this.mDisposable = NewsStream.streamGetSports().subscribeWith(new DisposableObserver<SharedObservable>() {
                 @Override
                 public void onNext(SharedObservable details) {
-                    Log.e("CARS_Next", "On Next");
+                    Log.e("SPORTS_Next", "On Next");
                     mProgressBar.setVisibility(View.GONE);
                     updateUI(details);
 
@@ -113,13 +117,13 @@ public class SportsFragment extends FragmentsBase {
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
+                    Log.e("SPORTS_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onComplete() {
-                    Log.e("CARS_Complete", "On Complete !!");
+                    Log.e("SPORTS_Complete", "On Complete !!");
 
                 }
             });
@@ -139,6 +143,6 @@ public class SportsFragment extends FragmentsBase {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult(details);
+        ifNoResult();
     }
 }

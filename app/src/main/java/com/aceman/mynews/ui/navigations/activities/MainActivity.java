@@ -3,6 +3,7 @@ package com.aceman.mynews.ui.navigations.activities;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,14 +17,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.ui.navigations.adapter.PageAdapter;
 import com.aceman.mynews.ui.notifications.activities.NotificationActivity;
 import com.aceman.mynews.ui.search.activities.SearchActivity;
 import com.aceman.mynews.utils.CopyrightDialog;
+import com.aceman.mynews.utils.HelpDialog;
 import com.bumptech.glide.Glide;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,15 +56,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Icepick.restoreInstanceState(this, savedInstanceState);
         configureToolBar();
         configureDrawerLayout();
-        configureViewPagerAndTabs();
+        configureViewPagerAndTabs();    //  cause frame skip
         configureNavigationView();
-        createNotificationChannel();
-        testOnClickTOOLBAR();
+         new onLaunchMainActivity().execute("notification and glide cache");
     }
 
     @Override protected void onDestroy() {
         super.onDestroy();
         pager.setAdapter(null);
+        Glide.get(getApplicationContext()).clearMemory();
     }
 
     @Override
@@ -79,15 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu and add it to the Toolbar
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         return true;
-    }
-
-    public void testOnClickTOOLBAR(){
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),SearchActivity.class));
-            }
-        });
     }
 
     @Override
@@ -108,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.menu_activity_main_help:
                 Log.d("MainActivity", "Click Help");
+                HelpDialog.openHelp(this);
                 return true;
             case R.id.menu_activity_main_about:
                 CopyrightDialog.openCopyright(this);
@@ -125,11 +120,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void configureViewPagerAndTabs() {
-        //Set Adapter PageAdapter and glue it together
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(), getApplicationContext()));
-        // 2 - Glue TabLayout and ViewPager together
         tabs.setupWithViewPager(pager);
-        // 3 - Design purpose. Tabs have the same width
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
     }
@@ -194,6 +186,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void configureNavigationView() {
         mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public class onLaunchMainActivity extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            createNotificationChannel();
+            Glide.get(getApplicationContext()).clearDiskCache();
+            Log.d("Async","Executed!");
+            return null;
+        }
     }
 
     public void createNotificationChannel() {

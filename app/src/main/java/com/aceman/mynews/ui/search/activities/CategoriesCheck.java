@@ -104,10 +104,10 @@ public class CategoriesCheck {
         String cat5 = "";
         String cat6 = "";
         if (mCheckList.get(0)) {
-            cat1 = "\"Business\"";
+            cat1 = "\"Business Day\"";
         }
         if (mCheckList.get(1)) {
-            cat2 = "\"Tech\"";
+            cat2 = "\"Technology\"";
         }
         if (mCheckList.get(2)) {
             cat3 = "\"Food\"";
@@ -121,7 +121,7 @@ public class CategoriesCheck {
         if (mCheckList.get(5)) {
             cat6 = "\"Travel\"";
         }
-        String categorie = "news_desk:(" + cat1 + " " + cat2 + cat3 + cat4 + cat5 + cat6 + " )";
+        String categorie = "news_desk:(" + cat1 + cat2 + cat3 + cat4 + cat5 + cat6 + " )";
 
         if (cat1.equals("") && cat2.equals("") && cat3.equals("") && cat4.equals("") && cat5.equals("") && cat6.equals("")) {
             categorie = null;

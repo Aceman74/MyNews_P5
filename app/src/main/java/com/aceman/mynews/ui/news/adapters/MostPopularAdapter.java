@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,7 +53,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
         setFadeAnimation(holder.itemView);
     }
 
-    public void updateWithFreshInfo(final PopularResult item, RequestManager glide, MyViewHolder holder) {
+    public void updateWithFreshInfo(final PopularResult item, RequestManager glide, final MyViewHolder holder) {
         holder.mTitle.setText(item.getTitle());
         holder.mCategorie.setText(item.getSection());
         holder.mDate.setText(item.getPublishedDate());
@@ -75,6 +77,8 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getUrl());
                 mContext.startActivity(webView);
+                Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
+                holder.mItemListener.startAnimation(onClick);
             }
         });
     }

@@ -33,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TravelFragment extends FragmentsBase {
+public class TravelFragment extends BaseFragment {
     @BindView(R.id.travel_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_travel)
@@ -69,6 +69,10 @@ public class TravelFragment extends FragmentsBase {
     public void getHttpRequest() {
         executeHttpRequestWithRetrofit();
     }
+    @Override
+    public List getMResponse() {
+        return mResponse;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,9 +80,9 @@ public class TravelFragment extends FragmentsBase {
         View view = inflater.inflate(R.layout.fragment_travel, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        configureRecyclerView();
-        executeHttpRequestWithRetrofit();
         isOnline();
+        new AsyncRetrofitRequest().execute("request");
+        configureRecyclerView();
         return view;
     }
 
@@ -105,20 +109,20 @@ public class TravelFragment extends FragmentsBase {
             this.mDisposable = NewsStream.streamGetTravel().subscribeWith(new DisposableObserver<SharedObservable>() {
                 @Override
                 public void onNext(SharedObservable details) {
-                    Log.e("CARS_Next", "On Next");
+                    Log.e("TRAVEL_Next", "On Next");
                     mProgressBar.setVisibility(View.GONE);
                     updateUI(details);
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("CARS_Error", "On Error" + Log.getStackTraceString(e));
+                    Log.e("TRAVEL_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onComplete() {
-                    Log.e("CARS_Complete", "On Complete !!");
+                    Log.e("TRAVEL_Complete", "On Complete !!");
                 }
             });
         } else {
@@ -137,6 +141,6 @@ public class TravelFragment extends FragmentsBase {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult(details);
+        ifNoResult();
     }
 }

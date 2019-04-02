@@ -33,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MostPopularFragment extends FragmentsBase {
+public class MostPopularFragment extends BaseFragment {
     @BindView(R.id.mostpopular_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_mostpopular)
@@ -72,14 +72,18 @@ public class MostPopularFragment extends FragmentsBase {
     }
 
     @Override
+    public List getMResponse() {
+        return mPopular;
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        configureRecyclerView();
-        executeHttpRequestWithRetrofit();
         isOnline();
+        new AsyncRetrofitRequest().execute("request");
+        configureRecyclerView();
         return view;
     }
 
@@ -138,6 +142,6 @@ public class MostPopularFragment extends FragmentsBase {
         mPopular.addAll(details.getPopularResults());
         adapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult(details);
+        ifNoResult();
     }
 }

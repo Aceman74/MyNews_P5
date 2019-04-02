@@ -32,7 +32,7 @@ public interface NewYorkTimesService {
         //  MostPopular call
     Observable<MostPopular> streamGetMostPopular(@Path("period") int period);
 
-    @GET("search/v2/articlesearch.json?fq=section_name:(\"Business\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
+    @GET("search/v2/articlesearch.json?fq=section_name:(\"Business Day\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
     Observable<SharedObservable> streamGetBusiness();
 
     @GET("search/v2/articlesearch.json?fq=section_name:(\"Technology\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")

@@ -33,7 +33,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TechnologyFragment extends FragmentsBase {
+public class TechnologyFragment extends BaseFragment {
     @BindView(R.id.tech_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_tech)
@@ -72,14 +72,18 @@ public class TechnologyFragment extends FragmentsBase {
     }
 
     @Override
+    public List getMResponse() {
+        return mResponse;
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tech, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        configureRecyclerView();
-        executeHttpRequestWithRetrofit();
         isOnline();
+        new AsyncRetrofitRequest().execute("request");
+        configureRecyclerView();
         return view;
     }
 
@@ -138,6 +142,6 @@ public class TechnologyFragment extends FragmentsBase {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult(details);
+        ifNoResult();
     }
 }
