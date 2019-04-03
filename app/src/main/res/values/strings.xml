@@ -26,8 +26,8 @@
     <string name="begin_date">Begin Date</string>
     <string name="end_date">End Date</string>
     <string name="menu">Menu</string>
-    <string name="channel_name">notification_channel</string>
-    <string name="channel_description">A notification chan</string>
+    <string name="channel_name">Daily news notification</string>
+    <string name="channel_description">A notification every 24h for your search</string>
     <string name="notif_pos_text_1">Good news! There is &#160;</string>
     <string name="notif_pos_text_2">&#160; articles for your &#160;</string>
     <string name="notif_pos_text_3">&#160; Daily Search.</string>

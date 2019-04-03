@@ -1,5 +1,7 @@
 package com.aceman.mynews.data.api;
 
+import android.util.Log;
+
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.data.models.shared.SharedObservable;
@@ -15,8 +17,8 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Lionel JOFFRAY - on 13/03/2019.
  */
 public class NewsStream {
-
     public static Observable<TopStories> streamGetTopStories() {
+
         NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
         return newsStream.streamGetTopStories()
                 .subscribeOn(Schedulers.io())   //  Run call on another thread
@@ -80,9 +82,9 @@ public class NewsStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<Search> streamGetSearch(String begin, String end, String query, String categorie) {
+    public static Observable<Search> streamGetSearch(String begin, String end, String query, String category) {
         NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetSearch(begin, end, query, categorie)
+        return newsStream.streamGetSearch(begin, end, query, category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
