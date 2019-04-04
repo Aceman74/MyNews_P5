@@ -15,6 +15,8 @@ import com.aceman.mynews.data.models.topstories.TopStories;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import retrofit2.HttpException;
 
 import static junit.framework.TestCase.assertEquals;
@@ -42,7 +44,7 @@ public class NewYorkTimesServiceTest {
     @Test
     public void streamGetTopStoriesTest() {
 
-        TopStories ts = mNewYorkTimesService.streamGetTopStories().blockingFirst();
+        TopStories ts = mNewYorkTimesService.streamGetTopStories().delay(5, TimeUnit.SECONDS).blockingFirst();
         // on verifie qu'on a bien une reponse
         assertNotNull(ts);
         // on verifie qu'il y a bien des articles dans la liste des resultats
@@ -59,7 +61,8 @@ public class NewYorkTimesServiceTest {
 
         int period = 7;
 
-        MostPopular mp = mNewYorkTimesService.streamGetMostPopular(period).blockingFirst();
+
+        MostPopular mp = mNewYorkTimesService.streamGetMostPopular(period).delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(mp);         // Test response
         assertTrue(mp.getPopularResults().size() > 0);      // Test if there's articles in list
         assertEquals(mp.getStatus(), statusOk);  //  Test status response
@@ -71,7 +74,7 @@ public class NewYorkTimesServiceTest {
         error = null;
 
         try {
-            MostPopular mp1 = mNewYorkTimesService.streamGetMostPopular(period).blockingFirst();
+            MostPopular mp1 = mNewYorkTimesService.streamGetMostPopular(period).delay(5, TimeUnit.SECONDS).blockingFirst();
             assertNotNull(mp1);         // Test response
         }catch (HttpException e){
             error = e.toString();
@@ -82,7 +85,7 @@ public class NewYorkTimesServiceTest {
     @Test
     public void streamGeBusinessTest() {
 
-        SharedObservable bu = mNewYorkTimesService.streamGetBusiness().blockingFirst();
+        SharedObservable bu = mNewYorkTimesService.streamGetBusiness().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(bu);        // Test response
         assertTrue(bu.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(bu.getStatus(), statusOk);  //  Test status response
@@ -93,7 +96,7 @@ public class NewYorkTimesServiceTest {
     @Test
     public void streamGeFoodTest() {
 
-        SharedObservable fo = mNewYorkTimesService.streamGetFood().blockingFirst();
+        SharedObservable fo = mNewYorkTimesService.streamGetFood().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(fo);        // Test response
         assertTrue(fo.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(fo.getStatus(), statusOk);  //  Test status response
@@ -104,7 +107,7 @@ public class NewYorkTimesServiceTest {
     @Test
     public void streamGeMoviesTest() {
 
-        SharedObservable mo = mNewYorkTimesService.streamGetMovies().blockingFirst();
+        SharedObservable mo = mNewYorkTimesService.streamGetMovies().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(mo);        // Test response
         assertTrue(mo.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(mo.getStatus(), statusOk);  //  Test status response
@@ -115,7 +118,7 @@ public class NewYorkTimesServiceTest {
     @Test
     public void streamGeSportsTest() {
 
-        SharedObservable sp = mNewYorkTimesService.streamGetSports().blockingFirst();
+        SharedObservable sp = mNewYorkTimesService.streamGetSports().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(sp);        // Test response
         assertTrue(sp.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(sp.getStatus(), statusOk);  //  Test status response
@@ -126,7 +129,7 @@ public class NewYorkTimesServiceTest {
     @Test
     public void streamGetTravelTest() {
 
-        SharedObservable tr = mNewYorkTimesService.streamGetTravel().blockingFirst();
+        SharedObservable tr = mNewYorkTimesService.streamGetTravel().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(tr);        // Test response
         assertTrue(tr.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(tr.getStatus(), statusOk);  //  Test status response
@@ -142,7 +145,7 @@ public class NewYorkTimesServiceTest {
         String query = null;
         String category = null;
 
-        Search se = mNewYorkTimesService.streamGetSearch(begin, end, query, category).blockingFirst();
+        Search se = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se);
         // Test if there's articles in list
@@ -158,7 +161,7 @@ public class NewYorkTimesServiceTest {
         begin = "Hello";
         error = null;
         try {
-            Search se1 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).blockingFirst();
+            Search se1 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
             // Test response
             assertNotNull(se1);
         } catch (HttpException e) {
@@ -173,7 +176,7 @@ public class NewYorkTimesServiceTest {
         query = "29";
         error = null;
 
-        Search se2 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).blockingFirst();
+        Search se2 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se2);
         assertTrue(se2.getSearchResponse().getDocs().size() > 0);  // Test if there's articles in list
@@ -185,7 +188,7 @@ public class NewYorkTimesServiceTest {
         query = "Cats";
         category = "Movies";
 
-        Search se3 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).blockingFirst();
+        Search se3 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se3);
         assertTrue(se3.getSearchResponse().getDocs().size() > 0);  // Test if there's articles in list

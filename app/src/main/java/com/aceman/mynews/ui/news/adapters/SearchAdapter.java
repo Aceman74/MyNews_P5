@@ -109,9 +109,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             ButterKnife.bind(this, view);
         }
     }
+
     public void setFadeAnimation(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(200);
+        Animation anim = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
         view.startAnimation(anim);
     }
 }

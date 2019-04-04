@@ -92,9 +92,6 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
                 mContext.startActivity(webView);
                 Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
                 holder.mItemListener.startAnimation(onClick);
-
-
-
             }
         });
     }
@@ -116,6 +113,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
         @BindView(R.id.item_id)
         LinearLayout mItemListener;
         String setCategroie;
+
         public MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -123,8 +121,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
     }
 
     public void setFadeAnimation(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(200);
+        Animation anim = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
         view.startAnimation(anim);
     }
 }

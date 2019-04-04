@@ -46,4 +46,6 @@
     <string name="help_search_txt">By clicking this icon, you can search articles by Categories. At least one category must be check to start the search.</string>
     <string name="help_menu_right">This menu open 3 choices to you, notification, help and copyright.</string>
     <string name="embedded_video">Embedded Video on New York Times website</string>
+    <string name="many_request">HTTP 429 Too Many Requests</string>
+    <string name="many_refresh">Too many request for New York Times, please wait before refresh.</string>
 </resources>

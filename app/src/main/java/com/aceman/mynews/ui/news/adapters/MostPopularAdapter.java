@@ -79,6 +79,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
                 mContext.startActivity(webView);
                 Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
                 holder.mItemListener.startAnimation(onClick);
+
             }
         });
     }
@@ -86,10 +87,6 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
     @Override
     public int getItemCount() {
         return this.mMostPopular.size();
-    }
-
-    public PopularResult mStories(int position) {
-        return this.mMostPopular.get(position);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -109,9 +106,9 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
             ButterKnife.bind(this, view);
         }
     }
+
     public void setFadeAnimation(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(200);
+        Animation anim = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
         view.startAnimation(anim);
     }
 }

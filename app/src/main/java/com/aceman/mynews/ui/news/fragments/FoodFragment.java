@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.data.api.NewsStream;
@@ -119,6 +120,8 @@ public class FoodFragment extends BaseFragment {
                 public void onError(Throwable e) {
                     Log.e("FOOD_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
+                    tooManyRefresh(e);  //  When user makes too many API call
+                    //  Needed on Technology and Food fragment for not spamming
                 }
 
                 @Override
@@ -144,5 +147,11 @@ public class FoodFragment extends BaseFragment {
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
         ifNoResult();
     }
-}
 
+    public void tooManyRefresh(Throwable e){
+        if(e.toString().contains(getString(R.string.many_request))){
+            Toast.makeText(getContext(),getString(R.string.many_refresh),Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+}
