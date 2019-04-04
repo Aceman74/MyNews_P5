@@ -38,7 +38,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetTopStoriesTest() {
+    public void streamGetTopStoriesTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         TopStories ts = mNewYorkTimesService.streamGetTopStories().delay(5, TimeUnit.SECONDS).blockingFirst();
         // on verifie qu'on a bien une reponse
@@ -53,7 +55,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetMostPopularTest() {
+    public void streamGetMostPopularTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         int period = 7;
 
@@ -68,6 +72,8 @@ public class NewYorkTimesServiceTest {
          period = 2;
         error = null;
 
+        Thread.sleep(2000);
+
         try {
             MostPopular mp1 = mNewYorkTimesService.streamGetMostPopular(period).delay(5, TimeUnit.SECONDS).blockingFirst();
             assertNotNull(mp1);         // Test response
@@ -78,7 +84,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGeBusinessTest() {
+    public void streamGeBusinessTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         SharedObservable bu = mNewYorkTimesService.streamGetBusiness().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(bu);        // Test response
@@ -89,7 +97,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGeFoodTest() {
+    public void streamGeFoodTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         SharedObservable fo = mNewYorkTimesService.streamGetFood().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(fo);        // Test response
@@ -100,7 +110,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGeMoviesTest() {
+    public void streamGeMoviesTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         SharedObservable mo = mNewYorkTimesService.streamGetMovies().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(mo);        // Test response
@@ -111,7 +123,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGeSportsTest() {
+    public void streamGeSportsTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         SharedObservable sp = mNewYorkTimesService.streamGetSports().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(sp);        // Test response
@@ -122,7 +136,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetTravelTest() {
+    public void streamGetTravelTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         SharedObservable tr = mNewYorkTimesService.streamGetTravel().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(tr);        // Test response
@@ -133,7 +149,9 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetSearchNullTest() {
+    public void streamGetSearchNullTest() throws InterruptedException {
+
+        Thread.sleep(2000);
 
         String begin = null;
         String end = null;
@@ -155,6 +173,8 @@ public class NewYorkTimesServiceTest {
         query = "29";
         error = null;
 
+        Thread.sleep(2000);
+
         Search se1 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se1);
@@ -167,6 +187,8 @@ public class NewYorkTimesServiceTest {
         query = "Cats";
         category = "Movies";
 
+        Thread.sleep(2000);
+
         Search se2 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se2);
@@ -175,19 +197,21 @@ public class NewYorkTimesServiceTest {
 
     }
     @Test
-    public void streamGetSearchFaillTest() {
+    public void streamGetSearchFailTest() throws InterruptedException {
 
-        String begin = null;
+        Thread.sleep(2000);
+
+        String begin;
         String end = null;
         String query = null;
         String category = null;
 
         // Test bad begin date (return Error 400)
-        end = null;
-        query = null;
-        category = null;
         begin = "Hello";
         error = null;
+
+        Thread.sleep(2000);
+
         try {
             Search se3 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
             // Test response
