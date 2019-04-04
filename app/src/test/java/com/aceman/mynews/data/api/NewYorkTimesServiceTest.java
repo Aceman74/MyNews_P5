@@ -26,7 +26,6 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class NewYorkTimesServiceTest {
     String statusOk = "OK";
-    String statusError = "ERROR";
     String badRequest = "HTTP 400 Bad Request";
     NewYorkTimesService mNewYorkTimesService;
     static String error;

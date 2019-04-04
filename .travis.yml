@@ -21,6 +21,9 @@ android:
     - android-28
     - sys-img-armeabi-v7a-android-19
 
+script:
+- ./gradlew build connectedCheck
+
 before_script:
   # Create and start emulator, android 19 minimum supported
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
