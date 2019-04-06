@@ -1,7 +1,5 @@
 package com.aceman.mynews.data.api;
 
-import android.util.Log;
-
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.data.models.shared.SharedObservable;
@@ -53,7 +51,7 @@ public interface NewYorkTimesService {
     Observable<SharedObservable> streamGetTravel();
     // begin_date= (YYYY/MM/DD), end_date= (YYYY/MM/DD), q= (query), fq= (news_desk:("categorie" " categorie"))
 
-@GET("search/v2/articlesearch.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
+    @GET("search/v2/articlesearch.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
     Observable<Search> streamGetSearch(@Query("begin_date") String begin, @Query("end_date") String end, @Query("q") String query, @Query("fq") String category);
 }
 

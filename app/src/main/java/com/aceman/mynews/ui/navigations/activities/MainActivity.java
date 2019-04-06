@@ -25,8 +25,9 @@ import com.aceman.mynews.ui.search.activities.SearchActivity;
 import com.aceman.mynews.utils.CopyrightDialog;
 import com.aceman.mynews.utils.HelpDialog;
 import com.bumptech.glide.Glide;
-
-import java.util.Objects;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,14 +55,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Icepick.restoreInstanceState(this, savedInstanceState);
+        sslUpdate();    //  handle SSLHandshakeException for older API
         configureToolBar();
         configureDrawerLayout();
         configureViewPagerAndTabs();    //  cause frame skip
         configureNavigationView();
-         new onLaunchMainActivity().execute("notification and glide cache");
+        new onLaunchMainActivity().execute("notification and glide cache");
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
         pager.setAdapter(null);
         Glide.get(getApplicationContext()).clearMemory();
@@ -92,13 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent newNotification = new Intent(this, NotificationActivity.class);
                 Log.d("MainActivity", "Click Notification");
                 startActivity(newNotification);
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             case R.id.menu_activity_main_search:
                 Intent newSearch = new Intent(this, SearchActivity.class);
                 Log.d("MainActivity", "Click Search");
                 startActivity(newSearch);
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             case R.id.menu_activity_main_help:
                 Log.d("MainActivity", "Click Help");
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_sports:
                 pager.setCurrentItem(5);
                 break;
-                case R.id.activity_main_drawer_tech:
+            case R.id.activity_main_drawer_tech:
                 pager.setCurrentItem(6);
                 break;
             case R.id.activity_main_drawer_travel:
@@ -188,16 +191,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 
-    public class onLaunchMainActivity extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            createNotificationChannel();
-            Glide.get(getApplicationContext()).clearDiskCache();
-            Log.d("Async","Executed!");
-            return null;
-        }
-    }
-
     public void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -214,12 +207,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void finish(){
+    public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-    public void onPause(){
+
+    public void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    private void sslUpdate() {
+        try {
+            ProviderInstaller.installIfNeeded(getApplicationContext());
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class onLaunchMainActivity extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            createNotificationChannel();
+            Glide.get(getApplicationContext()).clearDiskCache();
+            Log.d("Async", "Executed!");
+            return null;
+        }
     }
 }

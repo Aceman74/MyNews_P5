@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -77,7 +76,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getUrl());
                 mContext.startActivity(webView);
-                Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
+                Animation onClick = AnimationUtils.loadAnimation(mContext, R.anim.click_anim);
                 holder.mItemListener.startAnimation(onClick);
 
             }
@@ -87,6 +86,11 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
     @Override
     public int getItemCount() {
         return this.mMostPopular.size();
+    }
+
+    public void setFadeAnimation(View view) {
+        Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        view.startAnimation(anim);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -105,10 +109,5 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
             super(view);
             ButterKnife.bind(this, view);
         }
-    }
-
-    public void setFadeAnimation(View view) {
-        Animation anim = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
-        view.startAnimation(anim);
     }
 }

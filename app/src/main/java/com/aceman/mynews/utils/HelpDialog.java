@@ -9,31 +9,26 @@ package com.aceman.mynews.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.ui.navigations.activities.WebviewActivity;
 
 /**
  * Created by Lionel JOFFRAY - on 27/03/2019.
  */
 public class HelpDialog {
 
-static String mHelpTitle;
     public static Animation pulse;
+    static String mHelpTitle;
 
-
-    public static void openHelp(final Context mContext){
+    public static void openHelp(final Context mContext) {
         mHelpTitle = mContext.getResources().getString(R.string.help_title);
 // custom dialog
         final Dialog dialog = new Dialog(mContext);
-        pulse = AnimationUtils.loadAnimation(dialog.getContext(),R.anim.pulse_effect);
+        pulse = AnimationUtils.loadAnimation(dialog.getContext(), R.anim.pulse_effect);
         dialog.setContentView(R.layout.help_dialog);
         dialog.setTitle(mHelpTitle);
         TextView drawer = dialog.findViewById(R.id.textview_help_drawer);

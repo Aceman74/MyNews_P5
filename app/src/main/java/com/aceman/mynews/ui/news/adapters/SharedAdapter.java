@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -60,8 +59,8 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
     public void updateWithFreshInfo(final SharedDoc item, RequestManager glide, final MyViewHolder holder) {
 
         holder.mTitle.setText(item.getHeadline().getMain());
-        if(item.getHeadline().getMain().isEmpty()){
-           holder.mTitle.setText(R.string.embedded_video);
+        if (item.getHeadline().getMain().isEmpty()) {
+            holder.mTitle.setText(R.string.embedded_video);
         }
         holder.mCategorie.setText(item.getSectionName());
         holder.mDate.setText(item.getPubDate().substring(0, 10)); // Get the date without hour
@@ -89,7 +88,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getWebUrl());
                 mContext.startActivity(webView);
-                Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
+                Animation onClick = AnimationUtils.loadAnimation(mContext, R.anim.click_anim);
                 holder.mItemListener.startAnimation(onClick);
             }
         });
@@ -125,6 +124,11 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
         return this.mSharedDocs.size();
     }
 
+    public void setFadeAnimation(View view) {
+        Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        view.startAnimation(anim);
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.fragment_main_item_title)
         TextView mTitle;
@@ -141,10 +145,5 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
             super(view);
             ButterKnife.bind(this, view);
         }
-    }
-
-    public void setFadeAnimation(View view) {
-        Animation anim = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
-        view.startAnimation(anim);
     }
 }

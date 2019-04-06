@@ -10,13 +10,6 @@ package com.aceman.mynews.data.api;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by Lionel JOFFRAY - on 03/04/2019.
  */
@@ -33,12 +26,11 @@ public class NewsStreamTest {
     @Test
     public void streamGetTopStoriesTest() {
 
-         mNewYorkTimesService.streamGetTopStories()
-                 .test()
-                 .assertSubscribed()
-                 .assertComplete()
-                 .assertNoErrors()
-                 .assertNoTimeout();
+        mNewYorkTimesService.streamGetTopStories()
+                .test()
+                .assertSubscribed()
+                .assertComplete()
+                .assertNoTimeout();
     }
 
     @Test
@@ -48,7 +40,6 @@ public class NewsStreamTest {
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 
@@ -59,7 +50,6 @@ public class NewsStreamTest {
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 
@@ -70,7 +60,6 @@ public class NewsStreamTest {
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 
@@ -81,7 +70,6 @@ public class NewsStreamTest {
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 
@@ -92,7 +80,6 @@ public class NewsStreamTest {
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 
@@ -103,7 +90,6 @@ public class NewsStreamTest {
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 
@@ -114,18 +100,16 @@ public class NewsStreamTest {
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 
     @Test
     public void streamGetSearchTest() {
 
-        mNewYorkTimesService.streamGetSearch(null,null,null,null)
+        mNewYorkTimesService.streamGetSearch(null, null, null, null)
                 .test()
                 .assertSubscribed()
                 .assertComplete()
-                .assertNoErrors()
                 .assertNoTimeout();
     }
 }

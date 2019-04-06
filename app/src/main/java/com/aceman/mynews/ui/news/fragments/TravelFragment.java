@@ -69,6 +69,7 @@ public class TravelFragment extends BaseFragment {
     public void getHttpRequest() {
         executeHttpRequestWithRetrofit();
     }
+
     @Override
     public List getMResponse() {
         return mResponse;
@@ -81,7 +82,7 @@ public class TravelFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
         isOnline();
-        new AsyncRetrofitRequest().execute("request");
+        new asyncRetrofitRequest().execute("request");
         configureRecyclerView();
         return view;
     }
@@ -118,6 +119,7 @@ public class TravelFragment extends BaseFragment {
                 public void onError(Throwable e) {
                     Log.e("TRAVEL_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
+                    tooManyRefresh(e);  //  When user makes too many API call
                 }
 
                 @Override

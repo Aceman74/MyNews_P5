@@ -2,6 +2,7 @@ package com.aceman.mynews.ui.news.fragments;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -76,6 +77,7 @@ public class TechnologyFragment extends BaseFragment {
     public List getMResponse() {
         return mResponse;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class TechnologyFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
         isOnline();
-        new AsyncRetrofitRequest().execute("request");
+        new asyncRetrofitRequest().execute("request");
         configureRecyclerView();
         return view;
     }
@@ -121,7 +123,6 @@ public class TechnologyFragment extends BaseFragment {
                     Log.e("TECH_Error", "On Error " + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
                     tooManyRefresh(e);  //  When user makes too many API call
-                    //  Needed on Technology and Food fragment for not spamming
                 }
 
                 @Override
@@ -146,11 +147,5 @@ public class TechnologyFragment extends BaseFragment {
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
         ifNoResult();
-    }
-    public void tooManyRefresh(Throwable e){
-        if(e.toString().contains(getString(R.string.many_request))){
-            Toast.makeText(getContext(),getString(R.string.many_refresh),Toast.LENGTH_LONG)
-                    .show();
-        }
     }
 }

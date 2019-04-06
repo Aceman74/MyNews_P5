@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.data.api.NewsStream;
@@ -76,6 +75,7 @@ public class TopStoriesFragment extends BaseFragment {
     public List getMResponse() {
         return mTopStories;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class TopStoriesFragment extends BaseFragment {
         mProgressBar.setVisibility(View.VISIBLE);
         isOnline();
         configureRecyclerView();
-        new AsyncRetrofitRequest().execute("request");
+        new asyncRetrofitRequest().execute("request");
         return view;
     }
 

@@ -20,7 +20,7 @@ public class CategoriesCheck {
     }
 
 
-    public static void checkBoxListnener( CheckBox mBusiness, CheckBox mTech, CheckBox mFood, CheckBox mMovies, CheckBox mSports, CheckBox mTravel, final List<Boolean> mCheckList) {
+    public static void checkBoxListnener(CheckBox mBusiness, CheckBox mTech, CheckBox mFood, CheckBox mMovies, CheckBox mSports, CheckBox mTravel, final List<Boolean> mCheckList) {
 
         mBusiness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

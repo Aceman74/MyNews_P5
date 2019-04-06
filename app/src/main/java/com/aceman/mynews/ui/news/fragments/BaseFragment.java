@@ -11,16 +11,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aceman.mynews.R;
-import com.bumptech.glide.Glide;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,9 +30,14 @@ import java.util.Objects;
 @SuppressWarnings("deprecation")
 public abstract class BaseFragment extends Fragment {
 
+    Toast mToast;
+
     public abstract LinearLayout getNoResultLayout();
+
     public abstract Button getRetryBtn();
+
     public abstract void getHttpRequest();
+
     public abstract List getMResponse();
 
     public void ifNoResult() {
@@ -57,13 +61,31 @@ public abstract class BaseFragment extends Fragment {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+    public void tooManyRefreshHandler(){
 
-    public class AsyncRetrofitRequest extends AsyncTask<String, Void, String> {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getHttpRequest();
+            }
+        }, 15000);
+    }
+
+    public void tooManyRefresh(Throwable e) {
+        if (e.toString().contains(getString(R.string.many_request))) {
+                mToast = Toast.makeText(getContext(), getString(R.string.many_refresh), Toast.LENGTH_LONG);
+                mToast.show();
+            tooManyRefreshHandler();
+        }
+    }
+    public class asyncRetrofitRequest extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             getHttpRequest();
-            Log.d("Async","Executed!");
+            Log.d("Async", "Executed!");
             return null;
         }
     }
+
 }

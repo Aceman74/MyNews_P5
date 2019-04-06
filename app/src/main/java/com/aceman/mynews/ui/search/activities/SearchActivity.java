@@ -87,7 +87,8 @@ public class SearchActivity extends AppCompatActivity {
         searchQueryListener();
         clickListener();
     }
-    public void setVisibilitySearchLayout(){
+
+    public void setVisibilitySearchLayout() {
         mSearchQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,8 +102,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-
-    public void searchFragmentLaunch(){
+    public void searchFragmentLaunch() {
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,16 +140,17 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void checkState() {
-        if(mSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)){
+        if (mSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
             mSearchBtn.setEnabled(true);
             mSearchBtn.setAlpha(1);
             searchFragmentLaunch();
 
-        }else{
+        } else {
             mSearchBtn.setEnabled(false);
             mSearchBtn.setAlpha(0.5f);
         }
     }
+
     public void onHitEnter() { //  Handle the enter key
 
         mSearchQuery.setOnKeyListener(new View.OnKeyListener() {
@@ -289,16 +290,18 @@ public class SearchActivity extends AppCompatActivity {
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
     }
-    public void finish(){
+
+    public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-    }
-    public void onPause(){
-        super.onPause();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    void clickListener(){
+    public void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    void clickListener() {
         mBusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

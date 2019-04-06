@@ -75,6 +75,7 @@ public class MostPopularFragment extends BaseFragment {
     public List getMResponse() {
         return mPopular;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class MostPopularFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
         isOnline();
-        new AsyncRetrofitRequest().execute("request");
+        new asyncRetrofitRequest().execute("request");
         configureRecyclerView();
         return view;
     }

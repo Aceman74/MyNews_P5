@@ -37,12 +37,14 @@ public class WebviewActivity extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
     }
-    public void finish(){
+
+    public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
-    public void onPause(){
+
+    public void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }

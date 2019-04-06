@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -58,7 +57,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         updateWithFreshInfo(this.mTopStories.get(position), this.glide, holder);
-       setFadeAnimation(holder.itemView);
+        setFadeAnimation(holder.itemView);
     }
 
     public void updateWithFreshInfo(final TopStorieResult item, RequestManager glide, final MyViewHolder holder) {
@@ -66,8 +65,8 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
         holder.mTitle.setText(item.getTitle());
         holder.setCategroie = item.getSection();
 
-        if(!item.getSubsection().isEmpty()){
-            holder.setCategroie = holder.setCategroie + " -  "+item.getSubsection();
+        if (!item.getSubsection().isEmpty()) {
+            holder.setCategroie = holder.setCategroie + " -  " + item.getSubsection();
         }
         holder.mCategorie.setText(holder.setCategroie);
         holder.mDate.setText(item.getPublishedDate().substring(0, 10));
@@ -90,7 +89,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getUrl());
                 mContext.startActivity(webView);
-                Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
+                Animation onClick = AnimationUtils.loadAnimation(mContext, R.anim.click_anim);
                 holder.mItemListener.startAnimation(onClick);
             }
         });
@@ -99,6 +98,11 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
     @Override
     public int getItemCount() {
         return this.mTopStories.size();
+    }
+
+    public void setFadeAnimation(View view) {
+        Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        view.startAnimation(anim);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -118,10 +122,5 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
             super(view);
             ButterKnife.bind(this, view);
         }
-    }
-
-    public void setFadeAnimation(View view) {
-        Animation anim = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
-        view.startAnimation(anim);
     }
 }

@@ -74,6 +74,7 @@ public class SportsFragment extends BaseFragment {
     public List getMResponse() {
         return mResponse;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,7 +82,7 @@ public class SportsFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
         isOnline();
-        new AsyncRetrofitRequest().execute("request");
+        new asyncRetrofitRequest().execute("request");
         configureRecyclerView();
         return view;
     }
@@ -119,6 +120,7 @@ public class SportsFragment extends BaseFragment {
                 public void onError(Throwable e) {
                     Log.e("SPORTS_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
+                    tooManyRefresh(e);  //  When user makes too many API call
                 }
 
                 @Override

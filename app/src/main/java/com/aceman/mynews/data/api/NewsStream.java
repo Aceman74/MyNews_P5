@@ -1,7 +1,5 @@
 package com.aceman.mynews.data.api;
 
-import android.util.Log;
-
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.data.models.shared.SharedObservable;

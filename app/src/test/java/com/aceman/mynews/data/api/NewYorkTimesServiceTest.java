@@ -27,10 +27,9 @@ import static junit.framework.TestCase.assertTrue;
  * Created by Lionel JOFFRAY - on 29/03/2019.
  */
 public class NewYorkTimesServiceTest {
-    String statusOk = "OK";
-    String badRequest = "HTTP 400 Bad Request";
-    NewYorkTimesService mNewYorkTimesService;
     static String error;
+    String statusOk = "OK";
+    NewYorkTimesService mNewYorkTimesService;
 
     @Before
     public void setUp() {
@@ -38,9 +37,7 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetTopStoriesTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGetTopStoriesSuccessTest() {
 
         TopStories ts = mNewYorkTimesService.streamGetTopStories().delay(5, TimeUnit.SECONDS).blockingFirst();
         // on verifie qu'on a bien une reponse
@@ -55,9 +52,7 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetMostPopularTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGetMostPopularSuccessTest() {
 
         int period = 7;
 
@@ -67,26 +62,25 @@ public class NewYorkTimesServiceTest {
         assertEquals(mp.getStatus(), statusOk);  //  Test status response
         String itemType = "Article";
         assertEquals(mp.getPopularResults().get(0).getType(), itemType);   //  Test if type is article for first item
+    }
+
+    /**
+     * Should thrown an exception if period isn't 7 or 1
+     */
+    @Test(expected = HttpException.class)
+    public void streamGetMostPopularFailTest() {
 
         //  Test with wrong period int (error 400)
-         period = 2;
+        int period = 2;
         error = null;
 
-        Thread.sleep(2000);
+        MostPopular mp1 = mNewYorkTimesService.streamGetMostPopular(period).delay(5, TimeUnit.SECONDS).blockingFirst();
+        assertNotNull(mp1);         // Test response
 
-        try {
-            MostPopular mp1 = mNewYorkTimesService.streamGetMostPopular(period).delay(5, TimeUnit.SECONDS).blockingFirst();
-            assertNotNull(mp1);         // Test response
-        }catch (HttpException e){
-            error = e.toString();
-        }
-        assertTrue(error.contains(badRequest)); //  Test status response
     }
 
     @Test
-    public void streamGeBusinessTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGeBusinessSuccessTest() {
 
         SharedObservable bu = mNewYorkTimesService.streamGetBusiness().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(bu);        // Test response
@@ -97,9 +91,7 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGeFoodTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGeFoodSuccessTest() {
 
         SharedObservable fo = mNewYorkTimesService.streamGetFood().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(fo);        // Test response
@@ -110,9 +102,7 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGeMoviesTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGeMoviesSuccessTest() {
 
         SharedObservable mo = mNewYorkTimesService.streamGetMovies().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(mo);        // Test response
@@ -123,9 +113,7 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGeSportsTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGeSportsSuccessTest() {
 
         SharedObservable sp = mNewYorkTimesService.streamGetSports().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(sp);        // Test response
@@ -136,9 +124,7 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetTravelTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGetTravelSuccessTest() {
 
         SharedObservable tr = mNewYorkTimesService.streamGetTravel().delay(5, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(tr);        // Test response
@@ -149,9 +135,7 @@ public class NewYorkTimesServiceTest {
     }
 
     @Test
-    public void streamGetSearchNullTest() throws InterruptedException {
-
-        Thread.sleep(2000);
+    public void streamGetSearchWithNullSuccessTest() {
 
         String begin = null;
         String end = null;
@@ -166,28 +150,33 @@ public class NewYorkTimesServiceTest {
 
         assertEquals(se.getStatus(), statusOk);  //  Test status response
 
-        //  Test number query (valid request)
-        begin = null;
-        end = null;
-        category = null;
-        query = "29";
-        error = null;
+    }
 
-        Thread.sleep(2000);
+    @Test
+    public void streamGetSearchWithNumberQuerySuccessTest() {
+
+        //  Test number query (valid request)
+        String begin = null;
+        String end = null;
+        String category = null;
+        String query = "29";
+        error = null;
 
         Search se1 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se1);
         assertTrue(se1.getSearchResponse().getDocs().size() > 0);  // Test if there's articles in list
         assertEquals(se1.getStatus(), statusOk);    //  Test status response
+    }
+
+    @Test
+    public void streamGetSearchWitNormalRequestSuccessTest() {
 
         //  Test normal request
-        begin = null;
-        end = "20181129";
-        query = "Cats";
-        category = "Movies";
-
-        Thread.sleep(2000);
+        String begin = "20161129";
+        String end = "20181129";
+        String query = "Cats";
+        String category = "Movies";
 
         Search se2 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
@@ -196,10 +185,12 @@ public class NewYorkTimesServiceTest {
         assertEquals(se2.getStatus(), statusOk);    //  Test status response
 
     }
-    @Test
-    public void streamGetSearchFailTest() throws InterruptedException {
 
-        Thread.sleep(2000);
+    /**
+     * Should thrown an exception , begin date must be YYYYMMDD
+     */
+    @Test(expected = HttpException.class)
+    public void streamGetSearchFailTest() {
 
         String begin;
         String end = null;
@@ -210,15 +201,9 @@ public class NewYorkTimesServiceTest {
         begin = "Hello";
         error = null;
 
-        Thread.sleep(2000);
-
-        try {
-            Search se3 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
-            // Test response
-            assertNotNull(se3);
-        } catch (HttpException e) {
-            error = e.toString();
-        }
-        assertTrue(error.contains(badRequest)); //  Test status response
+        Search se3 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delay(5, TimeUnit.SECONDS).blockingFirst();
+        // Test response
+        assertNotNull(se3);
     }
+
 }

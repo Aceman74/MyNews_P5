@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -77,7 +76,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getWebUrl());
                 mContext.startActivity(webView);
-                Animation onClick = AnimationUtils.loadAnimation(mContext,R.anim.click_anim);
+                Animation onClick = AnimationUtils.loadAnimation(mContext, R.anim.click_anim);
                 holder.mItemListener.startAnimation(onClick);
             }
         });
@@ -90,6 +89,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     public Doc mStories(int position) {
         return this.mSearchResult.get(position);
+    }
+
+    public void setFadeAnimation(View view) {
+        Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        view.startAnimation(anim);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -108,10 +112,5 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             super(view);
             ButterKnife.bind(this, view);
         }
-    }
-
-    public void setFadeAnimation(View view) {
-        Animation anim = AnimationUtils.loadAnimation(mContext,R.anim.fade_in);
-        view.startAnimation(anim);
     }
 }

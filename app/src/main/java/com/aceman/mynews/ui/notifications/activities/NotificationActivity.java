@@ -1,6 +1,5 @@
 package com.aceman.mynews.ui.notifications.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -65,8 +64,6 @@ public class NotificationActivity extends AppCompatActivity {
         this.configureToolbar();
         mCheckList = new ArrayList<>();
         loadPref();
-        Intent intent = getIntent();
-        mSearchResult = intent.getStringExtra("Search");
         setNotificationSwitch();
         searchQueryListener();
         CategoriesCheck.setCheckListSize(mCheckList);
@@ -150,9 +147,9 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void checkState() {
-        if(mNotificationSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
+        if (mNotificationSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
             mNotificationSwitch.setEnabled(true);
-        }else{
+        } else {
             mNotificationSwitch.setEnabled(false);
         }
     }
@@ -193,15 +190,18 @@ public class NotificationActivity extends AppCompatActivity {
         mJob = mSharedPreferences.getInt("Job", mJob);
         mSearchResult = mSharedPreferences.getString("Query", mSearchResult);
     }
-    public void finish(){
+
+    public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
-    public void onPause(){
+
+    public void onPause() {
         super.onPause();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
-    void clickListener(){
+
+    void clickListener() {
         mBusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
