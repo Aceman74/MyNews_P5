@@ -38,10 +38,10 @@ public class CategoriesCheck {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i("Categories", "Cars is Checked!");
+                    Log.i("Categories", "Technology is Checked!");
                     mCheckList.set(1, true);
                 } else {
-                    Log.i("Categories", "Cars is Unchecked!");
+                    Log.i("Categories", "Technology is Unchecked!");
                     mCheckList.set(1, false);
                 }
             }
