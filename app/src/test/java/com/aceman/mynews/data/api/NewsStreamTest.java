@@ -21,6 +21,7 @@ public class NewsStreamTest {
     @Before
     public void setUp() {
         mNewYorkTimesService = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
+
     }
 
     @Test

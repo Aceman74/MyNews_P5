@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.search.Doc;
 import com.aceman.mynews.data.models.search.Search;
@@ -26,6 +27,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,7 +98,9 @@ public class SearchFragment extends Fragment {
     }
 
     public void executeHttpRequestWithRetrofit() {
-        this.disposable = NewsStream.streamGetSearch(mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
+
+        NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
+        this.disposable = NewsStream.streamGetSearch(newsStream,mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search details) {
                 Log.e("SEARCH_Next", "On Next");
@@ -115,6 +124,21 @@ public class SearchFragment extends Fragment {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
+    public Retrofit setRetrofit(){
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cache(mCache)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.nytimes.com/svc/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        return retrofit;
+    }
 
     public void updateUI(Search details) {
         mSearch.clear();

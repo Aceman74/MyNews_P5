@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.ui.notifications.activities.NotificationActivity;
@@ -22,9 +23,14 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static com.aceman.mynews.ui.navigations.activities.MainActivity.CHANNEL_ID;
+import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
 import static com.aceman.mynews.ui.notifications.activities.NotificationActivity.mFirstNot;
 
 /**
@@ -82,7 +88,8 @@ public class DailyWorker extends Worker {
         mEndDate = mToday;
 
 
-        disposable = NewsStream.streamGetSearch(mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
+        NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
+        disposable = NewsStream.streamGetSearch(newsStream,mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search details) {
                 Log.e("SEARCH_Next", "On Next");
@@ -103,6 +110,21 @@ public class DailyWorker extends Worker {
         });
     }
 
+    public Retrofit setRetrofit(){
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .cache(mCache)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.nytimes.com/svc/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build();
+
+        return retrofit;
+    }
 
     public void showNotif(String mSearchQuery) {
 

@@ -4,8 +4,14 @@ import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.data.models.topstories.TopStories;
+import com.ncornette.cache.OkCacheControl;
+
+import java.io.IOException;
 
 import io.reactivex.Observable;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,11 +19,12 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 /**
  * Created by Lionel JOFFRAY - on 13/03/2019.
  */
 public interface NewYorkTimesService {
-
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/")
             .addConverterFactory(GsonConverterFactory.create())

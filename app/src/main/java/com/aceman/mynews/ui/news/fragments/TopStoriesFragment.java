@@ -1,6 +1,8 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.topstories.TopStorieResult;
 import com.aceman.mynews.data.models.topstories.TopStories;
@@ -29,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import okhttp3.Cache;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,7 +51,6 @@ public class TopStoriesFragment extends BaseFragment {
     LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
-
 
     public TopStoriesFragment() {
     }
@@ -76,6 +79,7 @@ public class TopStoriesFragment extends BaseFragment {
         return mTopStories;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,8 +87,8 @@ public class TopStoriesFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
         isOnline();
-        configureRecyclerView();
         new asyncRetrofitRequest().execute("request");
+        configureRecyclerView();
         return view;
     }
 
@@ -111,7 +115,9 @@ public class TopStoriesFragment extends BaseFragment {
             mCheckConnexion.setVisibility(View.GONE);
             mNoResult.setVisibility(View.GONE);
 
-            this.disposable = NewsStream.streamGetTopStories().subscribeWith(new DisposableObserver<TopStories>() {
+
+            NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
+            this.disposable = NewsStream.streamGetTopStories(newsStream).subscribeWith(new DisposableObserver<TopStories>() {
                 @Override
                 public void onNext(TopStories details) {
                     Log.e("TOP_Next", "On Next");

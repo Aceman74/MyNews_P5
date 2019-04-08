@@ -7,11 +7,11 @@
 
 package com.aceman.mynews.ui.navigations.activities;
 
+import android.app.Instrumentation;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.DrawerMatchers;
 import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.web.webdriver.Locator;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -31,8 +31,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.web.sugar.Web.onWebView;
-import static android.support.test.espresso.web.webdriver.DriverAtoms.findElement;
 import static com.aceman.mynews.utils.TestUtils.atPosition;
 import static com.aceman.mynews.utils.TestUtils.hasItemCount;
 import static com.aceman.mynews.utils.TestUtils.waitUntil;
@@ -57,6 +55,8 @@ public class MainNavigationTest {
     @Test
     public void Top_Stories_Click_Item_Test() {
 
+        onView(withId(R.id.fragment_top_stories))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.topstories_recycler))       //  Recycler View is displayed
                 .perform(waitUntil(hasItemCount(greaterThan(0))))
@@ -80,8 +80,6 @@ public class MainNavigationTest {
                 .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()));
 
-        onWebView()
-                .withElement(findElement(Locator.TAG_NAME, "title"));   //  Wait for webview to show completely
     }
 
     /**
@@ -89,6 +87,11 @@ public class MainNavigationTest {
      */
     @Test
     public void Tab_Navigation_Swiping_Categories_Test() {
+
+
+        onView(withId(R.id.fragment_top_stories))
+                .check(matches(isDisplayed()));
+
 
         onView(withId(R.id.topstories_recycler))       // wait for Recycler View is displayed
                 .perform(waitUntil(hasItemCount(greaterThan(0))))
@@ -109,6 +112,7 @@ public class MainNavigationTest {
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to Business
                 .perform(swipeLeft());
+
 
         onView(withId(R.id.business_fragment_recyclerview))       //  Recycler View is displayed
                 .perform(waitUntil(hasItemCount(greaterThan(0))))
@@ -192,13 +196,17 @@ public class MainNavigationTest {
     @Test
     public void Navigation_Drawer_Test() {
 
+        onView(withId(R.id.fragment_top_stories))
+                .check(matches(isDisplayed()));
+
         onView(withId(R.id.topstories_recycler))       // wait for Recycler View is displayed
                 .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()));
+                .check(matches(DrawerMatchers.isOpen()))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_nav_view))
                 .perform(waitUntil(isDisplayed()))
@@ -214,7 +222,8 @@ public class MainNavigationTest {
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()));
+                .check(matches(DrawerMatchers.isOpen()))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_nav_view))
                 .perform(waitUntil(isDisplayed()))
@@ -230,7 +239,8 @@ public class MainNavigationTest {
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()));
+                .check(matches(DrawerMatchers.isOpen()))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_nav_view))
                 .perform(waitUntil(isDisplayed()))
@@ -246,7 +256,8 @@ public class MainNavigationTest {
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()));
+                .check(matches(DrawerMatchers.isOpen()))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_nav_view))
                 .perform(waitUntil(isDisplayed()))
@@ -262,7 +273,8 @@ public class MainNavigationTest {
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()));
+                .check(matches(DrawerMatchers.isOpen()))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_nav_view))
                 .perform(waitUntil(isDisplayed()))
@@ -278,7 +290,8 @@ public class MainNavigationTest {
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()));
+                .check(matches(DrawerMatchers.isOpen()))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_nav_view))
                 .perform(waitUntil(isDisplayed()))
@@ -291,7 +304,8 @@ public class MainNavigationTest {
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()));
+                .check(matches(DrawerMatchers.isOpen()))
+                .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_nav_view))
                 .perform(waitUntil(isDisplayed()))

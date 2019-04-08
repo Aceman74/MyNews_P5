@@ -1,6 +1,7 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.mostpopular.PopularResult;
@@ -47,6 +49,7 @@ public class MostPopularFragment extends BaseFragment {
     LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
+    Context mContext = this.getContext();
 
 
     public MostPopularFragment() {
@@ -108,7 +111,8 @@ public class MostPopularFragment extends BaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
-            this.disposable = NewsStream.streamGetMostPopular(7).subscribeWith(new DisposableObserver<MostPopular>() {
+            NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
+            this.disposable = NewsStream.streamGetMostPopular(newsStream,7).subscribeWith(new DisposableObserver<MostPopular>() {
                 @Override
                 public void onNext(MostPopular details) {
                     Log.e("POPULAR_Next", "On Next");

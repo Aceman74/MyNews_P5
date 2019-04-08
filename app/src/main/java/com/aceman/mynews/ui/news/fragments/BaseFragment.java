@@ -24,6 +24,14 @@ import com.aceman.mynews.R;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
+
 /**
  * Created by Lionel JOFFRAY - on 01/04/2019.
  */
@@ -61,6 +69,7 @@ public abstract class BaseFragment extends Fragment {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
     public void tooManyRefreshHandler(){
 
         final Handler handler = new Handler();
@@ -79,6 +88,23 @@ public abstract class BaseFragment extends Fragment {
             tooManyRefreshHandler();
         }
     }
+
+public Retrofit setRetrofit(){
+
+    OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            .cache(mCache)
+            .build();
+
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://api.nytimes.com/svc/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient)
+            .build();
+
+return retrofit;
+
+}
     public class asyncRetrofitRequest extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {

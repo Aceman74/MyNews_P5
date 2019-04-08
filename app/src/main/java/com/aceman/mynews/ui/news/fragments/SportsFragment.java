@@ -1,6 +1,7 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.shared.SharedDoc;
 import com.aceman.mynews.data.models.shared.SharedObservable;
@@ -47,6 +49,7 @@ public class SportsFragment extends BaseFragment {
     LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
+    Context mContext = this.getContext();
 
     public SportsFragment() {
     }
@@ -74,6 +77,7 @@ public class SportsFragment extends BaseFragment {
     public List getMResponse() {
         return mResponse;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,7 +111,8 @@ public class SportsFragment extends BaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
-            this.mDisposable = NewsStream.streamGetSports().subscribeWith(new DisposableObserver<SharedObservable>() {
+            NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
+            this.mDisposable = NewsStream.streamGetSports(newsStream).subscribeWith(new DisposableObserver<SharedObservable>() {
                 @Override
                 public void onNext(SharedObservable details) {
                     Log.e("SPORTS_Next", "On Next");

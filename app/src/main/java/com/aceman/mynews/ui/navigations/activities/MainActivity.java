@@ -2,6 +2,7 @@ package com.aceman.mynews.ui.navigations.activities;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -33,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
+import okhttp3.Cache;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String CHANNEL_ID = "29";
@@ -48,19 +50,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView mNavigationView;
     @State
     int mFragmentTag;
+    public static Cache mCache;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         Icepick.restoreInstanceState(this, savedInstanceState);
         sslUpdate();    //  handle SSLHandshakeException for older API
+        configureCache();
         configureToolBar();
         configureDrawerLayout();
         configureViewPagerAndTabs();    //  cause frame skip
         configureNavigationView();
         new onLaunchMainActivity().execute("notification and glide cache");
+    }
+
+    private void configureCache() {
+
+        int cacheSize = 5 * 1024 * 1024; // 5 MB
+        mCache = new Cache(getCacheDir(), cacheSize);
     }
 
     @Override

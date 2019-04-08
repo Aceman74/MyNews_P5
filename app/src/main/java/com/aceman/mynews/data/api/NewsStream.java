@@ -15,74 +15,67 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Lionel JOFFRAY - on 13/03/2019.
  */
 public class NewsStream {
-    public static Observable<TopStories> streamGetTopStories() {
 
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetTopStories()
+
+    public static Observable<TopStories> streamGetTopStories(NewYorkTimesService service) {
+
+        return service.streamGetTopStories()
                 .subscribeOn(Schedulers.io())   //  Run call on another thread
                 .observeOn(AndroidSchedulers.mainThread())  //  Observe on the Main thread
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<MostPopular> streamGetMostPopular(int period) {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetMostPopular(period)
+    public static Observable<MostPopular> streamGetMostPopular(NewYorkTimesService service, int period) {
+        return service.streamGetMostPopular(period)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SharedObservable> streamGetBusiness() {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetBusiness()
+    public static Observable<SharedObservable> streamGetBusiness(NewYorkTimesService service) {
+        return service.streamGetBusiness()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SharedObservable> streamGetFood() {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetFood()
+    public static Observable<SharedObservable> streamGetFood(NewYorkTimesService service) {
+        return service.streamGetFood()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SharedObservable> streamGetMovies() {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetMovies()
+    public static Observable<SharedObservable> streamGetMovies(NewYorkTimesService service) {
+        return service.streamGetMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SharedObservable> streamGetSports() {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetSports()
+    public static Observable<SharedObservable> streamGetSports(NewYorkTimesService service) {
+        return service.streamGetSports()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SharedObservable> streamGetTech() {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetTech()
+    public static Observable<SharedObservable> streamGetTech(NewYorkTimesService service) {
+        return service.streamGetTech()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SharedObservable> streamGetTravel() {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetTravel()
+    public static Observable<SharedObservable> streamGetTravel(NewYorkTimesService service) {
+        return service.streamGetTravel()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<Search> streamGetSearch(String begin, String end, String query, String category) {
-        NewYorkTimesService newsStream = NewYorkTimesService.retrofit.create(NewYorkTimesService.class);
-        return newsStream.streamGetSearch(begin, end, query, category)
+    public static Observable<Search> streamGetSearch(NewYorkTimesService service, String begin, String end, String query, String category) {
+        return service.streamGetSearch(begin, end, query, category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
