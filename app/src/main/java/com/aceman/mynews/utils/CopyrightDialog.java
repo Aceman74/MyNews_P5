@@ -19,6 +19,8 @@ import com.aceman.mynews.ui.navigations.activities.WebviewActivity;
 
 /**
  * Created by Lionel JOFFRAY - on 27/03/2019.
+ * <p>
+ * * This Class contain a custom Dialog to fit Copyright
  */
 public class CopyrightDialog {
 
@@ -37,7 +39,7 @@ public class CopyrightDialog {
             public void onClick(View v) {
 
                 Intent webView = new Intent(mContext, WebviewActivity.class);
-                webView.putExtra("UrlWebview", "https://developer.nytimes.com");
+                webView.putExtra("UrlWebview", "https://developer.nytimes.com");    //  Link to NYT API
                 mContext.startActivity(webView);
                 dialog.dismiss();
             }

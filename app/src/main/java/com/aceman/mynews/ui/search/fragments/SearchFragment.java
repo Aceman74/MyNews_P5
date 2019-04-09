@@ -35,7 +35,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>Search Fragment</> get the search activity bundle to make api call for user <br>
  */
 public class SearchFragment extends Fragment {
     public Disposable disposable;
@@ -51,12 +53,10 @@ public class SearchFragment extends Fragment {
     String mCategorie = null;
 
     public SearchFragment() {
-        // Required empty public constructor
     }
 
     public static SearchFragment newInstance() {
         return (new SearchFragment());
-
     }
 
     @Override
@@ -64,7 +64,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
-        bundleStrings();
+        bundleStrings();    //  Get Search data
         configureRecyclerView();
         executeHttpRequestWithRetrofit();
         return view;
@@ -126,15 +126,10 @@ public class SearchFragment extends Fragment {
 
     public Retrofit setRetrofit(){
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .cache(mCache)
-                .build();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nytimes.com/svc/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient)
                 .build();
 
         return retrofit;

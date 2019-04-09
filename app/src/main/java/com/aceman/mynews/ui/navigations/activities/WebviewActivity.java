@@ -11,6 +11,11 @@ import com.aceman.mynews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>WebviewActivity</> who show articles in a webview
+ */
 public class WebviewActivity extends AppCompatActivity {
     @BindView(R.id.webview)
     WebView mWebView;
@@ -31,7 +36,6 @@ public class WebviewActivity extends AppCompatActivity {
     public void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);
-        // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         assert ab != null;

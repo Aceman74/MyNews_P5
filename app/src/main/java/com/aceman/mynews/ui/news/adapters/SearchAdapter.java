@@ -25,6 +25,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Lionel JOFFRAY - on 14/03/2019.
+ *
+ * <b>Search Adapter</b> for his API Call response
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
 
@@ -53,6 +55,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         setFadeAnimation(holder.itemView);
     }
 
+    /**
+     * Update RecyclerView with list info, handle click on item position with webview intent
+     *
+     * @param item   Article in the list
+     * @param glide  use for get image of article
+     * @param holder view holder
+     */
     public void updateWithFreshInfo(final Doc item, RequestManager glide, final MyViewHolder holder) {
         holder.mTitle.setText(item.getHeadline().getMain());
         holder.mCategorie.setText(item.getSectionName());
@@ -72,7 +81,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         holder.mItemListener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("CLICK ITEM", "Ca marche?");
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getWebUrl());
                 mContext.startActivity(webView);
@@ -85,10 +93,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     @Override
     public int getItemCount() {
         return this.mSearchResult.size();
-    }
-
-    public Doc mStories(int position) {
-        return this.mSearchResult.get(position);
     }
 
     public void setFadeAnimation(View view) {

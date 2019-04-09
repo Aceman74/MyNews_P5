@@ -7,7 +7,6 @@
 
 package com.aceman.mynews.ui.navigations.activities;
 
-import android.app.Instrumentation;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.DrawerMatchers;
 import android.support.test.espresso.contrib.NavigationViewActions;
@@ -24,7 +23,6 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -47,6 +45,7 @@ public class MainNavigationTest {
 
     @Before
     public void setUp() {
+
     }
 
     /**
@@ -220,6 +219,10 @@ public class MainNavigationTest {
         onView(withId(R.id.fragment_business))   //  Check fragment is displayed
                 .check(matches(isDisplayed()));
 
+        onView(withId(R.id.business_fragment_recyclerview))       // wait for Recycler View is displayed
+                .perform(waitUntil(hasItemCount(greaterThan(0))))
+                .check(matches(isDisplayed()));
+
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
                 .check(matches(DrawerMatchers.isOpen()))
@@ -235,6 +238,10 @@ public class MainNavigationTest {
                 .check(matches(DrawerMatchers.isClosed()));
 
         onView(withId(R.id.fragment_food))   //  Check fragment is displayed
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.food_fragment_recyclerview))       // wait for Recycler View is displayed
+                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
@@ -254,6 +261,10 @@ public class MainNavigationTest {
         onView(withId(R.id.fragment_movies))   //  Check fragment is displayed
                 .check(matches(isDisplayed()));
 
+        onView(withId(R.id.movies_fragment_recyclerview))       // wait for Recycler View is displayed
+                .perform(waitUntil(hasItemCount(greaterThan(0))))
+                .check(matches(isDisplayed()));
+
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
                 .perform(DrawerActions.open())
                 .check(matches(DrawerMatchers.isOpen()))
@@ -269,6 +280,10 @@ public class MainNavigationTest {
                 .check(matches(DrawerMatchers.isClosed()));
 
         onView(withId(R.id.fragment_sports))   //  Check fragment is displayed
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.sports_fragment_recyclerview))       // wait for Recycler View is displayed
+                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
@@ -288,32 +303,9 @@ public class MainNavigationTest {
         onView(withId(R.id.fragment_tech))   //  Check fragment is displayed
                 .check(matches(isCompletelyDisplayed()));
 
-        onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
-                .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()))
+        onView(withId(R.id.tech_fragment_recyclerview))       // wait for Recycler View is displayed
+                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
-
-        onView(withId(R.id.activity_main_nav_view))
-                .perform(waitUntil(isDisplayed()))
-                .check(matches(isDisplayed()))
-                .perform(NavigationViewActions.navigateTo(R.id.activity_main_drawer_search));   //  Click on Search item on navigation drawer
-
-        onView(withId(R.id.layout_search_categories))   //  Check if Search is shown
-                .check(matches(isDisplayed()))
-                .perform(pressBack());
-
-        onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
-                .perform(DrawerActions.open())
-                .check(matches(DrawerMatchers.isOpen()))
-                .check(matches(isDisplayed()));
-
-        onView(withId(R.id.activity_main_nav_view))
-                .perform(waitUntil(isDisplayed()))
-                .check(matches(isDisplayed()))
-                .perform(NavigationViewActions.navigateTo(R.id.activity_main_drawer_notification));   //  Click on Notification item on navigation drawer
-
-        onView(withId(R.id.notification_linear_layout))   //  Check if Notification is shown
-                .check(matches(isDisplayed()))
-                .perform(pressBack());
     }
+
 }

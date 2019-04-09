@@ -1,10 +1,7 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +19,7 @@ import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.topstories.TopStorieResult;
 import com.aceman.mynews.data.models.topstories.TopStories;
 import com.aceman.mynews.ui.news.adapters.TopStoriesAdapter;
+import com.aceman.mynews.utils.FragmentBase;
 import com.aceman.mynews.utils.RecyclerAnimation;
 import com.bumptech.glide.Glide;
 
@@ -32,12 +30,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.Cache;
+
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>Top Stories Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
  */
-public class TopStoriesFragment extends BaseFragment {
+public class TopStoriesFragment extends FragmentBase {
     Disposable disposable;
     List<TopStorieResult> mTopStories;
     TopStoriesAdapter adapter;
@@ -86,8 +86,8 @@ public class TopStoriesFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        isOnline();
-        new asyncRetrofitRequest().execute("request");
+        isOnline(); //  Check internet connection
+        new asyncRetrofitRequest().execute("request");  //  Make the request call
         configureRecyclerView();
         return view;
     }
@@ -121,7 +121,7 @@ public class TopStoriesFragment extends BaseFragment {
                 @Override
                 public void onNext(TopStories details) {
                     Log.e("TOP_Next", "On Next");
-                    updateUI(details);
+                    updateUI(details);  //  Update RecyclerView
                     mProgressBar.setVisibility(View.GONE);
                 }
 
@@ -135,13 +135,14 @@ public class TopStoriesFragment extends BaseFragment {
                 public void onComplete() {
 
                     Log.e("TOP_Complete", "On Complete !!");
+                    //  tooManyRefresh() method is not necessary here, no call limitation
                 }
             });
 
         } else {
             mProgressBar.setVisibility(View.GONE);
             mCheckConnexion.setVisibility(View.VISIBLE);
-            retryBtnClick();
+            retryBtnClick();    //  If no connection, show refresh btn
         }
     }
 
@@ -154,6 +155,6 @@ public class TopStoriesFragment extends BaseFragment {
         mTopStories.addAll(details.getTopStorieResults());
         adapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult();
+        ifNoResult();   //  If result is 0, show a screen
     }
 }

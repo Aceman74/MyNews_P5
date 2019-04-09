@@ -1,4 +1,11 @@
-package com.aceman.mynews.ui.search.activities;
+/*
+ * Copyright (c) 2019. Aceman. All rights reserved.
+ * Developed by Aceman.
+ * Data provided by The New York Times API.
+ * https://developer.nytimes.com/
+ */
+
+package com.aceman.mynews.utils;
 
 import android.util.Log;
 import android.widget.CheckBox;
@@ -9,6 +16,8 @@ import java.util.List;
 
 /**
  * Created by Lionel JOFFRAY - on 25/03/2019.
+ *
+ * Checkbox category check for using in Search and Notification, return a list of Boolean for each category
  */
 public class CategoriesCheck {
 

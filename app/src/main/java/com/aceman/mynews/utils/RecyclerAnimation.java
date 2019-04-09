@@ -16,6 +16,8 @@ import com.aceman.mynews.R;
 
 /**
  * Created by Lionel JOFFRAY - on 26/03/2019.
+ * <p>
+ * Recycler view Animation
  */
 public class RecyclerAnimation {
     public static void runLayoutAnimation(final RecyclerView recyclerView) {

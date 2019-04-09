@@ -25,6 +25,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Lionel JOFFRAY - on 14/03/2019.
+ *
+ * <b>Most Popular Adapter</b> for his API Call response
  */
 public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.MyViewHolder> {
     private List<PopularResult> mMostPopular;
@@ -52,6 +54,13 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
         setFadeAnimation(holder.itemView);
     }
 
+    /**
+     * Update RecyclerView with list info, handle click on item position with webview intent
+     *
+     * @param item   Article in the list
+     * @param glide  use for get image of article
+     * @param holder view holder
+     */
     public void updateWithFreshInfo(final PopularResult item, RequestManager glide, final MyViewHolder holder) {
         holder.mTitle.setText(item.getTitle());
         holder.mCategorie.setText(item.getSection());
@@ -72,7 +81,6 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
         holder.mItemListener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("CLICK ITEM", "Ca marche?");
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getUrl());
                 mContext.startActivity(webView);

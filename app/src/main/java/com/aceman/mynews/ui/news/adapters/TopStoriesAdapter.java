@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Lionel JOFFRAY - on 14/03/2019.
+ *
+ * <b>TopStories Adapter</b> for his API Call response
  */
 public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.MyViewHolder> {
 
@@ -60,6 +62,13 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
         setFadeAnimation(holder.itemView);
     }
 
+    /**
+     * Update RecyclerView with list info, handle click on item position with webview intent
+     *
+     * @param item   Article in the list
+     * @param glide  use for get image of article
+     * @param holder view holder
+     */
     public void updateWithFreshInfo(final TopStorieResult item, RequestManager glide, final MyViewHolder holder) {
 
         holder.mTitle.setText(item.getTitle());
@@ -84,8 +93,6 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
         holder.mItemListener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Log.i("CLICK ITEM", "Ca marche?");
                 Intent webView = new Intent(mContext, WebviewActivity.class);
                 webView.putExtra("UrlWebview", item.getUrl());
                 mContext.startActivity(webView);

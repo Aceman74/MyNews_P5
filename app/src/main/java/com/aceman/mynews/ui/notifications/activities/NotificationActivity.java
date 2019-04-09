@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.jobs.DailyWorker;
-import com.aceman.mynews.ui.search.activities.CategoriesCheck;
+import com.aceman.mynews.utils.CategoriesCheck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,11 @@ import androidx.work.WorkManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>Notification Activity</> who configure the daily notification <br>
+ */
 public class NotificationActivity extends AppCompatActivity {
     public static int mFirstNot;
     @BindView(R.id.toolbar)
@@ -63,7 +68,7 @@ public class NotificationActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         this.configureToolbar();
         mCheckList = new ArrayList<>();
-        loadPref();
+        loadPref(); //  If already set, the previous query is shown in edit text
         setNotificationSwitch();
         searchQueryListener();
         CategoriesCheck.setCheckListSize(mCheckList);
@@ -74,7 +79,6 @@ public class NotificationActivity extends AppCompatActivity {
     public void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);
-        // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         assert ab != null;
@@ -96,14 +100,12 @@ public class NotificationActivity extends AppCompatActivity {
                     mCategorieResult = CategoriesCheck.getQueryCategories(mCheckList);
                     setNotificationOn();
                     mJob = 1;
-
                     Log.i("NotificationActivity", "Notification Checked!");
                 } else {
                     setNotificationOff();
                     mJob = 0;
                     Log.i("NotificationActivity", "Notification Unchecked!");
                 }
-
                 savePref();
             }
         });
@@ -131,7 +133,7 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
-    public void onHitEnter() { //  Handle the enter key
+    public void onHitEnter() { //  Handle the enter key to launch search
 
         mNotificationSearchQuery.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -147,6 +149,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void checkState() {
+        // Checking the query and category check for enable notification
         if (mNotificationSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
             mNotificationSwitch.setEnabled(true);
         } else {
@@ -154,6 +157,10 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Enable notification <br>
+     * Using <b>Androidx Worker</>
+     */
     public void setNotificationOn() {
         Data notificationData = new Data.Builder()
                 .putString("Query", mSearchResult)
@@ -170,6 +177,10 @@ public class NotificationActivity extends AppCompatActivity {
         Toast.makeText(this, "Notifications set !", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Disable notification <br>
+     * Using <b>Androidx Worker</>
+     */
     public void setNotificationOff() {
         mFirstNot = 0;
         WorkManager.getInstance().cancelAllWorkByTag("RequestDaliy");
@@ -178,6 +189,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     public void savePref() {
+        //  Save user query and notification
         mSharedPreferences = getSharedPreferences("Notification", MODE_PRIVATE);
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putInt("Job", mJob)
@@ -186,6 +198,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     public void loadPref() {
+        //  Load user query and notification
         mSharedPreferences = getSharedPreferences("Notification", MODE_PRIVATE);
         mJob = mSharedPreferences.getInt("Job", mJob);
         mSearchResult = mSharedPreferences.getString("Query", mSearchResult);
@@ -201,6 +214,9 @@ public class NotificationActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    /**
+     * Category Checkbox Listeners
+     */
     void clickListener() {
         mBusiness.setOnClickListener(new View.OnClickListener() {
             @Override

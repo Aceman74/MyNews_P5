@@ -18,6 +18,7 @@ import com.aceman.mynews.R;
 
 /**
  * Created by Lionel JOFFRAY - on 27/03/2019.
+ *  * This Class contain all CALL with API key for NYT <br>
  */
 public class HelpDialog {
 

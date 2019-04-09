@@ -18,6 +18,7 @@ import com.aceman.mynews.ui.news.fragments.TravelFragment;
 
 /**
  * Created by Lionel JOFFRAY - on 05/03/2019.
+ * <b>Page Adapter</b> for TabView
  */
 public class PageAdapter extends FragmentPagerAdapter {
 

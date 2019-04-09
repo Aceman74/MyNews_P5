@@ -2,7 +2,6 @@ package com.aceman.mynews.ui.navigations.activities;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -33,9 +32,18 @@ import com.google.android.gms.security.ProviderInstaller;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
-import icepick.State;
 import okhttp3.Cache;
 
+/**
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>Main Activity</> who configure a lot of method: <br>
+ * - Configure ViewPager <br>
+ * - Configure Navigation Drawer <br>
+ * - Configure ViewPager <br>
+ * - Configure Notification Channel <br>
+ * - Configure SSL update for Android API < 19 <br>
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String CHANNEL_ID = "29";
     @BindView(R.id.toolbar)
@@ -48,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TabLayout tabs;
     @BindView(R.id.activity_main_nav_view)
     NavigationView mNavigationView;
-    @State
     int mFragmentTag;
     public static Cache mCache;
 
@@ -70,9 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void configureCache() {
-
         int cacheSize = 5 * 1024 * 1024; // 5 MB
-        mCache = new Cache(getCacheDir(), cacheSize);
+        mCache = new Cache(getCacheDir(), cacheSize);   //  For API requests
     }
 
     @Override
@@ -143,10 +149,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
+        //  Navigation Drawer item settings
         int id = item.getItemId();
 
-        // 6 - Show fragment after user clicked on a menu item
         switch (id) {
             case R.id.activity_main_drawer_topstories:
                 pager.setCurrentItem(0);
@@ -183,9 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             default:
                 break;
         }
-
         this.drawerLayout.closeDrawer(GravityCompat.START);
-
         return true;
     }
 
@@ -239,6 +242,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Create Notification Channel and clear Glide cache Asynchronously
+     */
     public class onLaunchMainActivity extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {

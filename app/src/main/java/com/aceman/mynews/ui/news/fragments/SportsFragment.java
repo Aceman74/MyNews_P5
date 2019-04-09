@@ -1,9 +1,7 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +19,7 @@ import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.shared.SharedDoc;
 import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.ui.news.adapters.SharedAdapter;
+import com.aceman.mynews.utils.FragmentBase;
 import com.aceman.mynews.utils.RecyclerAnimation;
 import com.bumptech.glide.Glide;
 
@@ -33,9 +32,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>Sports Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
  */
-public class SportsFragment extends BaseFragment {
+public class SportsFragment extends FragmentBase {
     @BindView(R.id.sports_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_sports)
@@ -49,7 +50,6 @@ public class SportsFragment extends BaseFragment {
     LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
-    Context mContext = this.getContext();
 
     public SportsFragment() {
     }
@@ -85,8 +85,8 @@ public class SportsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_sports, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        isOnline();
-        new asyncRetrofitRequest().execute("request");
+        isOnline(); //  Check internet connection
+        new asyncRetrofitRequest().execute("request");  //  Make the request call
         configureRecyclerView();
         return view;
     }
@@ -117,7 +117,7 @@ public class SportsFragment extends BaseFragment {
                 public void onNext(SharedObservable details) {
                     Log.e("SPORTS_Next", "On Next");
                     mProgressBar.setVisibility(View.GONE);
-                    updateUI(details);
+                    updateUI(details);  //  Update RecyclerView
 
                 }
 
@@ -125,7 +125,7 @@ public class SportsFragment extends BaseFragment {
                 public void onError(Throwable e) {
                     Log.e("SPORTS_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
-                    tooManyRefresh(e);  //  When user makes too many API call
+                    tooManyRefresh(e);  //  When user makes too many API call (shouldn't happen with FragmentBase Dispatcher fix)
                 }
 
                 @Override
@@ -137,7 +137,7 @@ public class SportsFragment extends BaseFragment {
         } else {
             mProgressBar.setVisibility(View.GONE);
             mCheckConnexion.setVisibility(View.VISIBLE);
-            retryBtnClick();
+            retryBtnClick();    //  If no connection, show refresh btn
         }
     }
 
@@ -150,6 +150,6 @@ public class SportsFragment extends BaseFragment {
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult();
+        ifNoResult();   //  If result is 0, show a screen
     }
 }

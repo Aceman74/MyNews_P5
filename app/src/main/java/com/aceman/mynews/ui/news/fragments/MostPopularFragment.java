@@ -1,9 +1,7 @@
 package com.aceman.mynews.ui.news.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +19,7 @@ import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.mostpopular.PopularResult;
 import com.aceman.mynews.ui.news.adapters.MostPopularAdapter;
+import com.aceman.mynews.utils.FragmentBase;
 import com.aceman.mynews.utils.RecyclerAnimation;
 import com.bumptech.glide.Glide;
 
@@ -33,9 +32,11 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>Most Popular Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
  */
-public class MostPopularFragment extends BaseFragment {
+public class MostPopularFragment extends FragmentBase {
     @BindView(R.id.mostpopular_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_mostpopular)
@@ -49,7 +50,6 @@ public class MostPopularFragment extends BaseFragment {
     LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
-    Context mContext = this.getContext();
 
 
     public MostPopularFragment() {
@@ -85,8 +85,8 @@ public class MostPopularFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
         ButterKnife.bind(this, view);
         mProgressBar.setVisibility(View.VISIBLE);
-        isOnline();
-        new asyncRetrofitRequest().execute("request");
+        isOnline(); //  Check internet connection
+        new asyncRetrofitRequest().execute("request");  //  Make the request call
         configureRecyclerView();
         return view;
     }
@@ -112,18 +112,19 @@ public class MostPopularFragment extends BaseFragment {
             mCheckConnexion.setVisibility(View.GONE);
 
             NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
-            this.disposable = NewsStream.streamGetMostPopular(newsStream,7).subscribeWith(new DisposableObserver<MostPopular>() {
+            this.disposable = NewsStream.streamGetMostPopular(newsStream, 7).subscribeWith(new DisposableObserver<MostPopular>() {
                 @Override
                 public void onNext(MostPopular details) {
                     Log.e("POPULAR_Next", "On Next");
                     mProgressBar.setVisibility(View.GONE);
-                    updateUI(details);
+                    updateUI(details);  //  Update RecyclerView
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     Log.e("POPULAR_Error", "On Error" + Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
+                    //  tooManyRefresh() method is not necessary here, no call limitation
                 }
 
                 @Override
@@ -134,7 +135,7 @@ public class MostPopularFragment extends BaseFragment {
         } else {
             mProgressBar.setVisibility(View.GONE);
             mCheckConnexion.setVisibility(View.VISIBLE);
-            retryBtnClick();
+            retryBtnClick();    //  If no connection, show refresh btn
         }
     }
 
@@ -147,6 +148,6 @@ public class MostPopularFragment extends BaseFragment {
         mPopular.addAll(details.getPopularResults());
         adapter.notifyDataSetChanged();
         RecyclerAnimation.runLayoutAnimation(mRecyclerView);
-        ifNoResult();
+        ifNoResult();   //  If result is 0, show a screen
     }
 }

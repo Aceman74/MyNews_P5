@@ -13,6 +13,9 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Lionel JOFFRAY - on 13/03/2019.
+ * <p>
+ * <b>NewsStream</> Class contain all observables for news Call <br>
+ * Using <b>RX Java</>
  */
 public class NewsStream {
 

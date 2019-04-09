@@ -59,7 +59,7 @@ public class ToolbarMenuTest {
     }
 
     @Test
-    public void Search_Bike_Query_Sports_Category_Test() {
+    public void Successful_Search_Bike_Query_Sports_Category_Test() {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
@@ -108,7 +108,7 @@ public class ToolbarMenuTest {
     }
 
     @Test
-    public void Search_Avengers_Query_Movies_Category_With_Date_Test() {
+    public void NoResult_Return_Search_Avengers_Query_Movies_Category_With_Date_Test() {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
@@ -148,16 +148,17 @@ public class ToolbarMenuTest {
         onView(withId(R.id.activity_search_btn))        //  Search btn clicked
                 .perform(click());
 
+
         onView(withId(R.id.checkbox_movies))        //  Categories are gone
                 .check(matches(not(isDisplayed())));
 
         onView(withId(R.id.search_fragment_imagez_view))
-                .check(matches(isDisplayed()));
+                .perform(waitUntil(isDisplayed()));
 
     }
 
     @Test
-    public void Switch_Notification_Test() {
+    public void SwitchOn_AndOff_Notification_Test() {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
@@ -189,7 +190,7 @@ public class ToolbarMenuTest {
     }
 
     @Test
-    public void Click_Help_Test() {
+    public void Click_Help_Showing_Test() {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
@@ -201,11 +202,11 @@ public class ToolbarMenuTest {
                 .perform(click());
 
         onView(withId(R.id.help_dialog_layout))    //  Check if displayed
-                .check(matches(isDisplayed()));
+                .perform(waitUntil(isDisplayed()));
     }
 
     @Test
-    public void Click_About_Test() {
+    public void Click_About_Showing_Test() {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));

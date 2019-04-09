@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.ui.search.fragments.SearchFragment;
+import com.aceman.mynews.utils.CategoriesCheck;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +29,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
+/**
+ * Created by Lionel JOFFRAY.
+ * <p>
+ * <b>Search Activity</> for searching in all NYT by category <br>
+ */
 public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -81,7 +86,7 @@ public class SearchActivity extends AppCompatActivity {
         getToDate();
 
         Intent intent = getIntent();
-        mSearchResult = intent.getStringExtra("Search");
+        mSearchResult = intent.getStringExtra("Search");    //  Get the intent from daily notification click
         CategoriesCheck.setCheckListSize(mCheckList);
         CategoriesCheck.checkBoxListnener(mBusiness, mTech, mFood, mMovies, mSports, mTravel, mCheckList);
         searchQueryListener();
@@ -89,6 +94,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void setVisibilitySearchLayout() {
+        //  When hit search btn, some element are hiding from the view
+        // And back when user click the edit text area
         mSearchQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,8 +119,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void searchQueryListener() {
-
-        mSearchBtn.setAlpha(0.5f);
+        mSearchBtn.setAlpha(0.5f);  //  Disable btn if no category or querry
 
         mSearchQuery.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,6 +129,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //  show element if new search
                 btnLayout.setVisibility(View.VISIBLE);
                 searchCatgorie.setVisibility(View.VISIBLE);
                 timeLayout.setVisibility(View.VISIBLE);
@@ -132,9 +139,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 mSearchResult = mSearchQuery.getText().toString();
-                checkState();
-                onHitEnter();
-
+                checkState();   //  Check query and category condition
+                onHitEnter();   //  Show result in recycler view under the query (into search Activity)
             }
         });
     }
@@ -166,11 +172,12 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void searchFragment() {
-
+        //  Show result in recycler view under the query (same fragment)
+        // hide some element
         btnLayout.setVisibility(View.GONE);
         searchCatgorie.setVisibility(View.GONE);
         timeLayout.setVisibility(View.GONE);
-
+        // Send data by bundle to the fragment
         mCategorieResult = CategoriesCheck.getQueryCategories(mCheckList);
         Bundle searchStrings = new Bundle();
         searchStrings.putString("fromDatePicker", mFromDateString);
@@ -189,6 +196,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
     public void getFromDate() {
+        //  Configure the DatePicker
         mDisplayFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,6 +222,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        //  Edit the date to match the API REQUEST
         mFromDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -237,6 +246,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
     public void getToDate() {
+        //  Configure the DatePicker
         mDisplayToDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,6 +272,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        //  Edit the date to match the API REQUEST
         mToDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

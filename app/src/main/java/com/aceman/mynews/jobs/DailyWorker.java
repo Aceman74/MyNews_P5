@@ -23,18 +23,19 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static com.aceman.mynews.ui.navigations.activities.MainActivity.CHANNEL_ID;
-import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
 import static com.aceman.mynews.ui.notifications.activities.NotificationActivity.mFirstNot;
 
 /**
  * Created by Lionel JOFFRAY - on 25/03/2019.
+ * <p>
+ * This Class contain the <b>Worker</> for sending Daily Notification to user <br>
+ * Using <b>AndroidX Work</>
  */
 public class DailyWorker extends Worker {
     Disposable disposable;
@@ -53,7 +54,12 @@ public class DailyWorker extends Worker {
     String mAppTitle;
     Context mContext;
 
-
+    /**
+     * Initializing variables
+     *
+     * @param context      get Context
+     * @param workerParams get Params
+     */
     public DailyWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         mContext = context;
@@ -66,6 +72,11 @@ public class DailyWorker extends Worker {
 
     }
 
+    /**
+     * Worker execution
+     *
+     * @return result of job
+     */
     @NonNull
     @Override
     public Result doWork() {
@@ -83,13 +94,16 @@ public class DailyWorker extends Worker {
         }
     }
 
+    /**
+     * Result of the user API notification call
+     */
     public void notificationResult() {
         mBeginDate = mYesterday;
         mEndDate = mToday;
 
 
         NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
-        disposable = NewsStream.streamGetSearch(newsStream,mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
+        disposable = NewsStream.streamGetSearch(newsStream, mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search details) {
                 Log.e("SEARCH_Next", "On Next");
@@ -110,31 +124,34 @@ public class DailyWorker extends Worker {
         });
     }
 
-    public Retrofit setRetrofit(){
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .cache(mCache)
-                .build();
+    /**
+     * Retrofit call for worker
+     *
+     * @return retrofit build
+     */
+    public Retrofit setRetrofit() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nytimes.com/svc/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient)
                 .build();
 
         return retrofit;
     }
 
+    /**
+     * Method who trigger the Notification on user screen after 24h
+     *
+     * @param mSearchQuery the querry term from user
+     */
     public void showNotif(String mSearchQuery) {
 
         if (mFirstNot == 0) {
-            mFirstNot++;
+            mFirstNot++;    //  Tips for ignoring immediate notification when set
         } else {
-
-
             if (mSizeResult > 0) {
-                Intent intent = new Intent(mContext, SearchActivity.class);
+                Intent intent = new Intent(mContext, SearchActivity.class); //  Open Search Activity with user querry if click on new notification
                 intent.putExtra("Search", mSearchQuery);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, FLAG_CANCEL_CURRENT);
@@ -157,7 +174,7 @@ public class DailyWorker extends Worker {
 
             } else {
 
-                Intent intent = new Intent(mContext, NotificationActivity.class);
+                Intent intent = new Intent(mContext, NotificationActivity.class);   //  If no result after 24h, user can click notification to change query
                 intent.putExtra("Search", mSearchQuery);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, FLAG_CANCEL_CURRENT);
@@ -182,6 +199,10 @@ public class DailyWorker extends Worker {
         }
     }
 
+    /**
+     * Setting date for matching with API call request <br>
+     * by adding 0 before the month and day values from 1 to 9
+     */
     public void setDate() {
 
         Calendar cal = Calendar.getInstance();
