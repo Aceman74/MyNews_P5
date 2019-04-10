@@ -22,7 +22,7 @@ android:
     - sys-img-armeabi-v7a-android-19
 
 script:
-- ./gradlew build connectedCheck
+- ./gradlew build test connectedAndroidTest
 
 before_script:
   # Create and start emulator, android 19 minimum supported
