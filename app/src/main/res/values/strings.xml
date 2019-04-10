@@ -2,7 +2,6 @@
     <string name="app_name">My News</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="top_stories_tab">TOP STORIES</string>
     <string name="most_polular_tab">MOST POPULAR</string>
     <string name="business_tab">BUSINESS</string>

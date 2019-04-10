@@ -24,6 +24,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 
+import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 import static android.support.test.espresso.action.ViewActions.actionWithAssertions;
@@ -54,7 +55,7 @@ public class TestUtils {
 
             @Override
             protected boolean matchesSafely(RecyclerView view) {
-                return matcher.matches(view.getAdapter().getItemCount());
+                return matcher.matches(Objects.requireNonNull(view.getAdapter()).getItemCount());
             }
         };
     }

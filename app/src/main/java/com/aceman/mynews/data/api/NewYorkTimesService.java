@@ -20,6 +20,7 @@ import retrofit2.http.Query;
  * Using <b>Retrofit</>
  */
 public interface NewYorkTimesService {
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/svc/")
             .addConverterFactory(GsonConverterFactory.create())

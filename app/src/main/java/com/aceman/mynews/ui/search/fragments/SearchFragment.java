@@ -22,17 +22,15 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
 
 /**
  * Created by Lionel JOFFRAY.
@@ -73,7 +71,7 @@ public class SearchFragment extends Fragment {
     public void bundleStrings() {
         try {
             Bundle searchStrings = getArguments();
-            mBeginDate = searchStrings.getString("fromDatePicker");
+            mBeginDate = Objects.requireNonNull(searchStrings).getString("fromDatePicker");
             mEndDate = searchStrings.getString("toDatePicker");
             mSearchQuery = searchStrings.getString("query");
             mCategorie = searchStrings.getString("categories");
@@ -94,7 +92,7 @@ public class SearchFragment extends Fragment {
         };
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
     }
 
     public void executeHttpRequestWithRetrofit() {

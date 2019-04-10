@@ -11,12 +11,12 @@ package com.aceman.mynews.ui.navigations.activities;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.DatePicker;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.utils.TestUtils;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -33,23 +33,20 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.aceman.mynews.utils.TestUtils.atPosition;
-import static com.aceman.mynews.utils.TestUtils.hasItemCount;
-import static com.aceman.mynews.utils.TestUtils.waitId;
-import static com.aceman.mynews.utils.TestUtils.waitUntil;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.not;
 
 
 /**
  * Created by Lionel JOFFRAY - on 04/04/2019.
+ * <p>
+ * Test the different options on Toolbar menu
  */
 @RunWith(AndroidJUnit4.class)
-public class ToolbarMenuTest {
+public class ToolbarMenuTest extends TestUtils {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);

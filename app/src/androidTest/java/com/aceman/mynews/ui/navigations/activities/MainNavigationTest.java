@@ -15,6 +15,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.utils.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -29,16 +30,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.aceman.mynews.utils.TestUtils.atPosition;
-import static com.aceman.mynews.utils.TestUtils.hasItemCount;
-import static com.aceman.mynews.utils.TestUtils.waitUntil;
 import static org.hamcrest.Matchers.greaterThan;
 
 /**
  * Created by Lionel JOFFRAY - on 05/04/2019.
+ * <p>
+ * Test all navigation possibilities
  */
 @RunWith(AndroidJUnit4.class)
-public class MainNavigationTest {
+public class MainNavigationTest extends TestUtils {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);

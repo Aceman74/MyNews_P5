@@ -14,6 +14,8 @@ import android.view.animation.LayoutAnimationController;
 
 import com.aceman.mynews.R;
 
+import java.util.Objects;
+
 /**
  * Created by Lionel JOFFRAY - on 26/03/2019.
  * <p>
@@ -26,7 +28,7 @@ public class RecyclerAnimation {
                 AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
 
         recyclerView.setLayoutAnimation(controller);
-        recyclerView.getAdapter().notifyDataSetChanged();
+        Objects.requireNonNull(recyclerView.getAdapter()).notifyDataSetChanged();
         recyclerView.scheduleLayoutAnimation();
     }
 

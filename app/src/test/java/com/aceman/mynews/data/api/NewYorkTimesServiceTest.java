@@ -25,6 +25,8 @@ import static junit.framework.TestCase.assertTrue;
 
 /**
  * Created by Lionel JOFFRAY - on 29/03/2019.
+ *
+ * Test All API Call to New York Times
  */
 public class NewYorkTimesServiceTest {
     static String error;
@@ -142,7 +144,7 @@ public class NewYorkTimesServiceTest {
         String query = null;
         String category = null;
 
-        Search se = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delaySubscription(20, TimeUnit.SECONDS).blockingFirst();
+        Search se = mNewYorkTimesService.streamGetSearch(null, null, null, null).delaySubscription(20, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se);
         // Test if there's articles in list
@@ -162,7 +164,7 @@ public class NewYorkTimesServiceTest {
         String query = "29";
         error = null;
 
-        Search se1 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delaySubscription(15, TimeUnit.SECONDS).blockingFirst();
+        Search se1 = mNewYorkTimesService.streamGetSearch(null, null, query, null).delaySubscription(15, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se1);
 
@@ -202,7 +204,7 @@ public class NewYorkTimesServiceTest {
         begin = "Hello";
         error = null;
 
-        Search se3 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
+        Search se3 = mNewYorkTimesService.streamGetSearch(begin, null, null, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se3);
     }
