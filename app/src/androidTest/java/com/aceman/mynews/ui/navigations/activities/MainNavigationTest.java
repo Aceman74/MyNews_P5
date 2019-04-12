@@ -62,6 +62,8 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.topstories_recycler))       //  Recycler View is displayed
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.topstories_recycler))   //  Check that item display all details
                 .check(matches(atPosition(0, hasDescendant(withId(R.id.fragment_main_item_image)))))
                 .check(matches(atPosition(0, hasDescendant(withId(R.id.fragment_main_item_date)))))
