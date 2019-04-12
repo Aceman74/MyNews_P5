@@ -58,10 +58,10 @@ public class ToolbarMenuTest extends TestUtils {
     @Test
     public void Successful_Search_Bike_Query_Sports_Category_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.menu_activity_main_search))
                 .perform(click());
@@ -111,10 +111,10 @@ public class ToolbarMenuTest extends TestUtils {
     @Test
     public void NoResult_Return_Search_Avengers_Query_Movies_Category_With_Date_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.menu_activity_main_search))
                 .perform(click());
@@ -171,10 +171,10 @@ public class ToolbarMenuTest extends TestUtils {
     @Test
     public void SwitchOn_AndOff_Notification_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText(R.string.notfication_menu))
@@ -207,10 +207,10 @@ public class ToolbarMenuTest extends TestUtils {
     @Test
     public void Click_Help_Showing_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 
@@ -227,10 +227,10 @@ public class ToolbarMenuTest extends TestUtils {
     @Test
     public void Click_About_Showing_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText(R.string.about))    //  Click on about menu right

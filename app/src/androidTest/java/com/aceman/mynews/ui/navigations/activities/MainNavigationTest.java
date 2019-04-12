@@ -54,10 +54,10 @@ public class MainNavigationTest extends TestUtils {
     @Test
     public void Top_Stories_Click_Item_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.topstories_recycler))       //  Recycler View is displayed
                 .check(matches(isDisplayed()));
@@ -89,11 +89,10 @@ public class MainNavigationTest extends TestUtils {
     @Test
     public void Tab_Navigation_Swiping_Categories_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.topstories_recycler))       // wait for Recycler View is displayed
                 .check(matches(isDisplayed()));
@@ -203,10 +202,10 @@ public class MainNavigationTest extends TestUtils {
     @Test
     public void Navigation_Drawer_Test() {
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.topstories_recycler))       // wait for Recycler View is displayed4
                 .check(matches(isDisplayed()));
