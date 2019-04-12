@@ -62,18 +62,18 @@ public class SearchActivity extends AppCompatActivity {
     CheckBox mSports;
     @BindView(R.id.checkbox_travel)
     CheckBox mTravel;
-    DatePickerDialog.OnDateSetListener mFromDateListener;
-    DatePickerDialog mFromDate;
-    String mFromDateString;
-    DatePickerDialog mToDate;
-    String mToDateString;
-    DatePickerDialog.OnDateSetListener mToDateListener;
-    SearchFragment mSearchFragment;
+    private DatePickerDialog.OnDateSetListener mFromDateListener;
+    private DatePickerDialog mFromDate;
+    private String mFromDateString;
+    private DatePickerDialog mToDate;
+    private String mToDateString;
+    private DatePickerDialog.OnDateSetListener mToDateListener;
+    private SearchFragment mSearchFragment;
     @BindView(R.id.activity_search_search_query)
     EditText mSearchQuery;
-    String mSearchResult;
-    String mCategorieResult;
-    List<Boolean> mCheckList;
+    private String mSearchResult;
+    private String mCategorieResult;
+    private List<Boolean> mCheckList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class SearchActivity extends AppCompatActivity {
         clickListener();
     }
 
-    public void setVisibilitySearchLayout() {
+    private void setVisibilitySearchLayout() {
         //  When hit search btn, some element are hiding from the view
         // And back when user click the edit text area
         mSearchQuery.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +110,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    public void searchFragmentLaunch() {
+    private void searchFragmentLaunch() {
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +119,7 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    public void searchQueryListener() {
+    private void searchQueryListener() {
         mSearchBtn.setAlpha(0.5f);  //  Disable btn if no category or querry
 
         mSearchQuery.addTextChangedListener(new TextWatcher() {
@@ -158,7 +158,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    public void onHitEnter() { //  Handle the enter key
+    private void onHitEnter() { //  Handle the enter key
 
         mSearchQuery.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -172,7 +172,7 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    public void searchFragment() {
+    private void searchFragment() {
         //  Show result in recycler view under the query (same fragment)
         // hide some element
         btnLayout.setVisibility(View.GONE);
@@ -196,7 +196,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    public void getFromDate() {
+    private void getFromDate() {
         //  Configure the DatePicker
         mDisplayFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,7 +246,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    public void getToDate() {
+    private void getToDate() {
         //  Configure the DatePicker
         mDisplayToDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,7 +294,7 @@ public class SearchActivity extends AppCompatActivity {
         };
     }
 
-    public void configureToolbar() {
+    private void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);
         // Get a support ActionBar corresponding to this toolbar
@@ -313,7 +313,7 @@ public class SearchActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    void clickListener() {
+    private void clickListener() {
         mBusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

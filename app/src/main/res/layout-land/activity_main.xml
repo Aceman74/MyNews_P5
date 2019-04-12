@@ -29,12 +29,14 @@
             android:background="@color/colorPrimary"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@android:color/white" />
+            app:tabTextColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/activity_main_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size_title" />
 
 
     </LinearLayout>
@@ -47,6 +49,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/activity_main_nav_header"
-        app:menu="@menu/activity_main_menu_drawer" />
+        app:menu="@menu/activity_main_menu_drawer"
+        android:textSize="@dimen/text_size_normal" />
 
 </android.support.v4.widget.DrawerLayout>

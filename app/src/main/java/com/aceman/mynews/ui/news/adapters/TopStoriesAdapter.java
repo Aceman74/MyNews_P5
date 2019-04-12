@@ -37,9 +37,9 @@ import butterknife.ButterKnife;
  */
 public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.MyViewHolder> {
 
-    public List<TopStorieResult> mTopStories;
-    public RequestManager glide;
-    Context mContext;
+    private final List<TopStorieResult> mTopStories;
+    private final RequestManager glide;
+    private final Context mContext;
 
     public TopStoriesAdapter(List<TopStorieResult> listTopStorieResult, RequestManager glide, Context context) {
         this.mTopStories = listTopStorieResult;
@@ -69,7 +69,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
      * @param glide  use for get image of article
      * @param holder view holder
      */
-    public void updateWithFreshInfo(final TopStorieResult item, RequestManager glide, final MyViewHolder holder) {
+    private void updateWithFreshInfo(final TopStorieResult item, RequestManager glide, final MyViewHolder holder) {
 
         holder.mTitle.setText(item.getTitle());
         holder.setCategroie = item.getSection();
@@ -107,7 +107,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
         return this.mTopStories.size();
     }
 
-    public void setFadeAnimation(View view) {
+    private void setFadeAnimation(View view) {
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         view.startAnimation(anim);
     }
@@ -125,7 +125,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesAdapter.My
         LinearLayout mItemListener;
         String setCategroie;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

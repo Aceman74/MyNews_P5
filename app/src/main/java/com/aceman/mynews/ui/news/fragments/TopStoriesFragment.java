@@ -39,9 +39,9 @@ import io.reactivex.observers.DisposableObserver;
  * <b>Top Stories Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
  */
 public class TopStoriesFragment extends FragmentBase {
-    Disposable disposable;
-    List<TopStorieResult> mTopStories;
-    TopStoriesAdapter adapter;
+    private Disposable disposable;
+    private List<TopStorieResult> mTopStories;
+    private TopStoriesAdapter adapter;
     @BindView(R.id.topstories_recycler)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_topstories)
@@ -99,7 +99,7 @@ public class TopStoriesFragment extends FragmentBase {
         disposeWhenDestroy();
     }
 
-    public void configureRecyclerView() {
+    private void configureRecyclerView() {
         mTopStories = new ArrayList<>();
         adapter = new TopStoriesAdapter(mTopStories, Glide.with(this), getContext()) {
         };
@@ -109,7 +109,7 @@ public class TopStoriesFragment extends FragmentBase {
     }
 
 
-    public void executeHttpRequestWithRetrofit() {
+    private void executeHttpRequestWithRetrofit() {
 
         if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
@@ -147,11 +147,11 @@ public class TopStoriesFragment extends FragmentBase {
         }
     }
 
-    public void disposeWhenDestroy() {
+    private void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    public void updateUI(TopStories details) {
+    private void updateUI(TopStories details) {
         mTopStories.clear();
         mTopStories.addAll(details.getTopStorieResults());
         adapter.notifyDataSetChanged();

@@ -42,7 +42,8 @@
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:padding="5dp"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:textSize="@dimen/text_size_title"/>
 
     </LinearLayout>
 </LinearLayout>

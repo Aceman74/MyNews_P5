@@ -2,7 +2,7 @@ package com.aceman.mynews.data.models.shared;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Keyword {
+class Keyword {
 
     @SerializedName("major")
     private String mMajor;

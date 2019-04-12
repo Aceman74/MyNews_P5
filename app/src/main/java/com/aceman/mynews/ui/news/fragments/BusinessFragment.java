@@ -42,9 +42,9 @@ public class BusinessFragment extends FragmentBase {
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_business)
     ProgressBar mProgressBar;
-    Disposable mDisposable;
-    List<SharedDoc> mResponse;
-    SharedAdapter mAdapter;
+    private Disposable mDisposable;
+    private List<SharedDoc> mResponse;
+    private SharedAdapter mAdapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
     @BindView(R.id.layout_no_result)
@@ -97,7 +97,7 @@ public class BusinessFragment extends FragmentBase {
         this.disposeWhenDestroy();
     }
 
-    public void configureRecyclerView() {
+    private void configureRecyclerView() {
         this.mResponse = new ArrayList<>();
         this.mAdapter = new SharedAdapter(this.mResponse, Glide.with(this), getContext()) {
         };
@@ -106,7 +106,7 @@ public class BusinessFragment extends FragmentBase {
         this.mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
     }
 
-    public void executeHttpRequestWithRetrofit() {
+    private void executeHttpRequestWithRetrofit() {
         if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
@@ -141,11 +141,11 @@ public class BusinessFragment extends FragmentBase {
         }
     }
 
-    public void disposeWhenDestroy() {
+    private void disposeWhenDestroy() {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
-    public void updateUI(SharedObservable details) {
+    private void updateUI(SharedObservable details) {
         mResponse.clear();
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();

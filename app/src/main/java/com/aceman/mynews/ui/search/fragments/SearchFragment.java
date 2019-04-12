@@ -38,17 +38,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * <b>Search Fragment</> get the search activity bundle to make api call for user <br>
  */
 public class SearchFragment extends Fragment {
-    public Disposable disposable;
-    public List<Doc> mSearch;
-    public SearchAdapter adapter;
+    private Disposable disposable;
+    private List<Doc> mSearch;
+    private SearchAdapter adapter;
     @BindView(R.id.search_fragment_imagez_view)
     ImageView mNoResult;
     @BindView(R.id.search_fragment_recyclerview)
     RecyclerView mRecyclerView;
-    String mSearchQuery = null;
-    String mBeginDate = null;
-    String mEndDate = null;
-    String mCategorie = null;
+    private String mSearchQuery = null;
+    private String mBeginDate = null;
+    private String mEndDate = null;
+    private String mCategorie = null;
 
     public SearchFragment() {
     }
@@ -68,7 +68,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    public void bundleStrings() {
+    private void bundleStrings() {
         try {
             Bundle searchStrings = getArguments();
             mBeginDate = Objects.requireNonNull(searchStrings).getString("fromDatePicker");
@@ -86,7 +86,7 @@ public class SearchFragment extends Fragment {
         this.disposeWhenDestroy();
     }
 
-    public void configureRecyclerView() {
+    private void configureRecyclerView() {
         this.mSearch = new ArrayList<>();
         this.adapter = new SearchAdapter(this.mSearch, Glide.with(this), getContext()) {
         };
@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment {
         this.mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
     }
 
-    public void executeHttpRequestWithRetrofit() {
+    private void executeHttpRequestWithRetrofit() {
 
         NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
         this.disposable = NewsStream.streamGetSearch(newsStream,mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
@@ -118,11 +118,11 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    public void disposeWhenDestroy() {
+    private void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    public Retrofit setRetrofit(){
+    private Retrofit setRetrofit(){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nytimes.com/svc/")
@@ -133,7 +133,7 @@ public class SearchFragment extends Fragment {
         return retrofit;
     }
 
-    public void updateUI(Search details) {
+    private void updateUI(Search details) {
         mSearch.clear();
         mSearch.addAll(details.getSearchResponse().getDocs());
         adapter.notifyDataSetChanged();

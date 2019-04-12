@@ -38,21 +38,21 @@ import static com.aceman.mynews.ui.notifications.activities.NotificationActivity
  * Using <b>AndroidX Work</>
  */
 public class DailyWorker extends Worker {
-    Disposable disposable;
-    String mBeginDate;
-    String mEndDate;
-    int mSizeResult;
-    String mToday;
-    String mYesterday;
-    String mSearchQuery = getInputData().getString("Query");
-    String mCategorie = getInputData().getString("Categorie");
-    String mPos1;
-    String mPos2;
-    String mPos3;
-    String mNeg1;
-    String mNeg2;
-    String mAppTitle;
-    Context mContext;
+    private Disposable disposable;
+    private String mBeginDate;
+    private String mEndDate;
+    private int mSizeResult;
+    private String mToday;
+    private String mYesterday;
+    private final String mSearchQuery = getInputData().getString("Query");
+    private final String mCategorie = getInputData().getString("Categorie");
+    private final String mPos1;
+    private final String mPos2;
+    private final String mPos3;
+    private final String mNeg1;
+    private final String mNeg2;
+    private final String mAppTitle;
+    private final Context mContext;
 
     /**
      * Initializing variables
@@ -97,7 +97,7 @@ public class DailyWorker extends Worker {
     /**
      * Result of the user API notification call
      */
-    public void notificationResult() {
+    private void notificationResult() {
         mBeginDate = mYesterday;
         mEndDate = mToday;
 
@@ -129,7 +129,7 @@ public class DailyWorker extends Worker {
      *
      * @return retrofit build
      */
-    public Retrofit setRetrofit() {
+    private Retrofit setRetrofit() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nytimes.com/svc/")
@@ -145,7 +145,7 @@ public class DailyWorker extends Worker {
      *
      * @param mSearchQuery the querry term from user
      */
-    public void showNotif(String mSearchQuery) {
+    private void showNotif(String mSearchQuery) {
 
         if (mFirstNot == 0) {
             mFirstNot++;    //  Tips for ignoring immediate notification when set
@@ -203,7 +203,7 @@ public class DailyWorker extends Worker {
      * Setting date for matching with API call request <br>
      * by adding 0 before the month and day values from 1 to 9
      */
-    public void setDate() {
+    private void setDate() {
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);

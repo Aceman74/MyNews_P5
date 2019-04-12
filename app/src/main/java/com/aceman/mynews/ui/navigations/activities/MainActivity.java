@@ -31,7 +31,6 @@ import com.google.android.gms.security.ProviderInstaller;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import icepick.Icepick;
 import okhttp3.Cache;
 
 /**
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TabLayout tabs;
     @BindView(R.id.activity_main_nav_view)
     NavigationView mNavigationView;
-    int mFragmentTag;
     public static Cache mCache;
 
 
@@ -66,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Icepick.restoreInstanceState(this, savedInstanceState);
         sslUpdate();    //  handle SSLHandshakeException for older API
         configureCache();
         configureToolBar();
@@ -134,13 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Icepick.saveInstanceState(this, outState);
-    }
-
-    public void configureViewPagerAndTabs() {
+    private void configureViewPagerAndTabs() {
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(), getApplicationContext()));
         tabs.setupWithViewPager(pager);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -192,21 +183,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void configureToolBar() {
+    private void configureToolBar() {
         setSupportActionBar(toolbar);
     }
 
-    public void configureDrawerLayout() {
+    private void configureDrawerLayout() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
-    public void configureNavigationView() {
+    private void configureNavigationView() {
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void createNotificationChannel() {
+    private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -245,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * Create Notification Channel and clear Glide cache Asynchronously
      */
-    public class onLaunchMainActivity extends AsyncTask<String, Void, String> {
+    class onLaunchMainActivity extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             createNotificationChannel();

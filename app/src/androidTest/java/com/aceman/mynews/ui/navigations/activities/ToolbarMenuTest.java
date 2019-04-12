@@ -33,10 +33,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.not;
 
 
@@ -60,6 +60,8 @@ public class ToolbarMenuTest extends TestUtils {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
+
+        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.menu_activity_main_search))
                 .perform(click());
@@ -85,8 +87,9 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.checkbox_travel))        //  Categories are gone
                 .check(matches(not(isDisplayed())));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.search_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.search_fragment_recyclerview))   //  Check that item display all details
@@ -98,8 +101,9 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.search_fragment_recyclerview))   //  Recycler View click item 2
                 .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.webview))    //  Open Webview
-                .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()));
 
     }
@@ -109,6 +113,8 @@ public class ToolbarMenuTest extends TestUtils {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
+
+        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.menu_activity_main_search))
                 .perform(click());
@@ -132,6 +138,8 @@ public class ToolbarMenuTest extends TestUtils {
                 .perform(PickerActions.setDate(2018, 10, 1))
                 .perform(pressBack());
 
+        onView(isRoot()).perform(waitFor(1000));
+
         onView(withId(R.id.textview_to_date))
                 .perform(click());
 
@@ -139,8 +147,12 @@ public class ToolbarMenuTest extends TestUtils {
                 .perform(PickerActions.setDate(2018, 10, 1))
                 .perform(pressBack());
 
+        onView(isRoot()).perform(waitFor(1000));
+
         onView(withId(R.id.checkbox_movies))    //  Category checked, search btn enable
                 .perform(click());
+
+        onView(isRoot()).perform(waitFor(1000));
 
         onView(withId(R.id.activity_search_btn))        //  Search btn clicked
                 .perform(click());
@@ -149,8 +161,10 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.checkbox_movies))        //  Categories are gone
                 .check(matches(not(isDisplayed())));
 
+        onView(isRoot()).perform(waitFor(3000));
+
         onView(withId(R.id.search_fragment_imagez_view))
-                .perform(waitUntil(isDisplayed()));
+                .check(matches(isDisplayed()));
 
     }
 
@@ -159,6 +173,8 @@ public class ToolbarMenuTest extends TestUtils {
 
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
+
+        onView(isRoot()).perform(waitFor(4000));
 
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText(R.string.notfication_menu))
@@ -182,6 +198,8 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.notification_switch))        //  Notification btn clicked (enable notification)
                 .perform(click());
 
+        onView(isRoot()).perform(waitFor(1000));
+
         onView(withId(R.id.notification_switch))        //  Notification btn clicked (disable notification)
                 .perform(click());
     }
@@ -192,14 +210,18 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(4000));
+
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 
         onView(withText(R.string.help))    //  Click on help menu right
                 .check(matches(isDisplayed()))
                 .perform(click());
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.help_dialog_layout))    //  Check if displayed
-                .perform(waitUntil(isDisplayed()));
+                .check(matches(isDisplayed()));
     }
 
     @Test
@@ -208,9 +230,13 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(4000));
+
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText(R.string.about))    //  Click on about menu right
                 .perform(click());
+
+        onView(isRoot()).perform(waitFor(2000));
 
         onView(withId(R.id.text_copyright_textview))    //  Check if displayed
                 .check(matches(isDisplayed()));

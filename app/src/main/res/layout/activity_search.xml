@@ -31,7 +31,8 @@
             android:layout_margin="20dp"
             android:hint="@string/search_query_term"
             android:inputType="text"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textSize="@dimen/text_size_title" />
 
         <LinearLayout
             android:id="@+id/time_layout"
@@ -51,7 +52,8 @@
                 android:layout_weight="1"
                 android:background="?attr/editTextBackground"
                 android:drawableEnd="@drawable/arrow_down"
-                android:text="@string/begin_date" />
+                android:text="@string/begin_date"
+                android:textSize="@dimen/text_size_normal"/>
 
             <TextView
                 android:id="@+id/textview_to_date"
@@ -63,7 +65,8 @@
                 android:layout_weight="1"
                 android:background="?attr/editTextBackground"
                 android:drawableEnd="@drawable/arrow_down"
-                android:text="@string/end_date" />
+                android:text="@string/end_date"
+                android:textSize="@dimen/text_size_normal"/>
         </LinearLayout>
 
         <include
@@ -91,7 +94,7 @@
                 android:enabled="false"
                 android:text="@string/search"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="@dimen/text_size_bigger" />
 
 
         </LinearLayout>

@@ -29,7 +29,7 @@
 
     <!-- TOOLBAR TITLE THEME -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">21sp</item>
+        <item name="android:textSize">@dimen/text_size_title</item>
     </style>
 
     <!-- TOOLBAR POPUP THEME -->
@@ -38,4 +38,8 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <!-- TABLAYOUT TITLE -->
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
 </resources>

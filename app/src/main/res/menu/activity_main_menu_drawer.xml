@@ -7,7 +7,8 @@
         <item
             android:id="@+id/activity_main_drawer_news"
             android:icon="@drawable/more"
-            android:title="@string/my_news" />
+            android:title="@string/my_news"
+            android:textSize="@dimen/text_size_title"/>
     </group>
     <item android:title="@string/menu">
         <menu>
@@ -16,11 +17,13 @@
                 <item
                     android:id="@+id/activity_main_drawer_search"
                     android:icon="@drawable/search_blk"
-                    android:title="@string/search" />
+                    android:title="@string/search"
+                    android:textSize="@dimen/text_size_normal"/>
                 <item
                     android:id="@+id/activity_main_drawer_notification"
                     android:icon="@drawable/notification"
-                    android:title="@string/notfication_menu" />
+                    android:title="@string/notfication_menu"
+                    android:textSize="@dimen/text_size_normal"/>
             </group>
 
         </menu>
@@ -33,36 +36,44 @@
 
                     android:id="@+id/activity_main_drawer_topstories"
                     android:icon="@drawable/star"
-                    android:title="@string/top_stories_tab" />
+                    android:title="@string/top_stories_tab"
+                    android:textSize="@dimen/text_size_normal"/>
                 <item
                     android:id="@+id/activity_main_drawer_mostpopulate"
                     android:icon="@drawable/arrow_up_right"
-                    android:title="@string/most_polular_tab" />
+                    android:title="@string/most_polular_tab"
+                    android:textSize="@dimen/text_size_normal"/>
 
                 <item
                     android:id="@+id/activity_main_drawer_business"
                     android:icon="@drawable/business"
-                    android:title="@string/business_tab" />
+                    android:title="@string/business_tab"
+                    android:textSize="@dimen/text_size_normal"/>
                 <item
                     android:id="@+id/activity_main_drawer_food"
                     android:icon="@drawable/food"
-                    android:title="@string/food_tab" />
+                    android:title="@string/food_tab"
+                    android:textSize="@dimen/text_size_normal"/>
                 <item
                     android:id="@+id/activity_main_drawer_movies"
                     android:icon="@drawable/movie"
-                    android:title="@string/movies_tab" />
+                    android:title="@string/movies_tab"
+                    android:textSize="@dimen/text_size_normal" />
                 <item
                     android:id="@+id/activity_main_drawer_sports"
                     android:icon="@drawable/sport"
-                    android:title="@string/sport_tab" />
+                    android:title="@string/sport_tab"
+                    android:textSize="@dimen/text_size_normal" />
                 <item
                     android:id="@+id/activity_main_drawer_tech"
                     android:icon="@drawable/tech"
-                    android:title="@string/tech_tab" />
+                    android:title="@string/tech_tab"
+                    android:textSize="@dimen/text_size_normal" />
                 <item
                     android:id="@+id/activity_main_drawer_travel"
                     android:icon="@drawable/travel"
-                    android:title="@string/travel_tab" />
+                    android:title="@string/travel_tab"
+                    android:textSize="@dimen/text_size_normal"/>
 
             </group>
 

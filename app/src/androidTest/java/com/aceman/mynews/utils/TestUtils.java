@@ -8,28 +8,16 @@
 package com.aceman.mynews.utils;
 
 import android.support.annotation.NonNull;
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.BoundedMatcher;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.espresso.util.HumanReadables;
-import android.support.test.espresso.util.TreeIterables;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.StringDescription;
 
-import java.util.Objects;
-import java.util.concurrent.TimeoutException;
-
-import static android.support.test.espresso.action.ViewActions.actionWithAssertions;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.v4.util.Preconditions.checkNotNull;
 
 /**
@@ -39,66 +27,13 @@ public class TestUtils {
 
 
     /**
-     * IdlingResource for UI Test
-     *
-     * @param matcher
-     * @return
-     */
-    public static Matcher<View> hasItemCount(final Matcher<Integer> matcher) {
-        return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("has item count: ");
-                matcher.describeTo(description);
-            }
-
-            @Override
-            protected boolean matchesSafely(RecyclerView view) {
-                return matcher.matches(Objects.requireNonNull(view.getAdapter()).getItemCount());
-            }
-        };
-    }
-
-    public static ViewAction waitUntil(final Matcher<View> matcher) {
-        return actionWithAssertions(new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return ViewMatchers.isAssignableFrom(View.class);
-            }
-
-            @Override
-            public String getDescription() {
-                StringDescription description = new StringDescription();
-                matcher.describeTo(description);
-                return String.format("wait until: %s", description);
-            }
-
-            @Override
-            public void perform(UiController uiController, View view) {
-                if (!matcher.matches(view)) {
-                    LayoutChangeCallback callback = new LayoutChangeCallback(matcher);
-                    try {
-                        IdlingRegistry.getInstance().register(callback);
-                        view.addOnLayoutChangeListener(callback);
-                        uiController.loopMainThreadUntilIdle();
-                    } finally {
-                        view.removeOnLayoutChangeListener(callback);
-                        IdlingRegistry.getInstance().unregister(callback);
-                    }
-                }
-            }
-        });
-    }
-
-    /**
      * Get position on recyclerview
      *
      * @param position
      * @param itemMatcher
      * @return
      */
-    public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
+    protected static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
         checkNotNull(itemMatcher);
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
             @Override
@@ -120,9 +55,10 @@ public class TestUtils {
     }
 
     /**
-     * Perform action of waiting for a specific view id.
+     * Perform action of waiting for a specific time.
+     * Do not block Main Thread.
      */
-    public static ViewAction waitId(final int viewId, final long millis) {
+    protected static ViewAction waitFor(final long millis) {
         return new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
@@ -131,67 +67,13 @@ public class TestUtils {
 
             @Override
             public String getDescription() {
-                return "wait for a specific view with id <" + viewId + "> during " + millis + " millis.";
+                return "Wait for " + millis + " milliseconds.";
             }
 
             @Override
-            public void perform(final UiController uiController, final View view) {
-                uiController.loopMainThreadUntilIdle();
-                final long startTime = System.currentTimeMillis();
-                final long endTime = startTime + millis;
-                final Matcher<View> viewMatcher = withId(viewId);
-
-                do {
-                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
-                        // found view with required ID
-                        if (viewMatcher.matches(child)) {
-                            return;
-                        }
-                    }
-
-                    uiController.loopMainThreadForAtLeast(50);
-                }
-                while (System.currentTimeMillis() < endTime);
-
-                // timeout happens
-                throw new PerformException.Builder()
-                        .withActionDescription(this.getDescription())
-                        .withViewDescription(HumanReadables.describe(view))
-                        .withCause(new TimeoutException())
-                        .build();
+            public void perform(UiController uiController, final View view) {
+                uiController.loopMainThreadForAtLeast(millis);
             }
         };
-    }
-
-    private static class LayoutChangeCallback implements IdlingResource, View.OnLayoutChangeListener {
-
-        private Matcher<View> matcher;
-        private IdlingResource.ResourceCallback callback;
-        private boolean matched = false;
-
-        LayoutChangeCallback(Matcher<View> matcher) {
-            this.matcher = matcher;
-        }
-
-        @Override
-        public String getName() {
-            return "Layout change callback";
-        }
-
-        @Override
-        public boolean isIdleNow() {
-            return matched;
-        }
-
-        @Override
-        public void registerIdleTransitionCallback(ResourceCallback callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-            matched = matcher.matches(v);
-            callback.onTransitionToIdle();
-        }
     }
 }

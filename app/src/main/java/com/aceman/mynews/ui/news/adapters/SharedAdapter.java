@@ -31,9 +31,9 @@ import butterknife.ButterKnife;
  */
 public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHolder> {
 
-    private List<SharedDoc> mSharedDocs;
-    private RequestManager glide;
-    private Context mContext;
+    private final List<SharedDoc> mSharedDocs;
+    private final RequestManager glide;
+    private final Context mContext;
 
 
     public SharedAdapter(List<SharedDoc> listResult, RequestManager glide, Context context) {
@@ -65,7 +65,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
      * @param glide  use for get image of article
      * @param holder view holder
      */
-    public void updateWithFreshInfo(final SharedDoc item, RequestManager glide, final MyViewHolder holder) {
+    private void updateWithFreshInfo(final SharedDoc item, RequestManager glide, final MyViewHolder holder) {
 
         holder.mTitle.setText(item.getHeadline().getMain());
         if (item.getHeadline().getMain().isEmpty()) {
@@ -109,7 +109,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
      * @param item   get item
      * @param holder viewholder
      */
-    public void setThumbnail(SharedDoc item, MyViewHolder holder) {
+    private void setThumbnail(SharedDoc item, MyViewHolder holder) {
         String categorie = item.getSectionName();
         switch (categorie) {
             case "Business Day":
@@ -138,7 +138,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
         return this.mSharedDocs.size();
     }
 
-    public void setFadeAnimation(View view) {
+    private void setFadeAnimation(View view) {
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         view.startAnimation(anim);
     }
@@ -155,7 +155,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
         @BindView(R.id.item_id)
         LinearLayout mItemListener;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

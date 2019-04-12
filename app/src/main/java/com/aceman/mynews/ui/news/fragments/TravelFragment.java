@@ -42,9 +42,9 @@ public class TravelFragment extends FragmentBase {
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_travel)
     ProgressBar mProgressBar;
-    Disposable mDisposable;
-    List<SharedDoc> mResponse;
-    SharedAdapter mAdapter;
+    private Disposable mDisposable;
+    private List<SharedDoc> mResponse;
+    private SharedAdapter mAdapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
     @BindView(R.id.layout_no_result)
@@ -97,7 +97,7 @@ public class TravelFragment extends FragmentBase {
         this.disposeWhenDestroy();
     }
 
-    public void configureRecyclerView() {
+    private void configureRecyclerView() {
         mResponse = new ArrayList<>();
         mAdapter = new SharedAdapter(mResponse, Glide.with(this), getContext()) {
         };
@@ -106,7 +106,7 @@ public class TravelFragment extends FragmentBase {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
     }
 
-    public void executeHttpRequestWithRetrofit() {
+    private void executeHttpRequestWithRetrofit() {
         if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
@@ -139,11 +139,11 @@ public class TravelFragment extends FragmentBase {
         }
     }
 
-    public void disposeWhenDestroy() {
+    private void disposeWhenDestroy() {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
-    public void updateUI(SharedObservable details) {
+    private void updateUI(SharedObservable details) {
         mResponse.clear();
         mResponse.addAll(details.getSharedResponse().getSharedDocs());
         mAdapter.notifyDataSetChanged();

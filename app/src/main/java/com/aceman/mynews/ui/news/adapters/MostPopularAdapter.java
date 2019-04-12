@@ -29,9 +29,9 @@ import butterknife.ButterKnife;
  * <b>Most Popular Adapter</b> for his API Call response
  */
 public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.MyViewHolder> {
-    private List<PopularResult> mMostPopular;
-    private RequestManager glide;
-    private Context mContext;
+    private final List<PopularResult> mMostPopular;
+    private final RequestManager glide;
+    private final Context mContext;
 
     public MostPopularAdapter(List<PopularResult> listPopularResult, RequestManager glide, Context context) {
         this.mMostPopular = listPopularResult;
@@ -61,7 +61,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
      * @param glide  use for get image of article
      * @param holder view holder
      */
-    public void updateWithFreshInfo(final PopularResult item, RequestManager glide, final MyViewHolder holder) {
+    private void updateWithFreshInfo(final PopularResult item, RequestManager glide, final MyViewHolder holder) {
         holder.mTitle.setText(item.getTitle());
         holder.mCategorie.setText(item.getSection());
         holder.mDate.setText(item.getPublishedDate());
@@ -96,7 +96,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
         return this.mMostPopular.size();
     }
 
-    public void setFadeAnimation(View view) {
+    private void setFadeAnimation(View view) {
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         view.startAnimation(anim);
     }
@@ -113,7 +113,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
         @BindView(R.id.item_id)
         LinearLayout mItemListener;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

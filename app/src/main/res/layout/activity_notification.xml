@@ -21,7 +21,8 @@
         android:layout_margin="20dp"
         android:hint="@string/search_query_term"
         android:inputType="text"
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:textSize="@dimen/text_size_title"/>
 
     <include
         android:id="@+id/layout_notification_categories"
@@ -44,7 +45,8 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:padding="20dp"
-            android:text="@string/enable_notifications" />
+            android:text="@string/enable_notifications"
+            android:textSize="@dimen/text_size_normal"/>
 
 
     </LinearLayout>

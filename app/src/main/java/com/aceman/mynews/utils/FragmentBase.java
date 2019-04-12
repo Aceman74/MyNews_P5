@@ -44,7 +44,7 @@ import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
 @SuppressWarnings("deprecation")
 public abstract class FragmentBase extends Fragment {
 
-    Toast mToast;
+    public Toast mToast;
 
     public abstract LinearLayout getNoResultLayout();
 
@@ -98,7 +98,7 @@ public abstract class FragmentBase extends Fragment {
         }
     }
 
-    private final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
+    public final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
             //  Create an Interceptor to  cache all request and avoid Too many request error
@@ -117,7 +117,7 @@ public abstract class FragmentBase extends Fragment {
         }
     };
 
-    private final Interceptor delayInterceptor = new Interceptor() {
+    public final Interceptor delayInterceptor = new Interceptor() {
         //  Second interceptor to delay request, again for avoiding error 429
         @Override
         public Response intercept(Chain chain) throws IOException {

@@ -42,9 +42,9 @@ public class MostPopularFragment extends FragmentBase {
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_mostpopular)
     ProgressBar mProgressBar;
-    Disposable disposable;
-    List<PopularResult> mPopular;
-    MostPopularAdapter adapter;
+    private Disposable disposable;
+    private List<PopularResult> mPopular;
+    private MostPopularAdapter adapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
     @BindView(R.id.layout_no_result)
@@ -98,7 +98,7 @@ public class MostPopularFragment extends FragmentBase {
         this.disposeWhenDestroy();
     }
 
-    public void configureRecyclerView() {
+    private void configureRecyclerView() {
         mPopular = new ArrayList<>();
         adapter = new MostPopularAdapter(mPopular, Glide.with(this), getContext()) {
         };
@@ -107,7 +107,7 @@ public class MostPopularFragment extends FragmentBase {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
     }
 
-    public void executeHttpRequestWithRetrofit() {
+    private void executeHttpRequestWithRetrofit() {
         if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
@@ -140,11 +140,11 @@ public class MostPopularFragment extends FragmentBase {
         }
     }
 
-    public void disposeWhenDestroy() {
+    private void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    public void updateUI(MostPopular details) {
+    private void updateUI(MostPopular details) {
         mPopular.clear();
         mPopular.addAll(details.getPopularResults());
         adapter.notifyDataSetChanged();

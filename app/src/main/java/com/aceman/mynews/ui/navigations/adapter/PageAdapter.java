@@ -23,7 +23,7 @@ import com.aceman.mynews.ui.news.fragments.TravelFragment;
 public class PageAdapter extends FragmentPagerAdapter {
 
 
-    Context mContext;
+    private final Context mContext;
 
     //Default Constructor
     public PageAdapter(FragmentManager mgr, Context context) {

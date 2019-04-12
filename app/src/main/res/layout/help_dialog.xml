@@ -38,7 +38,8 @@
             android:layout_margin="10dp"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:text="@string/help_drawer"/>
+            android:text="@string/help_drawer"
+            android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>
 
@@ -63,7 +64,8 @@
             android:layout_margin="10dp"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:text="@string/help_menu_hamburger"/>
+            android:text="@string/help_menu_hamburger"
+            android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>
 
@@ -88,7 +90,8 @@
             android:layout_margin="10dp"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:text="@string/help_search_txt"/>
+            android:text="@string/help_search_txt"
+            android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>
 
@@ -114,7 +117,8 @@
             android:layout_margin="10dp"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:text="@string/help_menu_right"/>
+            android:text="@string/help_menu_right"
+            android:textSize="@dimen/text_size_normal"/>
 
     </LinearLayout>
 

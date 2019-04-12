@@ -22,8 +22,8 @@ import com.aceman.mynews.R;
  */
 public class HelpDialog {
 
-    public static Animation pulse;
-    static String mHelpTitle;
+    private static Animation pulse;
+    private static String mHelpTitle;
 
     public static void openHelp(final Context mContext) {
         mHelpTitle = mContext.getResources().getString(R.string.help_title);

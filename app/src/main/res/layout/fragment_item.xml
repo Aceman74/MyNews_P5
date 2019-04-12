@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:textSize="14sp"
+                android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"/>
 
@@ -63,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="italic"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_normal"/>
 
             <TextView
                 android:id="@+id/fragment_main_item_date"
@@ -72,7 +73,8 @@
                 android:layout_weight="1"
                 android:textAlignment="viewEnd"
                 android:textStyle="italic"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_normal" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

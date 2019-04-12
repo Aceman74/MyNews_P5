@@ -30,9 +30,9 @@ import butterknife.ButterKnife;
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
 
-    private List<Doc> mSearchResult;
-    private RequestManager glide;
-    private Context mContext;
+    private final List<Doc> mSearchResult;
+    private final RequestManager glide;
+    private final Context mContext;
 
     public SearchAdapter(List<Doc> listResult, RequestManager glide, Context context) {
         this.mSearchResult = listResult;
@@ -62,7 +62,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
      * @param glide  use for get image of article
      * @param holder view holder
      */
-    public void updateWithFreshInfo(final Doc item, RequestManager glide, final MyViewHolder holder) {
+    private void updateWithFreshInfo(final Doc item, RequestManager glide, final MyViewHolder holder) {
         holder.mTitle.setText(item.getHeadline().getMain());
         holder.mCategorie.setText(item.getSectionName());
         holder.mDate.setText(item.getPubDate().substring(0, 10));
@@ -95,7 +95,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         return this.mSearchResult.size();
     }
 
-    public void setFadeAnimation(View view) {
+    private void setFadeAnimation(View view) {
         Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         view.startAnimation(anim);
     }
@@ -112,7 +112,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         @BindView(R.id.item_id)
         LinearLayout mItemListener;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

@@ -24,7 +24,7 @@ import com.aceman.mynews.ui.navigations.activities.WebviewActivity;
  */
 public class CopyrightDialog {
 
-    static String mCopyrightTitle;
+    private static String mCopyrightTitle;
 
 
     public static void openCopyright(final Context mContext) {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. Aceman. All rights reserved.
+  ~ Developed by Aceman.
+  ~ Data provided by The New York Times API.
+  ~ https://developer.nytimes.com/
+  -->
+
+<resources>
+    <dimen name="nav_header_height">190dp</dimen>
+    <dimen name="text_size_bigger">28sp</dimen>
+    <dimen name="text_size_title">26sp</dimen>
+    <dimen name="text_size_normal_plus">24sp</dimen>
+    <dimen name="text_size_normal">22sp</dimen>
+    <dimen name="text_size_low">20sp</dimen>
+</resources>

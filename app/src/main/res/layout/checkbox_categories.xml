@@ -21,7 +21,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_weight="1"
-            android:text="@string/business_tab" />
+            android:text="@string/business_tab"
+            android:textSize="@dimen/text_size_low"/>
 
         <CheckBox
             android:id="@+id/checkbox_tech"
@@ -30,7 +31,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_weight="1"
-            android:text="@string/tech_tab" />
+            android:text="@string/tech_tab"
+            android:textSize="@dimen/text_size_low"/>
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +50,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_weight="1"
-            android:text="@string/food_tab" />
+            android:text="@string/food_tab"
+            android:textSize="@dimen/text_size_low"/>
 
         <CheckBox
             android:id="@+id/checkbox_movies"
@@ -57,7 +60,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_weight="1"
-            android:text="@string/movies_tab" />
+            android:text="@string/movies_tab"
+            android:textSize="@dimen/text_size_low"/>
 
     </LinearLayout>
 
@@ -76,7 +80,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_weight="1"
-            android:text="@string/sport_tab" />
+            android:text="@string/sport_tab"
+            android:textSize="@dimen/text_size_low"/>
 
         <CheckBox
             android:id="@+id/checkbox_travel"
@@ -86,7 +91,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_weight="1"
-            android:text="@string/travel_tab" />
+            android:text="@string/travel_tab"
+            android:textSize="@dimen/text_size_low"/>
     </LinearLayout>
 
 </LinearLayout>

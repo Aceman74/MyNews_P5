@@ -23,9 +23,9 @@ import static org.junit.Assert.assertNotSame;
  * Created by Lionel JOFFRAY - on 04/04/2019.
  */
 public class CategoriesCheckTest {
-    List<Boolean> mCheckList;
-    List<Boolean> mCorrectList = Arrays.asList(new Boolean[6]);
-    List<Boolean> mBadList = Arrays.asList(new Boolean[6]);
+    private List<Boolean> mCheckList;
+    private final List<Boolean> mCorrectList = Arrays.asList(new Boolean[6]);
+    private final List<Boolean> mBadList = Arrays.asList(new Boolean[6]);
 
     @Test
     public void setCheckListSizeTest() {
@@ -42,16 +42,6 @@ public class CategoriesCheckTest {
 
         assertEquals(mCheckList, mCorrectList);  //  Test that checklist return full "False" List and size 6
         assertNotSame(mCheckList, mBadList);   //  Test that checklist doesn't return any "True"
-
-    }
-
-    @Test
-    public void checkBoxListnenerTest() {
-
-    }
-
-    @Test
-    public void getQueryCategoriesTest() {
 
     }
 }

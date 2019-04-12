@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/copyright"
+        android:textSize="@dimen/text_size_normal"
         android:textColor="@android:color/black"
         android:padding="15dp"/>
 
@@ -31,6 +32,7 @@
         android:layout_gravity="center"
      android:padding="10dp"
         android:text="@string/close"
+        android:textSize="@dimen/text_size_normal"
         android:layout_margin="5dp"
         />
 

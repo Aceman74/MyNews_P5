@@ -29,9 +29,8 @@ import static junit.framework.TestCase.assertTrue;
  * Test All API Call to New York Times
  */
 public class NewYorkTimesServiceTest {
-    static String error;
-    String statusOk = "OK";
-    NewYorkTimesService mNewYorkTimesService;
+    private final String statusOk = "OK";
+    private NewYorkTimesService mNewYorkTimesService;
 
     @Before
     public void setUp() {
@@ -40,7 +39,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGetTopStoriesSuccessTest() {
-
         TopStories ts = mNewYorkTimesService.streamGetTopStories().delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
         // on verifie qu'on a bien une reponse
         assertNotNull(ts);
@@ -55,7 +53,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGetMostPopularSuccessTest() {
-
         int period = 7;
 
         MostPopular mp = mNewYorkTimesService.streamGetMostPopular(period).delaySubscription(10, TimeUnit.SECONDS).blockingFirst();
@@ -71,10 +68,8 @@ public class NewYorkTimesServiceTest {
      */
     @Test(expected = HttpException.class)
     public void streamGetMostPopularFailTest() {
-
         //  Test with wrong period int (error 400)
         int period = 2;
-        error = null;
 
         MostPopular mp1 = mNewYorkTimesService.streamGetMostPopular(period).delaySubscription(15, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(mp1);         // Test response
@@ -83,7 +78,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGeBusinessSuccessTest() {
-
         SharedObservable bu = mNewYorkTimesService.streamGetBusiness().delaySubscription(20, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(bu);        // Test response
         assertTrue(bu.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
@@ -94,7 +88,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGeFoodSuccessTest() {
-
         SharedObservable fo = mNewYorkTimesService.streamGetFood().delaySubscription(25, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(fo);        // Test response
         assertTrue(fo.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
@@ -105,7 +98,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGeMoviesSuccessTest() {
-
         SharedObservable mo = mNewYorkTimesService.streamGetMovies().delaySubscription(30, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(mo);        // Test response
         assertTrue(mo.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
@@ -116,7 +108,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGeSportsSuccessTest() {
-
         SharedObservable sp = mNewYorkTimesService.streamGetSports().delaySubscription(35, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(sp);        // Test response
         assertTrue(sp.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
@@ -127,7 +118,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGetTravelSuccessTest() {
-
         SharedObservable tr = mNewYorkTimesService.streamGetTravel().delaySubscription(25, TimeUnit.SECONDS).blockingFirst();
         assertNotNull(tr);        // Test response
         assertTrue(tr.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
@@ -138,31 +128,18 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGetSearchWithNullSuccessTest() {
-
-        String begin = null;
-        String end = null;
-        String query = null;
-        String category = null;
-
         Search se = mNewYorkTimesService.streamGetSearch(null, null, null, null).delaySubscription(20, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se);
         // Test if there's articles in list
         assertTrue(se.getSearchResponse().getDocs().size() > 0);  // Test if there's articles in list
-
         assertEquals(se.getStatus(), statusOk);  //  Test status response
-
     }
 
     @Test
     public void streamGetSearchWithNumberQuerySuccessTest() {
-
         //  Test number query (valid request)
-        String begin = null;
-        String end = null;
-        String category = null;
         String query = "29";
-        error = null;
 
         Search se1 = mNewYorkTimesService.streamGetSearch(null, null, query, null).delaySubscription(15, TimeUnit.SECONDS).blockingFirst();
         // Test response
@@ -174,7 +151,6 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGetSearchWitNormalRequestSuccessTest() {
-
         //  Test normal request
         String begin = "20161129";
         String end = "20181129";
@@ -194,19 +170,13 @@ public class NewYorkTimesServiceTest {
      */
     @Test(expected = HttpException.class)
     public void streamGetSearchFailTest() {
-
         String begin;
-        String end = null;
-        String query = null;
-        String category = null;
 
         // Test bad begin date (return Error 400)
         begin = "Hello";
-        error = null;
 
         Search se3 = mNewYorkTimesService.streamGetSearch(begin, null, null, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se3);
     }
-
 }

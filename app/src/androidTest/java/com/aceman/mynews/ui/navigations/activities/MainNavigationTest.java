@@ -29,8 +29,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.greaterThan;
 
 /**
  * Created by Lionel JOFFRAY - on 05/04/2019.
@@ -57,8 +57,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(4000));
+
         onView(withId(R.id.topstories_recycler))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.topstories_recycler))   //  Check that item display all details
@@ -75,8 +76,9 @@ public class MainNavigationTest extends TestUtils {
                 .check(matches(atPosition(10, hasDescendant(withId(R.id.fragment_main_item_categorie)))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.webview))    //  Open Webview
-                .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()));
 
     }
@@ -91,16 +93,17 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(4000));
 
         onView(withId(R.id.topstories_recycler))       // wait for Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to MostPopular
                 .perform(swipeLeft());
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.mostpopular_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.mostpopular_fragment_recyclerview))   //  Check that item display all details
@@ -112,9 +115,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to Business
                 .perform(swipeLeft());
 
+        onView(isRoot()).perform(waitFor(2000));
 
         onView(withId(R.id.business_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.business_fragment_recyclerview))   //  Check that item display all details
@@ -126,8 +129,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to Food
                 .perform(swipeLeft());
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.food_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.food_fragment_recyclerview))   //  Check that item display all details
@@ -139,8 +143,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to Movies
                 .perform(swipeLeft());
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.movies_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.movies_fragment_recyclerview))   //  Check that item display all details
@@ -152,8 +157,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to Sports
                 .perform(swipeLeft());
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.sports_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.sports_fragment_recyclerview))   //  Check that item display all details
@@ -165,8 +171,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to Technology
                 .perform(swipeLeft());
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.tech_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.tech_fragment_recyclerview))   //  Check that item display all details
@@ -178,8 +185,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.activity_main_drawer_layout))    //  Swipe to Travel
                 .perform(swipeLeft());
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.travel_fragment_recyclerview))       //  Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.travel_fragment_recyclerview))   //  Check that item display all details
@@ -198,8 +206,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_top_stories))
                 .check(matches(isDisplayed()));
 
-        onView(withId(R.id.topstories_recycler))       // wait for Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
+        onView(isRoot()).perform(waitFor(4000));
+
+        onView(withId(R.id.topstories_recycler))       // wait for Recycler View is displayed4
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
@@ -207,8 +216,9 @@ public class MainNavigationTest extends TestUtils {
                 .check(matches(DrawerMatchers.isOpen()))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.activity_main_nav_view))
-                .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()))
                 .perform(NavigationViewActions.navigateTo(R.id.activity_main_drawer_business));   //  Click on Business item on navigation drawer
 
@@ -219,8 +229,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_business))   //  Check fragment is displayed
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.business_fragment_recyclerview))       // wait for Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
@@ -228,8 +239,9 @@ public class MainNavigationTest extends TestUtils {
                 .check(matches(DrawerMatchers.isOpen()))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.activity_main_nav_view))
-                .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()))
                 .perform(NavigationViewActions.navigateTo(R.id.activity_main_drawer_food));   //  Click on Food item on navigation drawer
 
@@ -240,8 +252,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_food))   //  Check fragment is displayed
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.food_fragment_recyclerview))       // wait for Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
@@ -249,8 +262,9 @@ public class MainNavigationTest extends TestUtils {
                 .check(matches(DrawerMatchers.isOpen()))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.activity_main_nav_view))
-                .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()))
                 .perform(NavigationViewActions.navigateTo(R.id.activity_main_drawer_movies));   //  Click on Movies item on navigation drawer
 
@@ -261,8 +275,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_movies))   //  Check fragment is displayed
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.movies_fragment_recyclerview))       // wait for Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
@@ -270,8 +285,9 @@ public class MainNavigationTest extends TestUtils {
                 .check(matches(DrawerMatchers.isOpen()))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.activity_main_nav_view))
-                .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()))
                 .perform(NavigationViewActions.navigateTo(R.id.activity_main_drawer_sports));   //  Click on Sports item on navigation drawer
 
@@ -282,8 +298,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_sports))   //  Check fragment is displayed
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.sports_fragment_recyclerview))       // wait for Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.activity_main_drawer_layout))    //  Open navigation drawer
@@ -291,8 +308,9 @@ public class MainNavigationTest extends TestUtils {
                 .check(matches(DrawerMatchers.isOpen()))
                 .check(matches(isDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.activity_main_nav_view))
-                .perform(waitUntil(isDisplayed()))
                 .check(matches(isDisplayed()))
                 .perform(NavigationViewActions.navigateTo(R.id.activity_main_drawer_tech));   //  Click on Technology item on navigation drawer
 
@@ -303,8 +321,9 @@ public class MainNavigationTest extends TestUtils {
         onView(withId(R.id.fragment_tech))   //  Check fragment is displayed
                 .check(matches(isCompletelyDisplayed()));
 
+        onView(isRoot()).perform(waitFor(2000));
+
         onView(withId(R.id.tech_fragment_recyclerview))       // wait for Recycler View is displayed
-                .perform(waitUntil(hasItemCount(greaterThan(0))))
                 .check(matches(isDisplayed()));
     }
 
