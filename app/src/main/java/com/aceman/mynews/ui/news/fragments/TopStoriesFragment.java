@@ -39,9 +39,6 @@ import io.reactivex.observers.DisposableObserver;
  * <b>Top Stories Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
  */
 public class TopStoriesFragment extends FragmentBase {
-    private Disposable disposable;
-    private List<TopStorieResult> mTopStories;
-    private TopStoriesAdapter adapter;
     @BindView(R.id.topstories_recycler)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_topstories)
@@ -52,6 +49,9 @@ public class TopStoriesFragment extends FragmentBase {
     LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
+    private Disposable disposable;
+    private List<TopStorieResult> mTopStories;
+    private TopStoriesAdapter adapter;
 
     public TopStoriesFragment() {
     }
@@ -93,12 +93,18 @@ public class TopStoriesFragment extends FragmentBase {
         return view;
     }
 
+    /**
+     * Destroy disposable on destroy
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         disposeWhenDestroy();
     }
 
+    /**
+     * Set the recyclerview with list result
+     */
     private void configureRecyclerView() {
         mTopStories = new ArrayList<>();
         adapter = new TopStoriesAdapter(mTopStories, Glide.with(this), getContext()) {
@@ -108,7 +114,10 @@ public class TopStoriesFragment extends FragmentBase {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
     }
 
-
+    /**
+     * Execute the request using Retrofit if isOnline() is true.
+     * Different errors are handled here: if no internet, if result is 0 articles, if too many API request.
+     */
     private void executeHttpRequestWithRetrofit() {
 
         if (isOnline()) {
@@ -151,6 +160,11 @@ public class TopStoriesFragment extends FragmentBase {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
+    /**
+     * Update the view after every request
+     *
+     * @param details data from response
+     */
     private void updateUI(TopStories details) {
         mTopStories.clear();
         mTopStories.addAll(details.getTopStorieResults());

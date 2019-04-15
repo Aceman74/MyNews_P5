@@ -23,9 +23,9 @@ import static org.junit.Assert.assertNotSame;
  * Created by Lionel JOFFRAY - on 04/04/2019.
  */
 public class CategoriesCheckTest {
-    private List<Boolean> mCheckList;
     private final List<Boolean> mCorrectList = Arrays.asList(new Boolean[6]);
     private final List<Boolean> mBadList = Arrays.asList(new Boolean[6]);
+    private List<Boolean> mCheckList;
 
     @Test
     public void setCheckListSizeTest() {

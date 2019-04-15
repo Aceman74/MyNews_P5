@@ -143,6 +143,9 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
         view.startAnimation(anim);
     }
 
+    /**
+     * View Hoodler using ButterKnife
+     */
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.fragment_main_item_title)
         TextView mTitle;

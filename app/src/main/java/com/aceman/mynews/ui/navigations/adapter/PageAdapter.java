@@ -36,6 +36,12 @@ public class PageAdapter extends FragmentPagerAdapter {
         return (8);
     }
 
+    /**
+     * Set what fragment to show
+     *
+     * @param position actual view
+     * @return the fragment
+     */
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -60,6 +66,12 @@ public class PageAdapter extends FragmentPagerAdapter {
         }
     }
 
+    /**
+     * Setting Tabs title
+     *
+     * @param position actual view
+     * @return title corresponding
+     */
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {

@@ -62,6 +62,8 @@ public class SearchActivity extends AppCompatActivity {
     CheckBox mSports;
     @BindView(R.id.checkbox_travel)
     CheckBox mTravel;
+    @BindView(R.id.activity_search_search_query)
+    EditText mSearchQuery;
     private DatePickerDialog.OnDateSetListener mFromDateListener;
     private DatePickerDialog mFromDate;
     private String mFromDateString;
@@ -69,8 +71,6 @@ public class SearchActivity extends AppCompatActivity {
     private String mToDateString;
     private DatePickerDialog.OnDateSetListener mToDateListener;
     private SearchFragment mSearchFragment;
-    @BindView(R.id.activity_search_search_query)
-    EditText mSearchQuery;
     private String mSearchResult;
     private String mCategorieResult;
     private List<Boolean> mCheckList;
@@ -94,6 +94,9 @@ public class SearchActivity extends AppCompatActivity {
         clickListener();
     }
 
+    /**
+     * Set the visibility of some item, the search result is shown under the search btn when launched
+     */
     private void setVisibilitySearchLayout() {
         //  When hit search btn, some element are hiding from the view
         // And back when user click the edit text area
@@ -109,7 +112,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Launch the fragment to show result in recyclerview
+     */
     private void searchFragmentLaunch() {
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +124,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * query listener to enable search to be launched
+     */
     private void searchQueryListener() {
         mSearchBtn.setAlpha(0.5f);  //  Disable btn if no category or querry
 
@@ -146,6 +154,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Check if query is more than 0 and at least one category is checked
+     */
     private void checkState() {
         if (mSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
             mSearchBtn.setEnabled(true);
@@ -158,8 +169,10 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handle hit on enter to valid query
+     */
     private void onHitEnter() { //  Handle the enter key
-
         mSearchQuery.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -172,6 +185,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Inject the search fragment on the activity, to show result list under search btn
+     */
     private void searchFragment() {
         //  Show result in recycler view under the query (same fragment)
         // hide some element
@@ -195,7 +211,9 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Configure date picker (spinner), and edit it to match the API request
+     */
     private void getFromDate() {
         //  Configure the DatePicker
         mDisplayFromDate.setOnClickListener(new View.OnClickListener() {
@@ -245,7 +263,9 @@ public class SearchActivity extends AppCompatActivity {
         };
     }
 
-
+    /**
+     * Configure date picker (spinner), and edit it to match the API request
+     */
     private void getToDate() {
         //  Configure the DatePicker
         mDisplayToDate.setOnClickListener(new View.OnClickListener() {
@@ -294,6 +314,9 @@ public class SearchActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * Set the toolbar
+     */
     private void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);
@@ -313,6 +336,9 @@ public class SearchActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    /**
+     * Listeners for checboxes categories
+     */
     private void clickListener() {
         mBusiness.setOnClickListener(new View.OnClickListener() {
             @Override

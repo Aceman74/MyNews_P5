@@ -33,6 +33,9 @@ public class WebviewActivity extends AppCompatActivity {
         mWebView.getSettings().setJavaScriptEnabled(true);
     }
 
+    /**
+     * Set the toolbar
+     */
     private void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);

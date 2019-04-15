@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:minHeight="?attr/actionBarSize"
-    android:theme="@style/ToolbarTheme"
     android:textAlignment="center"
+    android:theme="@style/ToolbarTheme"
     app:popupTheme="@style/ThemeOverlay.MyPopUp"
     app:titleTextAppearance="@style/Toolbar.TitleText" />

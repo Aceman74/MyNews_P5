@@ -42,15 +42,15 @@ public class MostPopularFragment extends FragmentBase {
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_mostpopular)
     ProgressBar mProgressBar;
-    private Disposable disposable;
-    private List<PopularResult> mPopular;
-    private MostPopularAdapter adapter;
     @BindView(R.id.layout_check_connexion)
     LinearLayout mCheckConnexion;
     @BindView(R.id.layout_no_result)
     LinearLayout mNoResult;
     @BindView(R.id.retry_btn)
     Button mRetryBtn;
+    private Disposable disposable;
+    private List<PopularResult> mPopular;
+    private MostPopularAdapter adapter;
 
 
     public MostPopularFragment() {
@@ -92,12 +92,18 @@ public class MostPopularFragment extends FragmentBase {
         return view;
     }
 
+    /**
+     * Destroy disposable on destroy
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
 
+    /**
+     * Set the recyclerview with list result
+     */
     private void configureRecyclerView() {
         mPopular = new ArrayList<>();
         adapter = new MostPopularAdapter(mPopular, Glide.with(this), getContext()) {
@@ -107,6 +113,10 @@ public class MostPopularFragment extends FragmentBase {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
     }
 
+    /**
+     * Execute the request using Retrofit if isOnline() is true.
+     * Different errors are handled here: if no internet, if result is 0 articles, if too many API request.
+     */
     private void executeHttpRequestWithRetrofit() {
         if (isOnline()) {
             mProgressBar.setVisibility(View.VISIBLE);
@@ -144,6 +154,11 @@ public class MostPopularFragment extends FragmentBase {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
+    /**
+     * Update the view after every request
+     *
+     * @param details data from response
+     */
     private void updateUI(MostPopular details) {
         mPopular.clear();
         mPopular.addAll(details.getPopularResults());

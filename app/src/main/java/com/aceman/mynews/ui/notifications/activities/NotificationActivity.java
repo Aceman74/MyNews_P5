@@ -76,6 +76,9 @@ public class NotificationActivity extends AppCompatActivity {
         clickListener();
     }
 
+    /**
+     * Set the toolbar
+     */
     public void configureToolbar() {
         //Set the toolbar
         setSupportActionBar(toolbar);
@@ -85,9 +88,12 @@ public class NotificationActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * Set the notification switch active or not, if user already use active notification
+     */
     public void setNotificationSwitch() {
 
-        if (mJob == 1) {
+        if (mJob == 1) {    //  mJob is 1 if user ase active notification
             mNotificationSwitch.setChecked(true);
             mNotificationSearchQuery.setText(mSearchResult);
             mNotificationSwitch.setEnabled(true);
@@ -111,6 +117,9 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Query listener, for notification query and enabling switch
+     */
     public void searchQueryListener() {
 
         mNotificationSearchQuery.addTextChangedListener(new TextWatcher() {
@@ -133,6 +142,9 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handle hit on enter to valid query
+     */
     public void onHitEnter() { //  Handle the enter key to launch search
 
         mNotificationSearchQuery.setOnKeyListener(new View.OnKeyListener() {
@@ -148,6 +160,9 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Check if query is more than 0 and at least one category is checked
+     */
     private void checkState() {
         // Checking the query and category check for enable notification
         if (mNotificationSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
@@ -188,6 +203,9 @@ public class NotificationActivity extends AppCompatActivity {
         Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Save the Job as int to update fragment view on next opening
+     */
     public void savePref() {
         //  Save user query and notification
         mSharedPreferences = getSharedPreferences("Notification", MODE_PRIVATE);
@@ -197,6 +215,9 @@ public class NotificationActivity extends AppCompatActivity {
                 .apply();
     }
 
+    /**
+     * Load the Job as int to update fragment view on next opening
+     */
     public void loadPref() {
         //  Load user query and notification
         mSharedPreferences = getSharedPreferences("Notification", MODE_PRIVATE);

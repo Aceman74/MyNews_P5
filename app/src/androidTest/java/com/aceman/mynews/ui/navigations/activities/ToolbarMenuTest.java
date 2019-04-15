@@ -92,8 +92,6 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.search_fragment_recyclerview))       //  Recycler View is displayed
                 .check(matches(isDisplayed()));
 
-        onView(isRoot()).perform(waitFor(2000));
-
         onView(withId(R.id.search_fragment_recyclerview))   //  Check that item display all details
                 .check(matches(atPosition(0, hasDescendant(withId(R.id.fragment_main_item_image)))))
                 .check(matches(atPosition(0, hasDescendant(withId(R.id.fragment_main_item_date)))))
@@ -159,12 +157,13 @@ public class ToolbarMenuTest extends TestUtils {
         onView(withId(R.id.activity_search_btn))        //  Search btn clicked
                 .perform(click());
 
+
         onView(withId(R.id.checkbox_movies))        //  Categories are gone
                 .check(matches(not(isDisplayed())));
 
-        onView(isRoot()).perform(waitFor(5000));
+        onView(isRoot()).perform(waitFor(3000));
 
-        onView(withId(R.id.search_fragment_imagez_view))
+        onView(withId(R.id.layout_no_result))
                 .check(matches(isDisplayed()));
 
     }
@@ -192,8 +191,6 @@ public class ToolbarMenuTest extends TestUtils {
 
         onView(withId(R.id.activity_notifications_search_query))       //  add query
                 .perform(ViewActions.typeText("French"), ViewActions.closeSoftKeyboard());
-
-        onView(isRoot()).perform(waitFor(2000));
 
         onView(withId(R.id.checkbox_travel))    //  Category checked, search btn enable
                 .perform(click());

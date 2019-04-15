@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:textSize="@dimen/text_size_normal"
     tools:context="com.aceman.mynews.ui.navigations.activities.MainActivity"
-    tools:openDrawer="start"
-    android:textSize="@dimen/text_size_normal">
+    tools:openDrawer="start">
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -31,8 +31,8 @@
             android:background="@color/colorPrimary"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@android:color/white"
-            app:tabTextAppearance="@style/TabText"/>
+            app:tabTextAppearance="@style/TabText"
+            app:tabTextColor="@android:color/white" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/activity_main_viewpager"

@@ -7,13 +7,9 @@
 
 package com.aceman.mynews.utils;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,28 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.data.api.RetrofitSet;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-
-import okhttp3.Dispatcher;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.aceman.mynews.ui.navigations.activities.MainActivity.mCache;
 
 /**
  * Created by Lionel JOFFRAY - on 01/04/2019.
  *
- * <b>FragmentBase Abstract Class</> is used for making all asynchronous request API for News and handle multiple request<br>
+ * <b>FragmentBase Abstract Class</> is used for setting all fragments <br>
  */
-@SuppressWarnings("deprecation")
-public abstract class FragmentBase extends Fragment {
+public abstract class FragmentBase extends RetrofitSet {
 
     public Toast mToast;
 
@@ -54,6 +38,9 @@ public abstract class FragmentBase extends Fragment {
 
     public abstract List getMResponse();
 
+    /**
+     * Method who show a different layout if result of request is 0
+     */
     public void ifNoResult() {
         //  Check if result is 0 (not checking if null)
         if (getMResponse().size() <= 0) {
@@ -61,6 +48,9 @@ public abstract class FragmentBase extends Fragment {
         }
     }
 
+    /**
+     * Method who show a retry btn if no connection or too many request
+     */
     public void retryBtnClick() {
         //  Set a retry btn if no connection on request
         getRetryBtn().setOnClickListener(new View.OnClickListener() {
@@ -71,14 +61,10 @@ public abstract class FragmentBase extends Fragment {
         });
     }
 
-    public boolean isOnline() {
-        //    Check internet connectivity of the devise
-        ConnectivityManager cm =
-                (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
+    /**
+     * Method who delay request ( requests are limited by the NYT API)
+     * Should'nt happen after Retrofit cache and dispatcher settings.
+     */
     public void tooManyRefreshHandler() {
         //  Wait for 15 sec if too many request and try again if still error 429
         final Handler handler = new Handler();
@@ -90,6 +76,11 @@ public abstract class FragmentBase extends Fragment {
         }, 15000);
     }
 
+    /**
+     * When API is overcharged by request, lauhch the method tooManyRefreshHandler()
+     *
+     * @param e error if contain http 429
+     */
     public void tooManyRefresh(Throwable e) {
         if (e.toString().contains(getString(R.string.many_request))) {
             mToast = Toast.makeText(getContext(), getString(R.string.many_refresh), Toast.LENGTH_LONG);
@@ -98,57 +89,10 @@ public abstract class FragmentBase extends Fragment {
         }
     }
 
-    public final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            //  Create an Interceptor to  cache all request and avoid Too many request error
-            Response originalResponse = chain.proceed(chain.request());
-            if (isOnline()) {
-                int maxAge = 120; // read from cache for 2 minutes
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, max-age=" + maxAge)
-                        .build();
-            } else {
-                int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
-                return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                        .build();
-            }
-        }
-    };
-
-    public final Interceptor delayInterceptor = new Interceptor() {
-        //  Second interceptor to delay request, again for avoiding error 429
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            SystemClock.sleep(1000);
-            return chain.proceed(chain.request());
-        }
-    };
-
-    public Retrofit setRetrofit() {
-        //  Setting retrofit with Interceptor and dispatcher too
-        //  With dispatcher max request, still for 429
-        Dispatcher dispatcherMaxR = new Dispatcher();
-        dispatcherMaxR.setMaxRequests(2);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addNetworkInterceptor(delayInterceptor)
-                .dispatcher(dispatcherMaxR)
-                .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-                .cache(mCache)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.nytimes.com/svc/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        return retrofit;
-    }
-
+    /**
+     * Make the call in asynctask
+     */
+    @SuppressLint("StaticFieldLeak")
     public class asyncRetrofitRequest extends AsyncTask<String, Void, String> {
         //  Make request in dedicated thread
         @Override

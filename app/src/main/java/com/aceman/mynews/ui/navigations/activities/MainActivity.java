@@ -45,6 +45,7 @@ import okhttp3.Cache;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final String CHANNEL_ID = "29";
+    public static Cache mCache;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.activity_main_drawer_layout)
@@ -55,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TabLayout tabs;
     @BindView(R.id.activity_main_nav_view)
     NavigationView mNavigationView;
-    public static Cache mCache;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +72,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new onLaunchMainActivity().execute("notification and glide cache");
     }
 
+    /**
+     * Setting the cache size for App
+     */
     private void configureCache() {
         int cacheSize = 5 * 1024 * 1024; // 5 MB
         mCache = new Cache(getCacheDir(), cacheSize);   //  For API requests
     }
 
+    /**
+     * onDestroy override to clear Glide and pager memory
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -85,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Glide.get(getApplicationContext()).clearMemory();
     }
 
+    /**
+     * onBackPressed override for handle navigation drawer closing
+     */
     @Override
     public void onBackPressed() {
         //  Handle back click to close menu of navdrawer
@@ -95,6 +103,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Set the toolbar
+     */
+    private void configureToolBar() {
+        setSupportActionBar(toolbar);
+    }
+
+    /**
+     * Creation of menu in Toolbar
+     *
+     * @param menu layout for the menu
+     * @return the menu (top right)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu and add it to the Toolbar
@@ -102,6 +123,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /**
+     * Configure click on the previous created menu
+     *
+     * @param item item in menu
+     * @return true if clicked
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle actions on menu items
@@ -131,13 +158,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Set the tabs navigation
+     */
     private void configureViewPagerAndTabs() {
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(), getApplicationContext()));
         tabs.setupWithViewPager(pager);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-
     }
 
+    /**
+     * Set the nav drawer "hamburger"
+     */
+    private void configureDrawerLayout() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    /**
+     * Set listener for Nav drawer
+     */
+    private void configureNavigationView() {
+        mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    /**
+     * Configure the menu of Navigation drawer Click
+     *
+     * @param item the news item
+     * @return the fragment of the news
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         //  Navigation Drawer item settings
@@ -183,20 +234,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void configureToolBar() {
-        setSupportActionBar(toolbar);
-    }
-
-    private void configureDrawerLayout() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }
-
-    private void configureNavigationView() {
-        mNavigationView.setNavigationItemSelectedListener(this);
-    }
-
+    /**
+     * Create the notification Channel for daily notification
+     */
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -223,6 +263,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    /**
+     * Method for older Android Version who update SSL security
+     */
     private void sslUpdate() {
         try {
             ProviderInstaller.installIfNeeded(getApplicationContext());
@@ -234,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * Create Notification Channel and clear Glide cache Asynchronously
+     * Call the Create Notification Channel and clear Glide cache Asynchronously
      */
     class onLaunchMainActivity extends AsyncTask<String, Void, String> {
         @Override

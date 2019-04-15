@@ -6,9 +6,6 @@ import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.data.models.topstories.TopStories;
 
 import io.reactivex.Observable;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -17,20 +14,18 @@ import retrofit2.http.Query;
  * Created by Lionel JOFFRAY - on 13/03/2019.
  * <p>
  * This Class contain all CALL with API key for NYT <br>
- * Using <b>Retrofit</>
+ * Using <b>Retrofit</> <br>
+ *
+ * @see RetrofitSet
  */
 public interface NewYorkTimesService {
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.nytimes.com/svc/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build();
-
-    @GET("topstories/v2/home.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")        // TopStories call
+    @GET("topstories/v2/home.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
+        // TopStories call
     Observable<TopStories> streamGetTopStories();
 
-    @GET("mostpopular/v2/viewed/{period}.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")        //  MostPopular call
+    @GET("mostpopular/v2/viewed/{period}.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
+        //  MostPopular call
     Observable<MostPopular> streamGetMostPopular(@Path("period") int period);
 
     @GET("search/v2/articlesearch.json?fq=section_name:(\"Business Day\")&sort=newest&api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")

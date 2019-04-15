@@ -16,19 +16,33 @@ import java.util.List;
 
 /**
  * Created by Lionel JOFFRAY - on 25/03/2019.
- *
+ * <p>
  * Checkbox category check for using in Search and Notification, return a list of Boolean for each category
  */
 public class CategoriesCheck {
 
-
+    /**
+     * Set the list size for checkboxes
+     *
+     * @param mCheckList list of boolean
+     */
     public static void setCheckListSize(List<Boolean> mCheckList) {
         for (int i = 0; i < 6; i++) {
             mCheckList.add(false);
         }
     }
 
-
+    /**
+     * Listener for categories
+     *
+     * @param mBusiness  category
+     * @param mTech      category
+     * @param mFood      category
+     * @param mMovies    category
+     * @param mSports    category
+     * @param mTravel    category
+     * @param mCheckList category
+     */
     public static void checkBoxListnener(CheckBox mBusiness, CheckBox mTech, CheckBox mFood, CheckBox mMovies, CheckBox mSports, CheckBox mTravel, final List<Boolean> mCheckList) {
 
         mBusiness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -105,6 +119,12 @@ public class CategoriesCheck {
         });
     }
 
+    /**
+     * Add the category to String for matching the Call Request
+     *
+     * @param mCheckList the category checklist full off boolean
+     * @return the category(ies) on String
+     */
     public static String getQueryCategories(List<Boolean> mCheckList) {
         String cat1 = "";
         String cat2 = "";

@@ -38,12 +38,6 @@ import static com.aceman.mynews.ui.notifications.activities.NotificationActivity
  * Using <b>AndroidX Work</>
  */
 public class DailyWorker extends Worker {
-    private Disposable disposable;
-    private String mBeginDate;
-    private String mEndDate;
-    private int mSizeResult;
-    private String mToday;
-    private String mYesterday;
     private final String mSearchQuery = getInputData().getString("Query");
     private final String mCategorie = getInputData().getString("Categorie");
     private final String mPos1;
@@ -53,6 +47,12 @@ public class DailyWorker extends Worker {
     private final String mNeg2;
     private final String mAppTitle;
     private final Context mContext;
+    private Disposable disposable;
+    private String mBeginDate;
+    private String mEndDate;
+    private int mSizeResult;
+    private String mToday;
+    private String mYesterday;
 
     /**
      * Initializing variables
