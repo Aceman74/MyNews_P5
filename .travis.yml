@@ -24,7 +24,7 @@ script:
 
 before_script:
 # Create and start emulator, android 19 minimum supported
-- echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
+- echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a --skin WXGA720
 - emulator -avd test -no-audio -no-window &
 - android-wait-for-emulator
 - adb shell settings put global window_animation_scale 0 &
