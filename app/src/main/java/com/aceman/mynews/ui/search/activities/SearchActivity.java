@@ -1,6 +1,7 @@
 package com.aceman.mynews.ui.search.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,14 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aceman.mynews.R;
 import com.aceman.mynews.ui.search.fragments.SearchFragment;
@@ -157,28 +161,38 @@ public class SearchActivity extends AppCompatActivity {
     /**
      * Check if query is more than 0 and at least one category is checked
      */
-    private void checkState() {
+    private boolean checkState() {
         if (mSearchQuery.getText().toString().trim().length() > 0 && mCheckList.contains(true)) {
             mSearchBtn.setEnabled(true);
             mSearchBtn.setAlpha(1);
             searchFragmentLaunch();
+            return true;
 
         } else {
             mSearchBtn.setEnabled(false);
             mSearchBtn.setAlpha(0.5f);
+            return false;
         }
     }
 
     /**
-     * Handle hit on enter to valid query
+     * Handle hit on enter to valid query, with valid check on click
      */
     private void onHitEnter() { //  Handle the enter key
         mSearchQuery.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        (keyCode == KeyEvent.KEYCODE_ENTER) && checkState() ) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mSearchQuery.getWindowToken(), 0);
                     searchFragment();
                     return true;
+                }if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER) && !checkState()) {
+                    Toast toast =
+                            Toast.makeText(getApplicationContext(),"You must check at least one category!",Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                    toast.show();
                 }
                 return false;
             }
@@ -224,9 +238,6 @@ public class SearchActivity extends AppCompatActivity {
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                if (mFromDate == null) {
-
                     mFromDate = new DatePickerDialog(SearchActivity.this,
                             mFromDateListener,
                             year,
@@ -234,10 +245,6 @@ public class SearchActivity extends AppCompatActivity {
                             day);
 
                     mFromDate.show();
-                } else {
-                    mFromDate.show();
-
-                }
             }
         });
 
@@ -276,9 +283,6 @@ public class SearchActivity extends AppCompatActivity {
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                if (mToDate == null) {
-
                     mToDate = new DatePickerDialog(SearchActivity.this,
                             mToDateListener,
                             year,
@@ -286,10 +290,6 @@ public class SearchActivity extends AppCompatActivity {
                             day);
 
                     mToDate.show();
-                } else {
-                    mToDate.show();
-
-                }
             }
         });
 

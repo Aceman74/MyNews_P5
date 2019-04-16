@@ -106,7 +106,7 @@ public class DailyWorker extends Worker {
         disposable = NewsStream.streamGetSearch(newsStream, mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search details) {
-                Log.e("SEARCH_Next", "On Next");
+                Log.e("NOTIFICATION Next", "On Next");
                 Log.d("NOTIFICATION OBSERVABLE", "from: " + mBeginDate + " to: " + mEndDate + " query: " + mSearchQuery + " categorie: " + mCategorie);
                 mSizeResult = details.getSearchResponse().getDocs().size();
 
@@ -207,11 +207,11 @@ public class DailyWorker extends Worker {
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;  //  Month+1 cause it begin to 0 for January
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
 
-        String date = day + "/" + (month + 1) + "/" + year;
+        String date = day + "/" + month + "/" + year;
         String formattedMonth = "" + month;
         String formattedDayOfMonth = "" + day;
         String formattedDayOfMonthYesterday = "" + (day - 1);
@@ -222,8 +222,8 @@ public class DailyWorker extends Worker {
         if (day < 10) {
             formattedDayOfMonth = "0" + day;
         }
-        mToday = year + "" + formattedMonth + "" + formattedDayOfMonth;
-        mYesterday = year + "" + formattedMonth + "" + formattedDayOfMonthYesterday;
+        mYesterday = year + "" + formattedMonth + "" + formattedDayOfMonthYesterday;    //  The job search from yesterday
+        mToday = year + "" + formattedMonth + "" + formattedDayOfMonth; //  To today
     }
 
 }

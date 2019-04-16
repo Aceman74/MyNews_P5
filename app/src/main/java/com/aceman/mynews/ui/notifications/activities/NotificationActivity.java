@@ -1,5 +1,6 @@
 package com.aceman.mynews.ui.notifications.activities;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -19,7 +21,10 @@ import android.widget.Toast;
 import com.aceman.mynews.R;
 import com.aceman.mynews.jobs.DailyWorker;
 import com.aceman.mynews.utils.CategoriesCheck;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -56,7 +61,8 @@ public class NotificationActivity extends AppCompatActivity {
     CheckBox mSports;
     @BindView(R.id.checkbox_travel)
     CheckBox mTravel;
-    List<Boolean> mCheckList;
+    List<Boolean> mCheckList = new ArrayList<>();
+    List<Boolean> mSavedList = new ArrayList<>();
     SharedPreferences mSharedPreferences;
     int mJob;
     String mCategorieResult;
@@ -67,12 +73,13 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
         ButterKnife.bind(this);
         this.configureToolbar();
-        mCheckList = new ArrayList<>();
+        CategoriesCheck.setCheckListSize(mSavedList);
         loadPref(); //  If already set, the previous query is shown in edit text
         setNotificationSwitch();
         searchQueryListener();
         CategoriesCheck.setCheckListSize(mCheckList);
         CategoriesCheck.checkBoxListnener(mBusiness, mTech, mFood, mMovies, mSports, mTravel, mCheckList);
+        savedCheck(mSavedList);
         clickListener();
     }
 
@@ -112,6 +119,8 @@ public class NotificationActivity extends AppCompatActivity {
                     mJob = 0;
                     Log.i("NotificationActivity", "Notification Unchecked!");
                 }
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mNotificationSearchQuery.getWindowToken(), 0);
                 savePref();
             }
         });
@@ -151,6 +160,8 @@ public class NotificationActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(mNotificationSearchQuery.getWindowToken(), 0);
                     setNotificationSwitch();
 
                     return true;
@@ -200,6 +211,8 @@ public class NotificationActivity extends AppCompatActivity {
         mFirstNot = 0;
         WorkManager.getInstance().cancelAllWorkByTag("RequestDaliy");
         WorkManager.getInstance().cancelAllWork();
+        mCheckList = new ArrayList<>();
+        CategoriesCheck.setCheckListSize(mCheckList);
         Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
     }
 
@@ -213,6 +226,12 @@ public class NotificationActivity extends AppCompatActivity {
         editor.putInt("Job", mJob)
                 .putString("Query", mSearchResult)
                 .apply();
+        mSharedPreferences = getSharedPreferences("Categories", MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = mSharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mCheckList);
+        editor1.putString("ListSaved", json);
+        editor1.apply();
     }
 
     /**
@@ -223,6 +242,13 @@ public class NotificationActivity extends AppCompatActivity {
         mSharedPreferences = getSharedPreferences("Notification", MODE_PRIVATE);
         mJob = mSharedPreferences.getInt("Job", mJob);
         mSearchResult = mSharedPreferences.getString("Query", mSearchResult);
+        mSharedPreferences = getSharedPreferences("Categories", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mSharedPreferences.getString("ListSaved", null);
+        Type type = new TypeToken<List<Boolean>>() {
+        }.getType();
+        if (json != null)
+            mSavedList = gson.fromJson(json, type);
     }
 
     public void finish() {
@@ -233,6 +259,34 @@ public class NotificationActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void savedCheck(List<Boolean> mList) {
+
+        if (mList.get(0)) {
+            mBusiness.setChecked(true);
+            mBusiness.setEnabled(true);
+        }
+        if (mList.get(1)) {
+            mTech.setChecked(true);
+            mTech.setEnabled(true);
+        }
+        if (mList.get(2)) {
+            mFood.setChecked(true);
+            mFood.setEnabled(true);
+        }
+        if (mList.get(3)) {
+            mMovies.setChecked(true);
+            mMovies.setEnabled(true);
+        }
+        if (mList.get(4)) {
+            mSports.setChecked(true);
+            mSports.setEnabled(true);
+        }
+        if (mList.get(5)) {
+            mTravel.setChecked(true);
+            mTravel.setEnabled(true);
+        }
     }
 
     /**

@@ -43,7 +43,7 @@ public class CategoriesCheck {
      * @param mTravel    category
      * @param mCheckList category
      */
-    public static void checkBoxListnener(CheckBox mBusiness, CheckBox mTech, CheckBox mFood, CheckBox mMovies, CheckBox mSports, CheckBox mTravel, final List<Boolean> mCheckList) {
+    public static void checkBoxListnener(final CheckBox mBusiness, CheckBox mTech, CheckBox mFood, CheckBox mMovies, CheckBox mSports, CheckBox mTravel, final List<Boolean> mCheckList) {
 
         mBusiness.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
