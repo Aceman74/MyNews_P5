@@ -14,12 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.shared.SharedDoc;
 import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.ui.news.adapters.SharedAdapter;
-import com.aceman.mynews.utils.FragmentBase;
 import com.aceman.mynews.utils.RecyclerAnimation;
 import com.bumptech.glide.Glide;
 
@@ -31,13 +29,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY.
  * <p>
- * <b>Technology Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
+ * <b>Technology Fragment</> Makes and show his category results, extends <b>BaseFragment</b> <br>
  */
-public class TechnologyFragment extends FragmentBase {
+public class TechnologyFragment extends BaseFragment {
     @BindView(R.id.tech_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_tech)
@@ -123,25 +122,24 @@ public class TechnologyFragment extends FragmentBase {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
-            NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
-            this.mDisposable = NewsStream.streamGetTech(newsStream).subscribeWith(new DisposableObserver<SharedObservable>() {
+            this.mDisposable = NewsStream.getInstance().streamGetTech().subscribeWith(new DisposableObserver<SharedObservable>() {
                 @Override
                 public void onNext(SharedObservable details) {
-                    Log.e("TECH_Next", "On Next");
+                    Timber.tag("TECH_Next").i("On Next");
                     mProgressBar.setVisibility(View.GONE);
                     updateUI(details);  //  Update RecyclerView
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("TECH_Error", "On Error " + Log.getStackTraceString(e));
+                    Timber.tag("TECH_Error").e("On Error %s", Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
-                    tooManyRefresh(e);  //  When user makes too many API call (shouldn't happen with FragmentBase Dispatcher fix)
+                    tooManyRefresh(e);  //  When user makes too many API call (shouldn't happen with BaseFragment Dispatcher fix)
                 }
 
                 @Override
                 public void onComplete() {
-                    Log.e("TECH_Complete", "On Complete !!");
+                    Timber.tag("TECH_Complete").i("On Complete !!");
                 }
             });
         } else {

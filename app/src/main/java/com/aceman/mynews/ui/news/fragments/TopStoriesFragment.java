@@ -14,12 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.topstories.TopStorieResult;
 import com.aceman.mynews.data.models.topstories.TopStories;
 import com.aceman.mynews.ui.news.adapters.TopStoriesAdapter;
-import com.aceman.mynews.utils.FragmentBase;
 import com.aceman.mynews.utils.RecyclerAnimation;
 import com.bumptech.glide.Glide;
 
@@ -31,14 +29,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import timber.log.Timber;
 
 
 /**
  * Created by Lionel JOFFRAY.
  * <p>
- * <b>Top Stories Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
+ * <b>Top Stories Fragment</> Makes and show his category results, extends <b>BaseFragment</b> <br>
  */
-public class TopStoriesFragment extends FragmentBase {
+public class TopStoriesFragment extends BaseFragment {
     @BindView(R.id.topstories_recycler)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_topstories)
@@ -126,25 +125,23 @@ public class TopStoriesFragment extends FragmentBase {
             mNoResult.setVisibility(View.GONE);
 
 
-            NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
-            this.disposable = NewsStream.streamGetTopStories(newsStream).subscribeWith(new DisposableObserver<TopStories>() {
+            this.disposable = NewsStream.getInstance().streamGetTopStories().subscribeWith(new DisposableObserver<TopStories>() {
                 @Override
                 public void onNext(TopStories details) {
-                    Log.e("TOP_Next", "On Next");
+                    Timber.tag("TOP_Next").i("On Next");
                     updateUI(details);  //  Update RecyclerView
                     mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("TOP_Error", "On Error" + Log.getStackTraceString(e));
+                    Timber.tag("TOP_Error").e("On Error%s", Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onComplete() {
-
-                    Log.e("TOP_Complete", "On Complete !!");
+                    Timber.tag("TOP_Complete").i("On Complete !!");
                     //  tooManyRefresh() method is not necessary here, no call limitation
                 }
             });

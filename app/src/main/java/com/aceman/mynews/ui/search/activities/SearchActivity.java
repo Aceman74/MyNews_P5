@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -33,6 +32,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY.
@@ -182,16 +182,17 @@ public class SearchActivity extends AppCompatActivity {
         mSearchQuery.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER) && checkState() ) {
+                        (keyCode == KeyEvent.KEYCODE_ENTER) && checkState()) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mSearchQuery.getWindowToken(), 0);
                     searchFragment();
                     return true;
-                }if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                }
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER) && !checkState()) {
                     Toast toast =
-                            Toast.makeText(getApplicationContext(),"You must check at least one category!",Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                            Toast.makeText(getApplicationContext(), "You must check at least one category!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
                     toast.show();
                 }
                 return false;
@@ -221,7 +222,7 @@ public class SearchActivity extends AppCompatActivity {
                 .replace(R.id.firstlayout, mSearchFragment)
                 .addToBackStack(SearchActivity.class.getSimpleName())
                 .commit();
-        Log.d("Search Tags", "from: " + mFromDateString + " to: " + mToDateString + " query: " + mSearchResult + " categorie: " + mCategorieResult);
+        Timber.tag("Search_Tags").i("from: " + mFromDateString + " to: " + mToDateString + " query: " + mSearchResult + " categorie: " + mCategorieResult);
 
     }
 
@@ -238,13 +239,13 @@ public class SearchActivity extends AppCompatActivity {
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-                    mFromDate = new DatePickerDialog(SearchActivity.this,
-                            mFromDateListener,
-                            year,
-                            month,
-                            day);
+                mFromDate = new DatePickerDialog(SearchActivity.this,
+                        mFromDateListener,
+                        year,
+                        month,
+                        day);
 
-                    mFromDate.show();
+                mFromDate.show();
             }
         });
 
@@ -283,13 +284,13 @@ public class SearchActivity extends AppCompatActivity {
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
-                    mToDate = new DatePickerDialog(SearchActivity.this,
-                            mToDateListener,
-                            year,
-                            month,
-                            day);
+                mToDate = new DatePickerDialog(SearchActivity.this,
+                        mToDateListener,
+                        year,
+                        month,
+                        day);
 
-                    mToDate.show();
+                mToDate.show();
             }
         });
 

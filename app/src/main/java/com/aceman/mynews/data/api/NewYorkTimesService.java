@@ -1,7 +1,6 @@
 package com.aceman.mynews.data.api;
 
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
-import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.data.models.topstories.TopStories;
 
@@ -15,8 +14,6 @@ import retrofit2.http.Query;
  * <p>
  * This Class contain all CALL with API key for NYT <br>
  * Using <b>Retrofit</> <br>
- *
- * @see RetrofitSet
  */
 public interface NewYorkTimesService {
 
@@ -47,7 +44,7 @@ public interface NewYorkTimesService {
     Observable<SharedObservable> streamGetTravel();
 
     @GET("search/v2/articlesearch.json?api-key=Ev1ajeR5HJn2ghLXJUb22OAlEoYbnKXi")
-    Observable<Search> streamGetSearch(@Query("begin_date") String begin, @Query("end_date") String end, @Query("q") String query, @Query("fq") String category);
+    Observable<SharedObservable> streamGetSearch(@Query("begin_date") String begin, @Query("end_date") String end, @Query("q") String query, @Query("fq") String category);
     // begin_date= (YYYY/MM/DD), end_date= (YYYY/MM/DD), q= (query), fq= (news_desk:("categorie" " categorie"))
 }
 

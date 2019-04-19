@@ -3,7 +3,6 @@ package com.aceman.mynews.ui.news.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY - on 14/03/2019.
@@ -74,7 +74,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularAdapter.
                         .load(item.getMedia().get(0).getMediaMetadata().get(1).getUrl())
                         .into(holder.mImageView);
             } catch (Exception e) {
-                Log.e("ImagesTopStories", "Loading error");
+                Timber.tag("Image_TopStories").e("Loading error");
             }
         }
 

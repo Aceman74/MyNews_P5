@@ -5,7 +5,7 @@
  * https://developer.nytimes.com/
  */
 
-package com.aceman.mynews.utils;
+package com.aceman.mynews.ui.about;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,9 +18,7 @@ import com.aceman.mynews.R;
 import com.aceman.mynews.ui.navigations.activities.WebviewActivity;
 
 /**
- * Created by Lionel JOFFRAY - on 27/03/2019.
- * <p>
- * * This Class contain a custom Dialog to fit Copyright
+ * Dialog who show on click on About. Contains Copyright and app info.
  */
 public class CopyrightDialog {
 

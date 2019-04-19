@@ -14,16 +14,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.aceman.mynews.R;
+import com.aceman.mynews.ui.about.CopyrightDialog;
+import com.aceman.mynews.ui.help.HelpDialog;
 import com.aceman.mynews.ui.navigations.adapter.PageAdapter;
 import com.aceman.mynews.ui.notifications.activities.NotificationActivity;
 import com.aceman.mynews.ui.search.activities.SearchActivity;
-import com.aceman.mynews.utils.CopyrightDialog;
-import com.aceman.mynews.utils.HelpDialog;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -32,6 +31,7 @@ import com.google.android.gms.security.ProviderInstaller;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Cache;
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY.
@@ -135,23 +135,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.menu_activity_main_notification:
                 Intent newNotification = new Intent(this, NotificationActivity.class);
-                Log.d("MainActivity", "Click Notification");
+                Timber.tag("MainActivity").i("Click Notification");
                 startActivity(newNotification);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             case R.id.menu_activity_main_search:
                 Intent newSearch = new Intent(this, SearchActivity.class);
-                Log.d("MainActivity", "Click Search");
+                Timber.tag("MainActivity").i("Click Search");
                 startActivity(newSearch);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             case R.id.menu_activity_main_help:
-                Log.d("MainActivity", "Click Help");
+                Timber.tag("MainActivity").i("Click Help");
                 HelpDialog.openHelp(this);
                 return true;
             case R.id.menu_activity_main_about:
                 CopyrightDialog.openCopyright(this);
-                Log.d("MainActivity", "Click About");
+                Timber.tag("MainActivity").i("Click About");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+            Timber.tag("Not_Chan").i("Is created");
         }
     }
 
@@ -284,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected String doInBackground(String... params) {
             createNotificationChannel();
             Glide.get(getApplicationContext()).clearDiskCache();
-            Log.d("Async", "Executed!");
+            Timber.tag("Main_Async").i("Executed!");
             return null;
         }
     }

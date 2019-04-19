@@ -10,6 +10,10 @@ package com.aceman.mynews.utils;
 import android.app.Application;
 import android.content.Context;
 
+import com.aceman.mynews.BuildConfig;
+
+import timber.log.Timber;
+
 
 /**
  * Created by Lionel JOFFRAY - on 30/03/2019.
@@ -32,5 +36,8 @@ public class OnCreateApp extends Application {
     public void onCreate() {
         super.onCreate();
         mAppContext = getApplicationContext();
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 }

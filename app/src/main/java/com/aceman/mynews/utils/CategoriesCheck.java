@@ -7,7 +7,6 @@
 
 package com.aceman.mynews.utils;
 
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -49,10 +48,8 @@ public class CategoriesCheck {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i("Categories", "Business is Checked!");
                     mCheckList.set(0, true);
                 } else {
-                    Log.i("Categories", "Business is Unchecked!");
                     mCheckList.set(0, false);
                 }
             }
@@ -61,10 +58,8 @@ public class CategoriesCheck {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i("Categories", "Technology is Checked!");
                     mCheckList.set(1, true);
                 } else {
-                    Log.i("Categories", "Technology is Unchecked!");
                     mCheckList.set(1, false);
                 }
             }
@@ -73,10 +68,8 @@ public class CategoriesCheck {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i("Categories", "Food is Checked!");
                     mCheckList.set(2, true);
                 } else {
-                    Log.i("Categories", "Food is Unchecked!");
                     mCheckList.set(2, false);
                 }
             }
@@ -85,10 +78,8 @@ public class CategoriesCheck {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i("Categories", "Movies is Checked!");
                     mCheckList.set(3, true);
                 } else {
-                    Log.i("Categories", "Movies is Unchecked!");
                     mCheckList.set(3, false);
                 }
             }
@@ -97,10 +88,8 @@ public class CategoriesCheck {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i("Categories", "Sports is Checked!");
                     mCheckList.set(4, true);
                 } else {
-                    Log.i("Categories", "Sports is Unchecked!");
                     mCheckList.set(4, false);
                 }
             }
@@ -109,10 +98,8 @@ public class CategoriesCheck {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.i("Categories", "Travel is Checked!");
                     mCheckList.set(5, true);
                 } else {
-                    Log.i("Categories", "Travel is Unchecked!");
                     mCheckList.set(5, false);
                 }
             }

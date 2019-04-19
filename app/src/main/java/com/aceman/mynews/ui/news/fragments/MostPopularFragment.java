@@ -14,12 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
 import com.aceman.mynews.data.models.mostpopular.PopularResult;
 import com.aceman.mynews.ui.news.adapters.MostPopularAdapter;
-import com.aceman.mynews.utils.FragmentBase;
 import com.aceman.mynews.utils.RecyclerAnimation;
 import com.bumptech.glide.Glide;
 
@@ -31,13 +29,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY.
  * <p>
- * <b>Most Popular Fragment</> Makes and show his category results, extends <b>FragmentBase</b> <br>
+ * <b>Most Popular Fragment</> Makes and show his category results, extends <b>BaseFragment</b> <br>
  */
-public class MostPopularFragment extends FragmentBase {
+public class MostPopularFragment extends BaseFragment {
     @BindView(R.id.mostpopular_fragment_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.spinner_mostpopular)
@@ -122,25 +121,24 @@ public class MostPopularFragment extends FragmentBase {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
-            NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
-            this.disposable = NewsStream.streamGetMostPopular(newsStream, 7).subscribeWith(new DisposableObserver<MostPopular>() {
+            this.disposable = NewsStream.getInstance().streamGetMostPopular(7).subscribeWith(new DisposableObserver<MostPopular>() {
                 @Override
                 public void onNext(MostPopular details) {
-                    Log.e("POPULAR_Next", "On Next");
+                    Timber.tag("POPULAR_Next").i("On Next");
                     mProgressBar.setVisibility(View.GONE);
                     updateUI(details);  //  Update RecyclerView
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("POPULAR_Error", "On Error" + Log.getStackTraceString(e));
+                    Timber.tag("POPULAR_Error").e("On Error%s", Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
                     //  tooManyRefresh() method is not necessary here, no call limitation
                 }
 
                 @Override
                 public void onComplete() {
-                    Log.e("POPULAR_Complete", "On Complete !!");
+                    Timber.tag("POPULAR_Complete").i("On Complete !!");
                 }
             });
         } else {

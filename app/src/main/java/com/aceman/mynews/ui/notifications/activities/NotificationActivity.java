@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -34,6 +33,7 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY.
@@ -113,11 +113,11 @@ public class NotificationActivity extends AppCompatActivity {
                     mCategorieResult = CategoriesCheck.getQueryCategories(mCheckList);
                     setNotificationOn();
                     mJob = 1;
-                    Log.i("NotificationActivity", "Notification Checked!");
+                    Timber.tag("NotificationActivity").i("Notification Checked!");
                 } else {
                     setNotificationOff();
                     mJob = 0;
-                    Log.i("NotificationActivity", "Notification Unchecked!");
+                    Timber.tag("NotificationActivity").i("Notification Unchecked!");
                 }
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mNotificationSearchQuery.getWindowToken(), 0);

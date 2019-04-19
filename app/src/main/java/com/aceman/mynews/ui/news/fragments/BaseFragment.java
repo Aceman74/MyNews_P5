@@ -5,28 +5,33 @@
  * https://developer.nytimes.com/
  */
 
-package com.aceman.mynews.utils;
+package com.aceman.mynews.ui.news.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.data.api.RetrofitSet;
 
 import java.util.List;
+import java.util.Objects;
+
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY - on 01/04/2019.
  *
- * <b>FragmentBase Abstract Class</> is used for setting all fragments <br>
+ * <b>BaseFragment Abstract Class</> is used for setting all fragments <br>
  */
-public abstract class FragmentBase extends RetrofitSet {
+public abstract class BaseFragment extends Fragment {
 
     public Toast mToast;
 
@@ -46,6 +51,20 @@ public abstract class FragmentBase extends RetrofitSet {
         if (getMResponse().size() <= 0) {
             getNoResultLayout().setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * Boolean method to check if device is connected to internet.
+     *
+     * @return network status
+     */
+    @SuppressWarnings("deprecation")
+    public boolean isOnline() {
+        //    Check internet connectivity of the device
+        ConnectivityManager cm =
+                (ConnectivityManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     /**
@@ -98,7 +117,7 @@ public abstract class FragmentBase extends RetrofitSet {
         @Override
         protected String doInBackground(String... params) {
             getHttpRequest();
-            Log.d("Async", "Executed!");
+            Timber.tag("BaseFragment").i("Async Call executed for %s", getChildFragmentManager());
             return null;
         }
     }

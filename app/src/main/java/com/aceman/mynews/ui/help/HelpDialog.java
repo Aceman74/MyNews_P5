@@ -5,7 +5,7 @@
  * https://developer.nytimes.com/
  */
 
-package com.aceman.mynews.utils;
+package com.aceman.mynews.ui.help;
 
 import android.app.Dialog;
 import android.content.Context;

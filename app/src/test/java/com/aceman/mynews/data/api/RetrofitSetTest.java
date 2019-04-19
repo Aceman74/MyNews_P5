@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Lionel JOFFRAY - on 15/04/2019.
  */
-public class RetrofitSetTest extends RetrofitSet {
+public class RetrofitSetTest {
 
     final Context context = Mockito.mock(Context.class);
     final ConnectivityManager connectivityManager = Mockito.mock(ConnectivityManager.class);
@@ -35,7 +35,7 @@ public class RetrofitSetTest extends RetrofitSet {
 
     @Before
     public void setUp() {
-         mRetrofit = TestUtils.setRetrofitForTesting();
+        mRetrofit = TestUtils.setRetrofitForTesting();
     }
 
     /**

@@ -11,9 +11,8 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
-import com.aceman.mynews.data.models.search.Search;
+import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.ui.notifications.activities.NotificationActivity;
 import com.aceman.mynews.ui.search.activities.SearchActivity;
 
@@ -23,9 +22,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static com.aceman.mynews.ui.navigations.activities.MainActivity.CHANNEL_ID;
@@ -102,42 +99,24 @@ public class DailyWorker extends Worker {
         mEndDate = mToday;
 
 
-        NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
-        disposable = NewsStream.streamGetSearch(newsStream, mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
+        disposable = NewsStream.getInstance().streamGetSearch(mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<SharedObservable>() {
             @Override
-            public void onNext(Search details) {
-                Log.e("NOTIFICATION Next", "On Next");
-                Log.d("NOTIFICATION OBSERVABLE", "from: " + mBeginDate + " to: " + mEndDate + " query: " + mSearchQuery + " categorie: " + mCategorie);
-                mSizeResult = details.getSearchResponse().getDocs().size();
-
+            public void onNext(SharedObservable details) {
+                Timber.tag("NOTIFICATION_Next").i("On Next");
+                Timber.tag("NOTIFICATION_OBSERVABLE").i("from: " + mBeginDate + " to: " + mEndDate + " query: " + mSearchQuery + " categorie: " + mCategorie);
+                mSizeResult = details.getSharedResponse().getSharedDocs().size();
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.e("NOTIFICATION Error", "On Error" + Log.getStackTraceString(e));
+                Timber.tag("NOTIFICATION_Error").e("On Error%s", Log.getStackTraceString(e));
             }
 
             @Override
             public void onComplete() {
-                Log.e("NOTIFICATION Complete", "On Complete !!");
+                Timber.tag("NOTIFICATION_Complete").i("On Complete !!");
             }
         });
-    }
-
-    /**
-     * Retrofit call for worker
-     *
-     * @return retrofit build
-     */
-    private Retrofit setRetrofit() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.nytimes.com/svc/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-
-        return retrofit;
     }
 
     /**

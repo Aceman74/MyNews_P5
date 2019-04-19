@@ -9,7 +9,6 @@ package com.aceman.mynews.data.api;
 
 import com.aceman.mynews.TestUtils;
 import com.aceman.mynews.data.models.mostpopular.MostPopular;
-import com.aceman.mynews.data.models.search.Search;
 import com.aceman.mynews.data.models.shared.SharedObservable;
 import com.aceman.mynews.data.models.topstories.TopStories;
 
@@ -32,8 +31,8 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class NewYorkTimesServiceTest {
     private final String statusOk = "OK";
-    private NewYorkTimesService mNewYorkTimesService;
     Retrofit mRetrofit;
+    private NewYorkTimesService mNewYorkTimesService;
 
     @Before
     public void setUp() {
@@ -132,11 +131,11 @@ public class NewYorkTimesServiceTest {
 
     @Test
     public void streamGetSearchWithNullSuccessTest() {
-        Search se = mNewYorkTimesService.streamGetSearch(null, null, null, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
+        SharedObservable se = mNewYorkTimesService.streamGetSearch(null, null, null, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se);
         // Test if there's articles in list
-        assertTrue(se.getSearchResponse().getDocs().size() > 0);  // Test if there's articles in list
+        assertTrue(se.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(se.getStatus(), statusOk);  //  Test status response
     }
 
@@ -145,11 +144,11 @@ public class NewYorkTimesServiceTest {
         //  Test number query (valid request)
         String query = "29";
 
-        Search se1 = mNewYorkTimesService.streamGetSearch(null, null, query, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
+        SharedObservable se1 = mNewYorkTimesService.streamGetSearch(null, null, query, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se1);
 
-        assertTrue(se1.getSearchResponse().getDocs().size() > 0);  // Test if there's articles in list
+        assertTrue(se1.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(se1.getStatus(), statusOk);    //  Test status response
     }
 
@@ -161,10 +160,10 @@ public class NewYorkTimesServiceTest {
         String query = "Cats";
         String category = "Movies";
 
-        Search se2 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
+        SharedObservable se2 = mNewYorkTimesService.streamGetSearch(begin, end, query, category).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se2);
-        assertTrue(se2.getSearchResponse().getDocs().size() > 0);  // Test if there's articles in list
+        assertTrue(se2.getSharedResponse().getSharedDocs().size() > 0);  // Test if there's articles in list
         assertEquals(se2.getStatus(), statusOk);    //  Test status response
 
     }
@@ -179,7 +178,7 @@ public class NewYorkTimesServiceTest {
         // Test bad begin date (return Error 400)
         begin = "Hello";
 
-        Search se3 = mNewYorkTimesService.streamGetSearch(begin, null, null, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
+        SharedObservable se3 = mNewYorkTimesService.streamGetSearch(begin, null, null, null).delaySubscription(5, TimeUnit.SECONDS).blockingFirst();
         // Test response
         assertNotNull(se3);
     }

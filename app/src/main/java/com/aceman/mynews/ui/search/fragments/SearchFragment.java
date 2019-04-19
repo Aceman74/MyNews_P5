@@ -14,12 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.aceman.mynews.R;
-import com.aceman.mynews.data.api.NewYorkTimesService;
 import com.aceman.mynews.data.api.NewsStream;
-import com.aceman.mynews.data.models.search.Doc;
-import com.aceman.mynews.data.models.search.Search;
-import com.aceman.mynews.ui.news.adapters.SearchAdapter;
-import com.aceman.mynews.utils.FragmentBase;
+import com.aceman.mynews.data.models.shared.SharedDoc;
+import com.aceman.mynews.data.models.shared.SharedObservable;
+import com.aceman.mynews.ui.news.adapters.SharedAdapter;
+import com.aceman.mynews.ui.news.fragments.BaseFragment;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -30,13 +29,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+import timber.log.Timber;
 
 /**
  * Created by Lionel JOFFRAY.
  * <p>
  * <b>Search Fragment</> get the search activity bundle to make api call for user <br>
  */
-public class SearchFragment extends FragmentBase {
+public class SearchFragment extends BaseFragment {
     @BindView(R.id.spinner_search)
     ProgressBar mProgressBar;
     @BindView(R.id.layout_check_connexion)
@@ -48,8 +48,8 @@ public class SearchFragment extends FragmentBase {
     @BindView(R.id.search_fragment_recyclerview)
     RecyclerView mRecyclerView;
     private Disposable disposable;
-    private List<Doc> mSearch;
-    private SearchAdapter adapter;
+    private List<SharedDoc> mSearch;
+    private SharedAdapter adapter;
     private String mSearchQuery = null;
     private String mBeginDate = null;
     private String mEndDate = null;
@@ -87,7 +87,7 @@ public class SearchFragment extends FragmentBase {
             mSearchQuery = searchStrings.getString("query");
             mCategorie = searchStrings.getString("categories");
         } catch (Exception e) {
-            Log.e("SEARCH BUNDLE ERROR", "Mauvaise redirection, STRINGS NULL");
+            Timber.tag("SEARCH_BUNDLE_ERROR").e("STRINGS NULL");
         }
     }
 
@@ -105,7 +105,7 @@ public class SearchFragment extends FragmentBase {
      */
     private void configureRecyclerView() {
         this.mSearch = new ArrayList<>();
-        this.adapter = new SearchAdapter(this.mSearch, Glide.with(this), getContext()) {
+        this.adapter = new SharedAdapter(this.mSearch, Glide.with(this), getContext()) {
         };
         this.mRecyclerView.setAdapter(this.adapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -122,26 +122,25 @@ public class SearchFragment extends FragmentBase {
             mProgressBar.setVisibility(View.VISIBLE);
             mCheckConnexion.setVisibility(View.GONE);
 
-            NewYorkTimesService newsStream = setRetrofit().create(NewYorkTimesService.class);
-            this.disposable = NewsStream.streamGetSearch(newsStream, mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<Search>() {
+            this.disposable = NewsStream.getInstance().streamGetSearch(mBeginDate, mEndDate, mSearchQuery, mCategorie).subscribeWith(new DisposableObserver<SharedObservable>() {
                 @Override
-                public void onNext(Search details) {
+                public void onNext(SharedObservable details) {
                     mProgressBar.setVisibility(View.GONE);
-                    Log.e("SEARCH_Next", "On Next");
-                    Log.d("SEARCH OBSERVABLE", "from: " + mBeginDate + " to: " + mEndDate + " query: " + mSearchQuery + " categorie: " + mCategorie);
+                    Timber.tag("SEARCH_Next").i("On Next");
+                    Timber.tag("SEARCH_OBSERVABLE").i("from: " + mBeginDate + " to: " + mEndDate + " query: " + mSearchQuery + " categorie: " + mCategorie);
                     updateUI(details);
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    Log.e("SEARCH_Error", "On Error" + Log.getStackTraceString(e));
+                    Timber.tag("SEARCH_Error").e("On Error%s", Log.getStackTraceString(e));
                     mProgressBar.setVisibility(View.GONE);
-                    tooManyRefresh(e);  //  When user makes too many API call (shouldn't happen with FragmentBase Dispatcher fix)
+                    tooManyRefresh(e);  //  When user makes too many API call (shouldn't happen with BaseFragment Dispatcher fix)
                 }
 
                 @Override
                 public void onComplete() {
-                    Log.e("SEARCH_Complete", "On Complete !!");
+                    Timber.tag("SEARCH_Complete").i("On Complete !!");
                 }
             });
         } else {
@@ -160,9 +159,9 @@ public class SearchFragment extends FragmentBase {
      *
      * @param details data from response
      */
-    private void updateUI(Search details) {
+    private void updateUI(SharedObservable details) {
         mSearch.clear();
-        mSearch.addAll(details.getSearchResponse().getDocs());
+        mSearch.addAll(details.getSharedResponse().getSharedDocs());
         adapter.notifyDataSetChanged();
         ifNoResult();   //  If result is 0, show a screen
     }
