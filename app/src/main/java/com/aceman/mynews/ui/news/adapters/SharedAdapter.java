@@ -68,7 +68,7 @@ public class SharedAdapter extends RecyclerView.Adapter<SharedAdapter.MyViewHold
     private void updateWithFreshInfo(final SharedDoc item, RequestManager glide, final MyViewHolder holder) {
 
         holder.mTitle.setText(item.getHeadline().getMain());
-        if (item.getHeadline().getMain().isEmpty()) {
+        if (item.getHeadline().getMain() == null) {
             holder.mTitle.setText(R.string.embedded_video);
         }
         holder.mCategorie.setText(item.getSectionName());
